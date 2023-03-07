@@ -183,7 +183,7 @@ class _VerifikasiKTPSState extends State<VerifikasiKTPS> {
               height: 10,
             ),
             Text(
-              'Tanggal Lahir',
+              'Jenis Kelamin',
               style: GoogleFonts.poppins(
                   textStyle: const TextStyle(
                       fontSize: 15,

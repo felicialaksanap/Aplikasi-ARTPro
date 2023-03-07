@@ -398,6 +398,7 @@ class _SignUpMajikanState extends State<SignUpMajikan> {
               ),
               Container(
                 child: CheckboxListTile(
+                  controlAffinity: ListTileControlAffinity.leading,
                   title: RichText(
                     text: TextSpan(
                         style: GoogleFonts.poppins(
@@ -415,7 +416,7 @@ class _SignUpMajikanState extends State<SignUpMajikan> {
                                 ..onTap = () {
                                   print('Syarat&Kondisi');
                                 }),
-                          const TextSpan(text: 'yang diberikan'),
+                          const TextSpan(text: 'yang berlaku'),
                         ]),
                   ),
                   activeColor: Color(int.parse(globals.color_primary)),

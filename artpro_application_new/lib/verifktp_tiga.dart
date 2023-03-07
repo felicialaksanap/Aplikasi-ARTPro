@@ -1,3 +1,4 @@
+import 'package:artpro_application_new/sum_verif.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -210,7 +211,12 @@ class _VerifikasiKTPTState extends State<VerifikasiKTPT> {
                   width: 300,
                   height: 50,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SummaryVerifikasi()));
+                    },
                     style: ElevatedButton.styleFrom(
                         backgroundColor:
                             Color(int.parse(globals.color_primary)),

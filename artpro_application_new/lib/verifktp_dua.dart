@@ -267,7 +267,7 @@ class _VerifikasiKTPDState extends State<VerifikasiKTPD> {
               height: 10,
             ),
             Text(
-              'Kelurahan',
+              'Kelurahan/Desa',
               style: GoogleFonts.poppins(
                   textStyle: const TextStyle(
                       fontSize: 15,
