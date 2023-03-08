@@ -2,3 +2,5 @@
 
 String color_primary = '0xFF246A73';
 String color_secondary = '0xFFFF4D00';
+
+String status_user = "";

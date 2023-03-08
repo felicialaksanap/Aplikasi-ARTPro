@@ -1,19 +1,20 @@
 // ignore_for_file: non_constant_identifier_names, sized_box_for_whitespace, avoid_unnecessary_containers, avoid_print
 
+import 'package:artpro_application_new/signupinput_dua.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart'; // date format
 import 'global.dart' as globals;
 import './intro_verif.dart';
 
-class SignUpMajikan extends StatefulWidget {
-  const SignUpMajikan({super.key});
+class SignUpInput extends StatefulWidget {
+  const SignUpInput({super.key});
 
   @override
-  State<SignUpMajikan> createState() => _SignUpMajikanState();
+  State<SignUpInput> createState() => _SignUpInputState();
 }
 
-class _SignUpMajikanState extends State<SignUpMajikan> {
+class _SignUpInputState extends State<SignUpInput> {
   DateTime date = DateTime.now();
   String dateformat = "";
   bool hide_pass = true;
@@ -40,7 +41,7 @@ class _SignUpMajikanState extends State<SignUpMajikan> {
             ),
           ),
           title: Text(
-            "Formulir Pendaftaran Akun",
+            "Form Daftar Akun",
             style: GoogleFonts.poppins(
                 textStyle: TextStyle(
                     color: Color(int.parse(globals.color_primary)),
@@ -441,10 +442,18 @@ class _SignUpMajikanState extends State<SignUpMajikan> {
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const IntroVerifikasi()));
+                        if (globals.status_user == "majikan") {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const IntroVerifikasi()));
+                        } else {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const SignUpInputD()));
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor:

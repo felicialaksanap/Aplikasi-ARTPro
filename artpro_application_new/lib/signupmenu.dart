@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'global.dart' as globals;
-import './signupmajikan.dart';
-import './signupart_s.dart';
+import 'signupinput.dart';
 
 class SignUpMenu extends StatefulWidget {
   const SignUpMenu({super.key});
@@ -60,10 +59,13 @@ class _SignUpMenuState extends State<SignUpMenu> {
               height: 50,
               child: ElevatedButton(
                 onPressed: () {
+                  setState(() {
+                    globals.status_user = "majikan";
+                  });
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const SignUpMajikan()));
+                          builder: (context) => const SignUpInput()));
                 },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Color(int.parse(globals.color_primary)),
@@ -87,10 +89,13 @@ class _SignUpMenuState extends State<SignUpMenu> {
               height: 50,
               child: ElevatedButton(
                 onPressed: () {
+                  setState(() {
+                    globals.status_user = "pekerja";
+                  });
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const SignUpARTS()));
+                          builder: (context) => const SignUpInput()));
                 },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,

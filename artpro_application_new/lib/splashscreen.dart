@@ -1,4 +1,4 @@
-// ignore_for_file: sized_box_for_whitespace
+// ignore_for_file: sized_box_for_whitespace, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,6 +13,23 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _navigation();
+  }
+
+  _navigation() async {
+    await Future.delayed(
+      const Duration(milliseconds: 5000),
+      () {},
+    );
+
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const LoginMenu()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,38 +55,9 @@ class _SplashScreenState extends State<SplashScreen> {
               'assets/images/splash_screen.jpg',
               width: MediaQuery.of(context).size.width,
             ),
-            Container(
-              width: 200,
-              height: 50,
-              child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const LoginMenu()));
-                  },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(int.parse(globals.color_primary)),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30))),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text(
-                        "Mulai",
-                        style: GoogleFonts.poppins(
-                            textStyle: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white)),
-                      ),
-                      const Icon(
-                        Icons.arrow_forward,
-                        color: Colors.white,
-                        size: 30,
-                      )
-                    ],
-                  )),
+            CircularProgressIndicator(
+              color: Color(int.parse(globals.color_primary)),
+              strokeWidth: 5,
             )
           ],
         ),
