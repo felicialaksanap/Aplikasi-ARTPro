@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import './global.dart' as globals;
-import './beranda.dart';
+import './mainberanda.dart';
 import './signupmenu.dart';
 
 class LoginMenu extends StatefulWidget {
@@ -137,8 +137,10 @@ class _LoginMenuState extends State<LoginMenu> {
               height: 50,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Beranda()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const MainBeranda()));
                 },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Color(int.parse(globals.color_primary)),

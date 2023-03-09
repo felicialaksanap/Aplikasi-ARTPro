@@ -40,6 +40,8 @@ dependencies:
   flutter_launcher_icons: ^0.12.0
   intl: ^0.18.0
   dotted_border: ^2.0.0+3
+  
+  flutter_radar_chart: ^0.2.1
 
 flutter_icons:
   android: "launcher_icon"
@@ -74,6 +76,26 @@ flutter:
     - assets/images/login_menu.jpg
     - assets/images/signup_menu.jpg
     - assets/images/check_done.gif
+    - assets/images/logo_theme.png
+    - assets/images/logo_light.png
+    - assets/images/babysitter.jpg
+    - assets/images/cardriver.jpg
+    - assets/images/gardener.jpg
+    - assets/images/household.jpg
+    - assets/images/officegirl.jpg
+    - assets/images/seniorcare.jpg
+    - assets/images/berita-1.jpeg
+    - assets/images/berita-2.jpeg
+    - assets/images/berita-3.jpeg
+    - assets/images/tips-1.jpg
+    - assets/images/tips-2.jpg
+    - assets/images/person-4.jpg
+    - assets/images/person-5.jpg
+    - assets/images/person-6.jpg
+    - assets/images/person-7.jpg
+    - assets/images/person-9.jpg
+    - assets/images/person-10.jpg
+    - assets/images/person-11.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

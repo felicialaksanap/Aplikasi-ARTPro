@@ -1,3 +1,4 @@
+import 'package:artpro_application_new/mainberanda.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -453,7 +454,48 @@ class _SummaryVerifikasiState extends State<SummaryVerifikasi> {
                   width: 300,
                   height: 50,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () => showDialog<String>(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        title: Text(
+                          'Konfirmasi Verifikasi',
+                          style: GoogleFonts.poppins(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                        content: Text(
+                            'Informasi pribadi sudah terkirim, silahkan masuk ke aplikasi'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () => Navigator.pop(context, 'Cancel'),
+                            child: Text(
+                              'Cancel',
+                              style: GoogleFonts.poppins(
+                                  textStyle: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(
+                                          int.parse(globals.color_secondary)))),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const MainBeranda())),
+                            child: Text(
+                              'Masuk',
+                              style: GoogleFonts.poppins(
+                                  textStyle: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(
+                                          int.parse(globals.color_primary)))),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                     style: ElevatedButton.styleFrom(
                         backgroundColor:
                             Color(int.parse(globals.color_primary)),
