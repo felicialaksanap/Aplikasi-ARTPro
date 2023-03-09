@@ -1,3 +1,6 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'package:artpro_application_new/profileedit.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import './global.dart' as globals;
@@ -14,26 +17,20 @@ class _ProfileMenuState extends State<ProfileMenu> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.only(left: 16.0, right: 16.0),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Container(
-                    height: 110,
-                    width: 110,
-                    decoration: const BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage('assets/images/logo_theme.png'),
-                            fit: BoxFit.fitWidth)),
-                  )
-                ],
+              const SizedBox(
+                height: 10,
+              ),
+              Image.asset(
+                'assets/images/logo_theme.png',
+                width: 100,
               ),
               const SizedBox(
-                height: 20,
+                height: 10,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -60,10 +57,15 @@ class _ProfileMenuState extends State<ProfileMenu> {
                             'Delaney Hill',
                             style: GoogleFonts.poppins(
                                 textStyle: const TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold)),
+                                    fontSize: 15, fontWeight: FontWeight.bold)),
                           ),
                           IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ProfileEdit()));
+                              },
                               icon: Icon(
                                 Icons.create,
                                 size: 20,
@@ -93,21 +95,24 @@ class _ProfileMenuState extends State<ProfileMenu> {
                 ],
               ),
               const SizedBox(
-                height: 20,
+                height: 10,
               ),
-              const Divider(
+              Container(
                 height: 1,
-                color: Colors.black,
+                color: Colors.black26,
               ),
               const SizedBox(
                 height: 20,
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => ProfileEdit()));
+                },
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
-                      color: Color(int.parse(globals.color_primary)),
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(20.0),
                       boxShadow: [
                         BoxShadow(
@@ -120,19 +125,19 @@ class _ProfileMenuState extends State<ProfileMenu> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Ubah Profile",
+                        "Ubah Profile Akun",
                         style: GoogleFonts.poppins(
-                            textStyle: const TextStyle(
+                            textStyle: TextStyle(
                                 fontSize: 15,
-                                color: Colors.white,
+                                color: Color(int.parse(globals.color_primary)),
                                 fontWeight: FontWeight.w500)),
                       ),
                       Text(
                         ">>>>>",
                         style: GoogleFonts.poppins(
-                            textStyle: const TextStyle(
+                            textStyle: TextStyle(
                                 fontSize: 15,
-                                color: Colors.white,
+                                color: Color(int.parse(globals.color_primary)),
                                 fontWeight: FontWeight.bold)),
                       ),
                     ],
@@ -147,7 +152,7 @@ class _ProfileMenuState extends State<ProfileMenu> {
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
-                      color: Color(int.parse(globals.color_primary)),
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(20.0),
                       boxShadow: [
                         BoxShadow(
@@ -160,19 +165,19 @@ class _ProfileMenuState extends State<ProfileMenu> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Lowongan Kerja",
+                        "Buka Lowongan Kerja",
                         style: GoogleFonts.poppins(
-                            textStyle: const TextStyle(
+                            textStyle: TextStyle(
                                 fontSize: 15,
-                                color: Colors.white,
+                                color: Color(int.parse(globals.color_primary)),
                                 fontWeight: FontWeight.w500)),
                       ),
                       Text(
                         ">>>>>",
                         style: GoogleFonts.poppins(
-                            textStyle: const TextStyle(
+                            textStyle: TextStyle(
                                 fontSize: 15,
-                                color: Colors.white,
+                                color: Color(int.parse(globals.color_primary)),
                                 fontWeight: FontWeight.bold)),
                       ),
                     ],
@@ -187,7 +192,7 @@ class _ProfileMenuState extends State<ProfileMenu> {
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
-                      color: Color(int.parse(globals.color_primary)),
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(20.0),
                       boxShadow: [
                         BoxShadow(
@@ -202,17 +207,17 @@ class _ProfileMenuState extends State<ProfileMenu> {
                       Text(
                         "Bantuan",
                         style: GoogleFonts.poppins(
-                            textStyle: const TextStyle(
+                            textStyle: TextStyle(
                                 fontSize: 15,
-                                color: Colors.white,
+                                color: Color(int.parse(globals.color_primary)),
                                 fontWeight: FontWeight.w500)),
                       ),
                       Text(
                         ">>>>>",
                         style: GoogleFonts.poppins(
-                            textStyle: const TextStyle(
+                            textStyle: TextStyle(
                                 fontSize: 15,
-                                color: Colors.white,
+                                color: Color(int.parse(globals.color_primary)),
                                 fontWeight: FontWeight.bold)),
                       ),
                     ],
@@ -227,7 +232,7 @@ class _ProfileMenuState extends State<ProfileMenu> {
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
-                      color: Color(int.parse(globals.color_primary)),
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(20.0),
                       boxShadow: [
                         BoxShadow(
@@ -242,17 +247,17 @@ class _ProfileMenuState extends State<ProfileMenu> {
                       Text(
                         "Kebijakan Privasi",
                         style: GoogleFonts.poppins(
-                            textStyle: const TextStyle(
+                            textStyle: TextStyle(
                                 fontSize: 15,
-                                color: Colors.white,
+                                color: Color(int.parse(globals.color_primary)),
                                 fontWeight: FontWeight.w500)),
                       ),
                       Text(
                         ">>>>>",
                         style: GoogleFonts.poppins(
-                            textStyle: const TextStyle(
+                            textStyle: TextStyle(
                                 fontSize: 15,
-                                color: Colors.white,
+                                color: Color(int.parse(globals.color_primary)),
                                 fontWeight: FontWeight.bold)),
                       ),
                     ],
@@ -267,7 +272,7 @@ class _ProfileMenuState extends State<ProfileMenu> {
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
-                      color: Color(int.parse(globals.color_primary)),
+                      color: Color(int.parse(globals.color_secondary)),
                       borderRadius: BorderRadius.circular(20.0),
                       boxShadow: [
                         BoxShadow(
