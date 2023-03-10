@@ -1,3 +1,5 @@
+import 'package:artpro_application_new/gantipass.dart';
+import 'package:artpro_application_new/mainberanda.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -39,17 +41,25 @@ class _ProfileEditState extends State<ProfileEdit> {
         actions: [
           Row(
             children: [
-              Center(
-                child: Text(
-                  'Selesai',
-                  style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
-                          color: Color(int.parse(globals.color_secondary)),
-                          fontWeight: FontWeight.bold)),
-                ),
-              ),
+              TextButton(
+                  onPressed: () {
+                    setState(() {
+                      globals.select_index = 2;
+                    });
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const MainBeranda()));
+                  },
+                  child: Text(
+                    'Selesai',
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            color: Color(int.parse(globals.color_secondary)),
+                            fontWeight: FontWeight.bold)),
+                  )),
               const SizedBox(
-                width: 10.0,
+                width: 10,
               )
             ],
           )
@@ -254,7 +264,12 @@ class _ProfileEditState extends State<ProfileEdit> {
               height: 10,
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const GantiPassword()));
+              },
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(

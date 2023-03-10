@@ -15,7 +15,6 @@ class MainBeranda extends StatefulWidget {
 }
 
 class _MainBerandaState extends State<MainBeranda> {
-  int _selectIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   List<Widget> _widgetOptions = <Widget>[
@@ -26,14 +25,14 @@ class _MainBerandaState extends State<MainBeranda> {
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectIndex = index;
+      globals.select_index = index;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _widgetOptions[_selectIndex],
+      body: _widgetOptions[globals.select_index],
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -42,7 +41,7 @@ class _MainBerandaState extends State<MainBeranda> {
           BottomNavigationBarItem(
               icon: Icon(Icons.account_box), label: 'Profile'),
         ],
-        currentIndex: _selectIndex,
+        currentIndex: globals.select_index,
         selectedItemColor: Color(int.parse(globals.color_primary)),
         unselectedItemColor: const Color.fromARGB(255, 67, 67, 67),
         onTap: _onItemTapped,
