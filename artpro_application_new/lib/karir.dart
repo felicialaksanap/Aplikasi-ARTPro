@@ -1,3 +1,4 @@
+import 'package:artpro_application_new/listartkarir.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import './global.dart' as globals;
@@ -39,7 +40,12 @@ class _KarirState extends State<Karir> {
                           fontSize: 15, fontWeight: FontWeight.bold)),
                 ),
                 TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ListARTKarir()));
+                    },
                     child: Text(
                       'Lihat Semua',
                       style: GoogleFonts.poppins(
@@ -69,7 +75,12 @@ class _KarirState extends State<Karir> {
                           fontSize: 15, fontWeight: FontWeight.bold)),
                 ),
                 TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ListARTKarir()));
+                    },
                     child: Text(
                       'Lihat Semua',
                       style: GoogleFonts.poppins(

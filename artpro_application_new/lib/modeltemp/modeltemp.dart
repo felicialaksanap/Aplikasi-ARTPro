@@ -42,3 +42,22 @@ class MListART {
         "3.5"),
   ];
 } // assets : person-5 s/d person-11.jpg except person-8.jpg
+
+class MListLoker {
+  String kategori;
+  String asalkota;
+  String rangegaji;
+  String kriteria;
+
+  MListLoker(this.kategori, this.asalkota, this.rangegaji, this.kriteria);
+
+  static List<MListLoker> isiListLoker = [
+    MListLoker(
+        'Pembantu Rumah Tangga',
+        'Kota Surabaya',
+        'Rp 2.000.000 - 2.500.000',
+        'Menginap\nBayaran per Bulan\nRumah 2 Lantai\nPunya Hewan Peliharaan'),
+    MListLoker('Supir Pribadi', 'Kota Surabaya', 'Rp 5.000.000 - 6.000.000',
+        'Terdapat Kamar Tidur\nMengantar Anak Sekolah dan Istri Belanja\nTidak Merokok\nVaksin Covid-19 Lengkap'),
+  ];
+}
