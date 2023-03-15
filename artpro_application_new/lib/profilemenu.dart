@@ -58,7 +58,7 @@ class _ProfileMenuState extends State<ProfileMenu> {
                             'Delaney Hill',
                             style: GoogleFonts.poppins(
                                 textStyle: const TextStyle(
-                                    fontSize: 15, fontWeight: FontWeight.bold)),
+                                    fontSize: 18, fontWeight: FontWeight.bold)),
                           ),
                           IconButton(
                               onPressed: () {

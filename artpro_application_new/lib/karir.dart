@@ -37,7 +37,7 @@ class _KarirState extends State<Karir> {
                   "Lihat Pelamar",
                   style: GoogleFonts.poppins(
                       textStyle: const TextStyle(
-                          fontSize: 15, fontWeight: FontWeight.bold)),
+                          fontSize: 18, fontWeight: FontWeight.bold)),
                 ),
                 TextButton(
                     onPressed: () {
@@ -72,7 +72,7 @@ class _KarirState extends State<Karir> {
                   "Lihat ART Yang Dikontak",
                   style: GoogleFonts.poppins(
                       textStyle: const TextStyle(
-                          fontSize: 15, fontWeight: FontWeight.bold)),
+                          fontSize: 18, fontWeight: FontWeight.bold)),
                 ),
                 TextButton(
                     onPressed: () {
