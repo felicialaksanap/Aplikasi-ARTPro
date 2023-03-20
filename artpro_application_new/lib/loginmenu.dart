@@ -14,6 +14,8 @@ class LoginMenu extends StatefulWidget {
 }
 
 class _LoginMenuState extends State<LoginMenu> {
+  TextEditingController username = TextEditingController();
+  TextEditingController password = TextEditingController();
   bool hide_pass = true;
 
   @override
@@ -55,6 +57,7 @@ class _LoginMenuState extends State<LoginMenu> {
                 size: 25,
               ),
               title: TextField(
+                controller: username,
                 cursorColor: Color(int.parse(globals.color_primary)),
                 style: GoogleFonts.poppins(
                     textStyle:
@@ -80,6 +83,7 @@ class _LoginMenuState extends State<LoginMenu> {
                 size: 25,
               ),
               title: TextField(
+                controller: password,
                 obscureText: hide_pass,
                 cursorColor: Color(int.parse(globals.color_primary)),
                 style: GoogleFonts.poppins(
@@ -110,6 +114,9 @@ class _LoginMenuState extends State<LoginMenu> {
                 ),
               ),
             ),
+            const SizedBox(
+              height: 10,
+            ),
             Padding(
               padding: const EdgeInsets.only(right: 16.0),
               child: Row(
@@ -137,10 +144,44 @@ class _LoginMenuState extends State<LoginMenu> {
               height: 50,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const MainBeranda()));
+                  if (username.text != "" && password.text != "") {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const MainBeranda()));
+                  } else {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            content: Text(
+                              'Username atau password yang dimasukkan salah',
+                              style: GoogleFonts.poppins(
+                                  textStyle: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600)),
+                              textAlign: TextAlign.center,
+                            ),
+                            actions: [
+                              Center(
+                                child: TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text(
+                                      "OK",
+                                      style: GoogleFonts.poppins(
+                                          textStyle: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
+                                              color: Color(int.parse(
+                                                  globals.color_secondary)))),
+                                    )),
+                              )
+                            ],
+                          );
+                        });
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Color(int.parse(globals.color_primary)),

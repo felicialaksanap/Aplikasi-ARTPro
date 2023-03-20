@@ -15,15 +15,20 @@ class SignUpInput extends StatefulWidget {
 }
 
 class _SignUpInputState extends State<SignUpInput> {
-  DateTime date = DateTime.now();
-  String dateformat = "";
   bool hide_pass = true;
   bool is_selected = false;
 
+  String message = "";
   String dropProvinsi = '-Pilih-';
   String dropKota = '-Pilih-';
   String dropKelu = '-Pilih-';
   String dropKec = '-Pilih-';
+
+  TextEditingController emailctr = TextEditingController();
+  TextEditingController notelpctr = TextEditingController();
+  TextEditingController alamatdctr = TextEditingController();
+  TextEditingController passctr = TextEditingController();
+  TextEditingController konfpassctr = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -57,49 +62,93 @@ class _SignUpInputState extends State<SignUpInput> {
                 height: 10,
               ),
               // kata pengantar lagi ??
-              Text(
-                'Email',
-                style: GoogleFonts.poppins(
-                    textStyle: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black)),
+              Row(
+                children: [
+                  Text(
+                    'Email',
+                    style: GoogleFonts.poppins(
+                        textStyle: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black)),
+                  ),
+                  Text(
+                    " *",
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            fontSize: 15,
+                            color: Color(int.parse(globals.color_secondary)))),
+                  )
+                ],
               ),
-              FormFieldTemplate("email"),
+              FormFieldTemplate("email", emailctr),
               const SizedBox(
                 height: 10,
               ),
-              Text(
-                'Nomor Telephone',
-                style: GoogleFonts.poppins(
-                    textStyle: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black)),
+              Row(
+                children: [
+                  Text(
+                    'Nomor Telephone',
+                    style: GoogleFonts.poppins(
+                        textStyle: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black)),
+                  ),
+                  Text(
+                    " *",
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            fontSize: 15,
+                            color: Color(int.parse(globals.color_secondary)))),
+                  )
+                ],
               ),
-              FormFieldTemplate("telephone"),
+              FormFieldTemplate("telephone", notelpctr),
               const SizedBox(
                 height: 10,
               ),
-              Text(
-                'Alamat Domisili',
-                style: GoogleFonts.poppins(
-                    textStyle: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black)),
+              Row(
+                children: [
+                  Text(
+                    'Alamat Domisili',
+                    style: GoogleFonts.poppins(
+                        textStyle: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black)),
+                  ),
+                  Text(
+                    " *",
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            fontSize: 15,
+                            color: Color(int.parse(globals.color_secondary)))),
+                  )
+                ],
               ),
-              FormFieldTemplate("alamat"),
+              FormFieldTemplate("alamat", alamatdctr),
               const SizedBox(
                 height: 10,
               ),
-              Text(
-                'Provinsi',
-                style: GoogleFonts.poppins(
-                    textStyle: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black)),
+              Row(
+                children: [
+                  Text(
+                    'Provinsi',
+                    style: GoogleFonts.poppins(
+                        textStyle: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black)),
+                  ),
+                  Text(
+                    " *",
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            fontSize: 15,
+                            color: Color(int.parse(globals.color_secondary)))),
+                  )
+                ],
               ),
               Container(
                   width: MediaQuery.of(context).size.width,
@@ -147,13 +196,24 @@ class _SignUpInputState extends State<SignUpInput> {
               const SizedBox(
                 height: 10,
               ),
-              Text(
-                'Kabupaten/Kota',
-                style: GoogleFonts.poppins(
-                    textStyle: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black)),
+              Row(
+                children: [
+                  Text(
+                    'Kabupaten/Kota',
+                    style: GoogleFonts.poppins(
+                        textStyle: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black)),
+                  ),
+                  Text(
+                    " *",
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            fontSize: 15,
+                            color: Color(int.parse(globals.color_secondary)))),
+                  )
+                ],
               ),
               Container(
                   width: MediaQuery.of(context).size.width,
@@ -200,13 +260,24 @@ class _SignUpInputState extends State<SignUpInput> {
               const SizedBox(
                 height: 10,
               ),
-              Text(
-                'Kecamatan',
-                style: GoogleFonts.poppins(
-                    textStyle: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black)),
+              Row(
+                children: [
+                  Text(
+                    'Kecamatan',
+                    style: GoogleFonts.poppins(
+                        textStyle: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black)),
+                  ),
+                  Text(
+                    " *",
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            fontSize: 15,
+                            color: Color(int.parse(globals.color_secondary)))),
+                  )
+                ],
               ),
               Container(
                   width: MediaQuery.of(context).size.width,
@@ -253,13 +324,24 @@ class _SignUpInputState extends State<SignUpInput> {
               const SizedBox(
                 height: 10,
               ),
-              Text(
-                'Kelurahan',
-                style: GoogleFonts.poppins(
-                    textStyle: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black)),
+              Row(
+                children: [
+                  Text(
+                    'Kelurahan',
+                    style: GoogleFonts.poppins(
+                        textStyle: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black)),
+                  ),
+                  Text(
+                    " *",
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            fontSize: 15,
+                            color: Color(int.parse(globals.color_secondary)))),
+                  )
+                ],
               ),
               Container(
                   width: MediaQuery.of(context).size.width,
@@ -299,7 +381,7 @@ class _SignUpInputState extends State<SignUpInput> {
                       }).toList(),
                       onChanged: (newValue) {
                         setState(() {
-                          dropProvinsi = newValue!;
+                          dropKelu = newValue!;
                         });
                       },
                     ),
@@ -307,17 +389,29 @@ class _SignUpInputState extends State<SignUpInput> {
               const SizedBox(
                 height: 10,
               ),
-              Text(
-                'Password',
-                style: GoogleFonts.poppins(
-                    textStyle: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black)),
+              Row(
+                children: [
+                  Text(
+                    'Password',
+                    style: GoogleFonts.poppins(
+                        textStyle: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black)),
+                  ),
+                  Text(
+                    " *",
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            fontSize: 15,
+                            color: Color(int.parse(globals.color_secondary)))),
+                  )
+                ],
               ),
               Container(
                 height: 50,
                 child: TextField(
+                  controller: passctr,
                   obscureText: hide_pass,
                   cursorColor: Color(int.parse(globals.color_primary)),
                   style: GoogleFonts.poppins(
@@ -352,17 +446,40 @@ class _SignUpInputState extends State<SignUpInput> {
               const SizedBox(
                 height: 10,
               ),
-              Text(
-                'Konfirmasi Password',
-                style: GoogleFonts.poppins(
-                    textStyle: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black)),
+              Row(
+                children: [
+                  Text(
+                    'Konfirmasi Password',
+                    style: GoogleFonts.poppins(
+                        textStyle: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black)),
+                  ),
+                  Text(
+                    " *",
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            fontSize: 15,
+                            color: Color(int.parse(globals.color_secondary)))),
+                  )
+                ],
               ),
               Container(
                 height: 50,
                 child: TextField(
+                  controller: konfpassctr,
+                  onChanged: (value) {
+                    if (value != passctr.text) {
+                      setState(() {
+                        message = "password tidak sama";
+                      });
+                    } else {
+                      setState(() {
+                        message = "";
+                      });
+                    }
+                  },
                   obscureText: hide_pass,
                   cursorColor: Color(int.parse(globals.color_primary)),
                   style: GoogleFonts.poppins(
@@ -392,6 +509,16 @@ class _SignUpInputState extends State<SignUpInput> {
                           color: Color(int.parse(globals.color_primary)),
                         )),
                   ),
+                ),
+              ),
+              Visibility(
+                visible: message != "" ? true : false,
+                child: Text(
+                  message,
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          fontSize: 12,
+                          color: Color(int.parse(globals.color_secondary)))),
                 ),
               ),
               const SizedBox(
@@ -442,17 +569,62 @@ class _SignUpInputState extends State<SignUpInput> {
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () {
-                        if (globals.status_user == "majikan") {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const IntroVerifikasi()));
+                        if (emailctr.text != "" &&
+                            notelpctr.text != "" &&
+                            alamatdctr != "" &&
+                            passctr != "" &&
+                            konfpassctr.text != "" &&
+                            is_selected == true &&
+                            dropProvinsi != "-Pilih-" &&
+                            dropKota != "-Pilih-" &&
+                            dropKelu != "-Pilih-" &&
+                            dropKec != "-Pilih-") {
+                          if (globals.status_user == "majikan") {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const IntroVerifikasi()));
+                          } else {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const SignUpInputD()));
+                          }
                         } else {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const SignUpInputD()));
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  content: Text(
+                                    'Silahkan mengisi bagian yang diberi tanda * atau melakukan klik centang untuk persetujuan',
+                                    style: GoogleFonts.poppins(
+                                        textStyle: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600)),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  actions: [
+                                    Center(
+                                      child: TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text(
+                                            "OK",
+                                            style: GoogleFonts.poppins(
+                                                textStyle: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Color(int.parse(
+                                                        globals
+                                                            .color_secondary)))),
+                                          )),
+                                    )
+                                  ],
+                                );
+                              });
                         }
                       },
                       style: ElevatedButton.styleFrom(
@@ -481,9 +653,10 @@ class _SignUpInputState extends State<SignUpInput> {
   }
 }
 
-Widget FormFieldTemplate(String? fill) {
+Widget FormFieldTemplate(String? fill, TextEditingController controller) {
   return Container(
     child: TextField(
+      controller: controller,
       cursorColor: Color(int.parse(globals.color_primary)),
       style: GoogleFonts.poppins(
           textStyle: const TextStyle(fontSize: 15, color: Colors.black)),
