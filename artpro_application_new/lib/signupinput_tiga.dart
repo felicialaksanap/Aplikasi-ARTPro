@@ -18,6 +18,19 @@ class _SignUpInputTState extends State<SignUpInputT> {
   bool k_obog = false;
   bool k_tk = false;
 
+  TextEditingController expctr = TextEditingController();
+  TextEditingController mingajictr = TextEditingController();
+  TextEditingController maxgajictr = TextEditingController();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    expctr.dispose();
+    mingajictr.dispose();
+    maxgajictr.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,13 +62,24 @@ class _SignUpInputTState extends State<SignUpInputT> {
             const SizedBox(
               height: 10,
             ),
-            Text(
-              'Kategori pekerjaan',
-              style: GoogleFonts.poppins(
-                  textStyle: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black)),
+            Row(
+              children: [
+                Text(
+                  'Kategori pekerjaan',
+                  style: GoogleFonts.poppins(
+                      textStyle: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black)),
+                ),
+                Text(
+                  " *",
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          fontSize: 15,
+                          color: Color(int.parse(globals.color_secondary)))),
+                )
+              ],
             ),
             Text(
               '(bisa memilih lebih dari 1)',
@@ -172,25 +196,47 @@ class _SignUpInputTState extends State<SignUpInputT> {
             const SizedBox(
               height: 10,
             ),
-            Text(
-              'Ceritakan pengalaman kerja anda!',
-              style: GoogleFonts.poppins(
-                  textStyle: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black)),
+            Row(
+              children: [
+                Text(
+                  'Ceritakan pengalaman kerja anda!',
+                  style: GoogleFonts.poppins(
+                      textStyle: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black)),
+                ),
+                Text(
+                  " *",
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          fontSize: 15,
+                          color: Color(int.parse(globals.color_secondary)))),
+                )
+              ],
             ),
-            FormFieldTemplate("pengalaman"),
+            FormFieldTemplate("pengalaman", expctr),
             const SizedBox(
               height: 10,
             ),
-            Text(
-              'Berapa gaji yang diinginkan?',
-              style: GoogleFonts.poppins(
-                  textStyle: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black)),
+            Row(
+              children: [
+                Text(
+                  'Berapa gaji yang diinginkan?',
+                  style: GoogleFonts.poppins(
+                      textStyle: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black)),
+                ),
+                Text(
+                  " *",
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          fontSize: 15,
+                          color: Color(int.parse(globals.color_secondary)))),
+                )
+              ],
             ),
             Row(
               children: [
@@ -207,7 +253,7 @@ class _SignUpInputTState extends State<SignUpInputT> {
                 ),
                 Expanded(
                   child: Column(
-                    children: [FormFieldTemplate("gaji")],
+                    children: [FormFieldTemplate("gaji", mingajictr)],
                   ),
                 ),
                 const SizedBox(
@@ -226,7 +272,7 @@ class _SignUpInputTState extends State<SignUpInputT> {
                 ),
                 Expanded(
                   child: Column(
-                    children: [FormFieldTemplate("gaji")],
+                    children: [FormFieldTemplate("gaji", maxgajictr)],
                   ),
                 )
               ],
@@ -242,10 +288,87 @@ class _SignUpInputTState extends State<SignUpInputT> {
                   height: 50,
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const IntroVerifikasi()));
+                      if (k_prt == true ||
+                          k_bs == true ||
+                          k_sc == true ||
+                          k_supir == true ||
+                          k_obog == true ||
+                          k_tk == true) {
+                        if (expctr.text != "" &&
+                            mingajictr.text != "" &&
+                            maxgajictr.text != "") {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const IntroVerifikasi()));
+                        } else {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  content: Text(
+                                    'Silahkan mengisi bagian yang diberi tanda *',
+                                    style: GoogleFonts.poppins(
+                                        textStyle: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600)),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  actions: [
+                                    Center(
+                                      child: TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text(
+                                            "OK",
+                                            style: GoogleFonts.poppins(
+                                                textStyle: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Color(int.parse(
+                                                        globals
+                                                            .color_secondary)))),
+                                          )),
+                                    )
+                                  ],
+                                );
+                              });
+                        }
+                      } else {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                content: Text(
+                                  'Silahkan mengisi bagian yang diberi tanda *',
+                                  style: GoogleFonts.poppins(
+                                      textStyle: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600)),
+                                  textAlign: TextAlign.center,
+                                ),
+                                actions: [
+                                  Center(
+                                    child: TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text(
+                                          "OK",
+                                          style: GoogleFonts.poppins(
+                                              textStyle: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Color(int.parse(globals
+                                                      .color_secondary)))),
+                                        )),
+                                  )
+                                ],
+                              );
+                            });
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor:
@@ -274,9 +397,10 @@ class _SignUpInputTState extends State<SignUpInputT> {
   }
 }
 
-Widget FormFieldTemplate(String? fill) {
+Widget FormFieldTemplate(String? fill, TextEditingController controller) {
   return Container(
     child: TextField(
+      controller: controller,
       cursorColor: Color(int.parse(globals.color_primary)),
       style: GoogleFonts.poppins(
           textStyle: const TextStyle(fontSize: 15, color: Colors.black)),

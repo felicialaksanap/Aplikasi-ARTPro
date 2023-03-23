@@ -16,6 +16,19 @@ class _VerifikasiKTPSState extends State<VerifikasiKTPS> {
   String dateformat = "";
   String jenisKelamin = "";
 
+  TextEditingController noktpctr = TextEditingController();
+  TextEditingController namactr = TextEditingController();
+  TextEditingController tlctr = TextEditingController();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    noktpctr.dispose();
+    namactr.dispose();
+    tlctr.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,7 +115,7 @@ class _VerifikasiKTPSState extends State<VerifikasiKTPS> {
                       fontWeight: FontWeight.bold,
                       color: Colors.black)),
             ),
-            FormFieldTemplate(),
+            FormFieldTemplate(noktpctr),
             const SizedBox(
               height: 10,
             ),
@@ -114,7 +127,7 @@ class _VerifikasiKTPSState extends State<VerifikasiKTPS> {
                       fontWeight: FontWeight.bold,
                       color: Colors.black)),
             ),
-            FormFieldTemplate(),
+            FormFieldTemplate(namactr),
             const SizedBox(
               height: 10,
             ),
@@ -126,7 +139,7 @@ class _VerifikasiKTPSState extends State<VerifikasiKTPS> {
                       fontWeight: FontWeight.bold,
                       color: Colors.black)),
             ),
-            FormFieldTemplate(),
+            FormFieldTemplate(tlctr),
             const SizedBox(
               height: 10,
             ),
@@ -291,10 +304,11 @@ class _VerifikasiKTPSState extends State<VerifikasiKTPS> {
   }
 }
 
-Widget FormFieldTemplate() {
+Widget FormFieldTemplate(TextEditingController controller) {
   return Container(
     height: 50,
     child: TextField(
+      controller: controller,
       cursorColor: Color(int.parse(globals.color_primary)),
       style: GoogleFonts.poppins(
           textStyle: const TextStyle(fontSize: 15, color: Colors.black)),

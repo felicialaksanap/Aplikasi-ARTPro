@@ -132,13 +132,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
-  flutter_radar_chart:
-    dependency: "direct main"
-    description:
-      name: flutter_radar_chart
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -185,7 +178,7 @@ packages:
       name: js
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.5"
+    version: "0.6.4"
   json_annotation:
     dependency: transitive
     description:
@@ -221,6 +214,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0"
+  multi_charts:
+    dependency: "direct main"
+    description:
+      name: multi_charts
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.0"
   path:
     dependency: transitive
     description:

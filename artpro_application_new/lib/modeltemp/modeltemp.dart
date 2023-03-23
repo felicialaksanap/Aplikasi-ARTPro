@@ -80,3 +80,50 @@ class MListLoker {
     ]),
   ];
 }
+
+class MListKomen {
+  String nama;
+  String tanggal;
+  String foto;
+  String isikomen;
+
+  MListKomen(this.nama, this.tanggal, this.foto, this.isikomen);
+
+  static List<MListKomen> isiKomen = [
+    MListKomen("Carla Andriani", "08-12-2022", "assets/images/person-4.jpg",
+        "Lorem ipsum dolor sit amet consectetur. Hac mollis lorem dignissim dui feugiat augue arcu odio sagittis. Et id risus commodo."),
+    MListKomen("Delaney Hill", "08-11-2022", "assets/images/person-5.jpg",
+        "Lorem ipsum dolor sit amet consectetur. Hac mollis lorem dignissim dui feugiat augue arcu odio sagittis. Et id risus commodo."),
+    MListKomen("Michelle Riyanti", "17-09-2022", "assets/images/person-6.jpg",
+        "Lorem ipsum dolor sit amet consectetur. Hac mollis lorem dignissim dui feugiat augue arcu odio sagittis. Et id risus commodo."),
+    MListKomen("Hani Maryati", "10-09-2022", "assets/images/person-7.jpg",
+        "Lorem ipsum dolor sit amet consectetur. Hac mollis lorem dignissim dui feugiat augue arcu odio sagittis. Et id risus commodo."),
+    MListKomen("Belinda Wastuti", "01-07-2022", "assets/images/person-9.jpg",
+        "Lorem ipsum dolor sit amet consectetur. Hac mollis lorem dignissim dui feugiat augue arcu odio sagittis. Et id risus commodo."),
+  ];
+}
+
+class MListNotif {
+  String isinotif;
+  String statusnotif;
+
+  MListNotif(this.isinotif, this.statusnotif);
+
+  static List<MListNotif> isiNotif = [
+    MListNotif(
+        "Lorem ipsum dolor sit amet consectetur. Hac mollis lorem dignissim dui feugiat augue arcu odio sagittis. Et id risus commodo.",
+        "active"),
+    MListNotif(
+        "Lorem ipsum dolor sit amet consectetur. Hac mollis lorem dignissim dui feugiat augue arcu odio sagittis. Et id risus commodo.",
+        "active"),
+    MListNotif(
+        "Lorem ipsum dolor sit amet consectetur. Hac mollis lorem dignissim dui feugiat augue arcu odio sagittis. Et id risus commodo.",
+        "inactive"),
+    MListNotif(
+        "Lorem ipsum dolor sit amet consectetur. Hac mollis lorem dignissim dui feugiat augue arcu odio sagittis. Et id risus commodo.",
+        "inactive"),
+    MListNotif(
+        "Lorem ipsum dolor sit amet consectetur. Hac mollis lorem dignissim dui feugiat augue arcu odio sagittis. Et id risus commodo.",
+        "inactive")
+  ];
+}

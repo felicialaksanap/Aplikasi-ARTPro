@@ -16,6 +16,7 @@ class SignUpInput extends StatefulWidget {
 
 class _SignUpInputState extends State<SignUpInput> {
   bool hide_pass = true;
+  bool hide_konfpass = true;
   bool is_selected = false;
 
   String message = "";
@@ -29,6 +30,17 @@ class _SignUpInputState extends State<SignUpInput> {
   TextEditingController alamatdctr = TextEditingController();
   TextEditingController passctr = TextEditingController();
   TextEditingController konfpassctr = TextEditingController();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    emailctr.dispose();
+    notelpctr.dispose();
+    alamatdctr.dispose();
+    passctr.dispose();
+    konfpassctr.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -480,7 +492,7 @@ class _SignUpInputState extends State<SignUpInput> {
                       });
                     }
                   },
-                  obscureText: hide_pass,
+                  obscureText: hide_konfpass,
                   cursorColor: Color(int.parse(globals.color_primary)),
                   style: GoogleFonts.poppins(
                       textStyle:
@@ -501,7 +513,7 @@ class _SignUpInputState extends State<SignUpInput> {
                     suffixIcon: IconButton(
                         onPressed: () {
                           setState(() {
-                            hide_pass = !hide_pass;
+                            hide_konfpass = !hide_konfpass;
                           });
                         },
                         icon: Icon(
@@ -571,8 +583,8 @@ class _SignUpInputState extends State<SignUpInput> {
                       onPressed: () {
                         if (emailctr.text != "" &&
                             notelpctr.text != "" &&
-                            alamatdctr != "" &&
-                            passctr != "" &&
+                            alamatdctr.text != "" &&
+                            passctr.text != "" &&
                             konfpassctr.text != "" &&
                             is_selected == true &&
                             dropProvinsi != "-Pilih-" &&

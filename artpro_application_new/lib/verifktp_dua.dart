@@ -16,6 +16,19 @@ class _VerifikasiKTPDState extends State<VerifikasiKTPD> {
   String dropKelu = '-Pilih-';
   String dropKec = '-Pilih-';
 
+  TextEditingController alamatkctr = TextEditingController();
+  TextEditingController rtctr = TextEditingController();
+  TextEditingController rwctr = TextEditingController();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    alamatkctr.dispose();
+    rtctr.dispose();
+    rwctr.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,7 +115,7 @@ class _VerifikasiKTPDState extends State<VerifikasiKTPD> {
                       fontWeight: FontWeight.bold,
                       color: Colors.black)),
             ),
-            FormFieldTemplate("alamat"),
+            FormFieldTemplate("alamat", alamatkctr),
             const SizedBox(
               height: 10,
             ),
@@ -312,7 +325,7 @@ class _VerifikasiKTPDState extends State<VerifikasiKTPD> {
                     }).toList(),
                     onChanged: (newValue) {
                       setState(() {
-                        dropProvinsi = newValue!;
+                        dropKelu = newValue!;
                       });
                     },
                   ),
@@ -334,7 +347,7 @@ class _VerifikasiKTPDState extends State<VerifikasiKTPD> {
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black)),
                       ),
-                      FormFieldTemplate("rt")
+                      FormFieldTemplate("rt", rtctr)
                     ],
                   ),
                 ),
@@ -353,7 +366,7 @@ class _VerifikasiKTPDState extends State<VerifikasiKTPD> {
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black)),
                       ),
-                      FormFieldTemplate("rw")
+                      FormFieldTemplate("rw", rwctr)
                     ],
                   ),
                 ),
@@ -399,9 +412,10 @@ class _VerifikasiKTPDState extends State<VerifikasiKTPD> {
   }
 }
 
-Widget FormFieldTemplate(String? fill) {
+Widget FormFieldTemplate(String? fill, TextEditingController controller) {
   return Container(
     child: TextField(
+      controller: controller,
       cursorColor: Color(int.parse(globals.color_primary)),
       style: GoogleFonts.poppins(
           textStyle: const TextStyle(fontSize: 15, color: Colors.black)),

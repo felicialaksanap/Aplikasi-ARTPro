@@ -1,7 +1,7 @@
+import 'package:artpro_application_new/listkomen.dart';
 import 'package:flutter/material.dart';
-import 'dart:math';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_radar_chart/flutter_radar_chart.dart';
+import 'package:multi_charts/multi_charts.dart';
 import './global.dart' as globals;
 import './modeltemp/modeltemp.dart';
 
@@ -13,33 +13,15 @@ class DetailART extends StatefulWidget {
 }
 
 class _DetailARTState extends State<DetailART> {
-  int _length = 3;
-  List<double> values1 = [0.4, 0.8, 0.65];
-  List<double> values2 = [0.5, 0.3, 0.85];
-
-  void _incrementCounter() {
-    setState(() {
-      final random = Random(12341);
-      _length++;
-      values1.add(random.nextDouble());
-      values2.add(random.nextDouble());
-    });
-  }
+  List<String> ketlain = [
+    "Tidak takut hewan",
+    "Mabuk perjalanan",
+    "Sepeda Motor",
+    "Memasak"
+  ];
 
   @override
   Widget build(BuildContext context) {
-    const ticks = [7, 14, 21, 28, 35];
-    var features = ["Etika", "Estetika", "Kebersihan", "Kecepatan", "Kerapian"];
-    var data = [
-      [10, 20, 28, 5, 16]
-    ];
-
-    features = features.sublist(0, 5);
-    data = data
-        .map(
-          (graph) => graph.sublist(0, 5),
-        )
-        .toList();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -348,74 +330,35 @@ class _DetailARTState extends State<DetailART> {
             const SizedBox(
               height: 10,
             ),
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50.0),
-                      border: Border.all(
-                          color: const Color.fromARGB(255, 217, 217, 217),
-                          width: 1)),
-                  child: Text(
-                    "Tidak takut hewan",
-                    style: GoogleFonts.poppins(
-                        textStyle: const TextStyle(fontSize: 14)),
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50.0),
-                      border: Border.all(
-                          color: const Color.fromARGB(255, 217, 217, 217),
-                          width: 1)),
-                  child: Text(
-                    "Tidak mabuk perjalanan",
-                    style: GoogleFonts.poppins(
-                        textStyle: const TextStyle(fontSize: 14)),
-                  ),
-                )
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50.0),
-                      border: Border.all(
-                          color: const Color.fromARGB(255, 217, 217, 217),
-                          width: 1)),
-                  child: Text(
-                    "Sepeda Motor",
-                    style: GoogleFonts.poppins(
-                        textStyle: const TextStyle(fontSize: 14)),
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50.0),
-                      border: Border.all(
-                          color: const Color.fromARGB(255, 217, 217, 217),
-                          width: 1)),
-                  child: Text(
-                    "Memasak",
-                    style: GoogleFonts.poppins(
-                        textStyle: const TextStyle(fontSize: 14)),
-                  ),
-                )
-              ],
+            Container(
+              child: GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: ketlain.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 5,
+                    crossAxisSpacing: 5,
+                    mainAxisSpacing: 5),
+                itemBuilder: (context, index) {
+                  return Container(
+                    padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20.0),
+                        border: Border.all(
+                            color: const Color.fromARGB(255, 217, 217, 217),
+                            width: 1)),
+                    child: Center(
+                      child: Text(
+                        ketlain[index],
+                        style: GoogleFonts.poppins(
+                            textStyle: const TextStyle(fontSize: 14)),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
             const SizedBox(
               height: 20,
@@ -439,75 +382,207 @@ class _DetailARTState extends State<DetailART> {
                             color: Colors.white)),
                   ),
                 ),
-                TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      "Lihat semua >>",
-                      style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: Color(int.parse(globals.color_primary)))),
-                    ))
               ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Container(
+              height: 150,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: 5,
+                itemBuilder: (context, index) {
+                  return Row(
+                    children: [
+                      Column(
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width / 2,
+                            height: 100,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20.0),
+                                color:
+                                    const Color.fromARGB(255, 217, 217, 217)),
+                          ),
+                          Text(
+                            "title",
+                            style: GoogleFonts.poppins(
+                                textStyle: const TextStyle(fontSize: 15)),
+                          )
+                        ],
+                      ),
+                      index == 4
+                          ? const SizedBox(
+                              width: 0,
+                            )
+                          : const SizedBox(
+                              width: 10,
+                            )
+                    ],
+                  );
+                },
+              ),
             ),
             const SizedBox(
               height: 10,
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  width: MediaQuery.of(context).size.width / 2,
-                  height: 150,
+                  padding: const EdgeInsets.fromLTRB(4, 4, 32, 4),
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20.0),
-                      color: const Color.fromARGB(255, 217, 217, 217)),
+                      color: Color(int.parse(globals.color_primary)),
+                      borderRadius: const BorderRadius.only(
+                          topRight: Radius.circular(20.0),
+                          bottomRight: Radius.circular(20.0))),
+                  child: Text(
+                    "Penilaian",
+                    style: GoogleFonts.poppins(
+                        textStyle: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white)),
+                  ),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width / 2,
-                  height: 150,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20.0),
-                      color: const Color.fromARGB(255, 217, 217, 217)),
-                )
               ],
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            Container(
-              width: 350,
-              height: 350,
-              child: RadarChart.light(
-                ticks: ticks,
-                features: features,
-                data: data,
-                reverseAxis: true,
-                useSides: true,
+            Center(
+              child: Container(
+                width: 350,
+                height: 350,
+                child: RadarChart(
+                  values: const [1, 2, 4, 7, 9],
+                  labels: const [
+                    "Etika",
+                    "Estetika",
+                    "Kebersihan",
+                    "Kerapian",
+                    "Kecepatan"
+                  ],
+                  strokeColor: Color(int.parse(globals.color_primary)),
+                  labelColor: Color(int.parse(globals.color_primary)),
+                  maxValue: 10,
+                  fillColor: Color(int.parse(globals.color_secondary)),
+                  chartRadiusFactor: 0.7,
+                ),
               ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  padding: const EdgeInsets.fromLTRB(4, 4, 32, 4),
+                  decoration: BoxDecoration(
+                      color: Color(int.parse(globals.color_primary)),
+                      borderRadius: const BorderRadius.only(
+                          topRight: Radius.circular(20.0),
+                          bottomRight: Radius.circular(20.0))),
+                  child: Text(
+                    "Komentar & Review",
+                    style: GoogleFonts.poppins(
+                        textStyle: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white)),
+                  ),
+                ),
+                TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ListKomen()));
+                    },
+                    child: Text(
+                      "Lihat semua >>",
+                      style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                              fontSize: 12,
+                              color:
+                                  Color(int.parse(globals.color_secondary)))),
+                    ))
+              ],
             ),
             const SizedBox(
               height: 20,
             ),
             Container(
-              padding: const EdgeInsets.fromLTRB(4, 4, 32, 4),
-              decoration: BoxDecoration(
-                  color: Color(int.parse(globals.color_primary)),
-                  borderRadius: const BorderRadius.only(
-                      topRight: Radius.circular(20.0),
-                      bottomRight: Radius.circular(20.0))),
-              child: Text(
-                "Komentar & Review",
-                style: GoogleFonts.poppins(
-                    textStyle: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white)),
-              ),
-            ),
+              height: 400,
+              child: ListView.builder(
+                  itemCount: 2,
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: [
+                        Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 60,
+                                    height: 60,
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(50.0),
+                                        image: DecorationImage(
+                                            image: AssetImage(MListKomen
+                                                .isiKomen[index].foto),
+                                            fit: BoxFit.fill)),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        MListKomen.isiKomen[index].nama,
+                                        style: GoogleFonts.poppins(
+                                            textStyle: const TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold)),
+                                      ),
+                                      Text(
+                                        MListKomen.isiKomen[index].tanggal,
+                                        style: GoogleFonts.poppins(
+                                            textStyle: const TextStyle(
+                                                fontSize: 12,
+                                                color: Color.fromARGB(
+                                                    255, 138, 138, 138))),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                MListKomen.isiKomen[index].isikomen,
+                                style: GoogleFonts.poppins(
+                                    textStyle: const TextStyle(fontSize: 15)),
+                              )
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          height: 1,
+                          color: const Color.fromARGB(255, 138, 138, 138),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        )
+                      ],
+                    );
+                  }),
+            )
           ],
         ),
       ),
