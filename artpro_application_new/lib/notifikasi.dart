@@ -1,4 +1,5 @@
 import 'package:artpro_application_new/modeltemp/modeltemp.dart';
+import 'package:artpro_application_new/penilaian.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'global.dart' as globals;
@@ -41,9 +42,15 @@ class _NotifikasiPageState extends State<NotifikasiPage> {
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
-                    setState(() {
-                      MListNotif.isiNotif[index].statusnotif = "inactive";
-                    });
+                    if (MListNotif.isiNotif[index].statusnotif == "active") {
+                      setState(() {
+                        MListNotif.isiNotif[index].statusnotif = "inactive";
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Penilaian()));
+                      });
+                    }
                   },
                   child: Card(
                     shape: RoundedRectangleBorder(
