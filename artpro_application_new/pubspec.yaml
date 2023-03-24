@@ -97,6 +97,12 @@ flutter:
     - assets/images/person-9.jpg
     - assets/images/person-10.jpg
     - assets/images/person-11.jpg
+    - assets/icons/dis-green.png
+    - assets/icons/dis-orange.png
+    - assets/icons/smile-alt-green.png
+    - assets/icons/smile-alt-orange.png
+    - assets/icons/smile-green.png
+    - assets/icons/smile-orange.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
