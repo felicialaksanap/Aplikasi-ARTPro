@@ -45,12 +45,12 @@ class _NotifikasiPageState extends State<NotifikasiPage> {
                     if (MListNotif.isiNotif[index].statusnotif == "active") {
                       setState(() {
                         MListNotif.isiNotif[index].statusnotif = "inactive";
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const Penilaian()));
                       });
                     }
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Penilaian()));
                   },
                   child: Card(
                     shape: RoundedRectangleBorder(

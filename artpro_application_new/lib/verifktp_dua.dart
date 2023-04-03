@@ -2,6 +2,7 @@ import 'package:artpro_application_new/verifktp_tiga.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import './global.dart' as globals;
+import 'package:artpro_application_new/services/services.dart';
 
 class VerifikasiKTPD extends StatefulWidget {
   const VerifikasiKTPD({super.key});
@@ -20,6 +21,18 @@ class _VerifikasiKTPDState extends State<VerifikasiKTPD> {
   TextEditingController rtctr = TextEditingController();
   TextEditingController rwctr = TextEditingController();
 
+  List<DetailProvinsi> listProvinsi = [];
+  List<String> menuProvinsi = [];
+
+  List<DetailKotKab> listKotKab = [];
+  List<String> menuKotKab = [];
+
+  List<DetailKecamatan> listKecamatan = [];
+  List<String> menuKecamatan = [];
+
+  List<DetailKelurahan> listKelurahan = [];
+  List<String> menuKelurahan = [];
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -27,6 +40,77 @@ class _VerifikasiKTPDState extends State<VerifikasiKTPD> {
     alamatkctr.dispose();
     rtctr.dispose();
     rwctr.dispose();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    menuProvinsi.add("-Pilih-");
+    menuKotKab.add("-Pilih-");
+    menuKecamatan.add("-Pilih-");
+    menuKelurahan.add("-Pilih-");
+    getDetailProvinsi();
+  }
+
+  Future<void> getDetailProvinsi() async {
+    DetailProvinsi.getData().then((value) async {
+      setState(() {
+        listProvinsi = [];
+        listProvinsi = value;
+
+        menuProvinsi = [];
+        menuProvinsi.add("-Pilih-");
+        for (int i = 0; i < listProvinsi.length; i++) {
+          menuProvinsi.add(listProvinsi[i].nama);
+        }
+      });
+    });
+  }
+
+  Future<void> getDetailKotKab(String idProv) async {
+    DetailKotKab.getData(idProv).then((value) async {
+      setState(() {
+        listKotKab = [];
+        listKotKab = value;
+
+        menuKotKab = [];
+        menuKotKab.add("-Pilih-");
+        for (int i = 0; i < listKotKab.length; i++) {
+          menuKotKab.add(listKotKab[i].nama);
+        }
+      });
+    });
+  }
+
+  Future<void> getDetailKecamatan(String idKotKab) async {
+    DetailKecamatan.getData(idKotKab).then((value) async {
+      setState(() {
+        listKecamatan = [];
+        listKecamatan = value;
+
+        menuKecamatan = [];
+        menuKecamatan.add("-Pilih-");
+        for (int i = 0; i < listKecamatan.length; i++) {
+          menuKecamatan.add(listKecamatan[i].nama);
+        }
+      });
+    });
+  }
+
+  Future<void> getDetailKelurahan(String idKecamatan) async {
+    DetailKelurahan.getData(idKecamatan).then((value) async {
+      setState(() {
+        listKelurahan = [];
+        listKelurahan = value;
+
+        menuKelurahan = [];
+        menuKelurahan.add("-Pilih-");
+        for (int i = 0; i < listKelurahan.length; i++) {
+          menuKelurahan.add(listKelurahan[i].nama);
+        }
+      });
+    });
   }
 
   @override
@@ -146,26 +230,27 @@ class _VerifikasiKTPDState extends State<VerifikasiKTPD> {
                       Icons.arrow_drop_down,
                       color: Color(int.parse(globals.color_primary)),
                     ),
-                    items: <String>[
-                      '-Pilih-',
-                      'Jawa Barat',
-                      'Banten',
-                      'Jawa Tengah',
-                      'Jawa Timur',
-                      'DKI Jakarta'
-                    ].map<DropdownMenuItem<String>>((value) {
-                      return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(
-                            value,
-                            style: GoogleFonts.poppins(
-                                textStyle: const TextStyle(
-                                    fontSize: 15, color: Colors.black)),
-                          ));
+                    items: menuProvinsi.map((item) {
+                      return DropdownMenuItem(
+                        child: Text(
+                          item,
+                          style: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                                  color: Colors.black, fontSize: 15)),
+                        ),
+                        value: item,
+                      );
                     }).toList(),
                     onChanged: (newValue) {
                       setState(() {
+                        String idProvinsi = "";
                         dropProvinsi = newValue!;
+                        for (int i = 0; i < listProvinsi.length; i++) {
+                          if (listProvinsi[i].nama == dropProvinsi) {
+                            idProvinsi = listProvinsi[i].idProvinsi.toString();
+                          }
+                        }
+                        getDetailKotKab(idProvinsi);
                       });
                     },
                   ),
@@ -200,25 +285,27 @@ class _VerifikasiKTPDState extends State<VerifikasiKTPD> {
                       Icons.arrow_drop_down,
                       color: Color(int.parse(globals.color_primary)),
                     ),
-                    items: <String>[
-                      '-Pilih-',
-                      'Kota Surabaya',
-                      'Kota Malang',
-                      'Kota Blitar',
-                      'Kota Sidoarjo',
-                    ].map<DropdownMenuItem<String>>((value) {
-                      return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(
-                            value,
-                            style: GoogleFonts.poppins(
-                                textStyle: const TextStyle(
-                                    fontSize: 15, color: Colors.black)),
-                          ));
+                    items: menuKotKab.map((item) {
+                      return DropdownMenuItem(
+                        child: Text(
+                          item,
+                          style: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                                  fontSize: 15, color: Colors.black)),
+                        ),
+                        value: item,
+                      );
                     }).toList(),
                     onChanged: (newValue) {
                       setState(() {
+                        String idKotKab = "";
                         dropKota = newValue!;
+                        for (int i = 0; i < listKotKab.length; i++) {
+                          if (listKotKab[i].nama == dropKota) {
+                            idKotKab = listKotKab[i].idKotKab.toString();
+                          }
+                        }
+                        getDetailKecamatan(idKotKab);
                       });
                     },
                   ),
@@ -253,25 +340,28 @@ class _VerifikasiKTPDState extends State<VerifikasiKTPD> {
                       Icons.arrow_drop_down,
                       color: Color(int.parse(globals.color_primary)),
                     ),
-                    items: <String>[
-                      '-Pilih-',
-                      'Bubutan',
-                      'Genteng',
-                      'Simokerto',
-                      'Tegalsari',
-                    ].map<DropdownMenuItem<String>>((value) {
-                      return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(
-                            value,
-                            style: GoogleFonts.poppins(
-                                textStyle: const TextStyle(
-                                    fontSize: 15, color: Colors.black)),
-                          ));
+                    items: menuKecamatan.map((item) {
+                      return DropdownMenuItem(
+                        child: Text(
+                          item,
+                          style: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                                  fontSize: 15, color: Colors.black)),
+                        ),
+                        value: item,
+                      );
                     }).toList(),
                     onChanged: (newValue) {
                       setState(() {
+                        String idKecamatan = "";
                         dropKec = newValue!;
+                        for (int i = 0; i < listKecamatan.length; i++) {
+                          if (listKecamatan[i].nama == dropKec) {
+                            idKecamatan =
+                                listKecamatan[i].idKecamatan.toString();
+                          }
+                        }
+                        getDetailKelurahan(idKecamatan);
                       });
                     },
                   ),
@@ -306,26 +396,27 @@ class _VerifikasiKTPDState extends State<VerifikasiKTPD> {
                       Icons.arrow_drop_down,
                       color: Color(int.parse(globals.color_primary)),
                     ),
-                    items: <String>[
-                      '-Pilih-',
-                      'Kapasan',
-                      'Sidodadi',
-                      'Simokerto',
-                      'Simolawang',
-                      'Tambakrejo'
-                    ].map<DropdownMenuItem<String>>((value) {
-                      return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(
-                            value,
-                            style: GoogleFonts.poppins(
-                                textStyle: const TextStyle(
-                                    fontSize: 15, color: Colors.black)),
-                          ));
+                    items: menuKelurahan.map((item) {
+                      return DropdownMenuItem(
+                        child: Text(
+                          item,
+                          style: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                                  fontSize: 15, color: Colors.black)),
+                        ),
+                        value: item,
+                      );
                     }).toList(),
                     onChanged: (newValue) {
                       setState(() {
+                        String idKelurahan = "";
                         dropKelu = newValue!;
+                        for (int i = 0; i < listKelurahan.length; i++) {
+                          if (listKelurahan[i].nama == dropKelu) {
+                            idKelurahan =
+                                listKelurahan[i].idKelurahan.toString();
+                          }
+                        }
                       });
                     },
                   ),

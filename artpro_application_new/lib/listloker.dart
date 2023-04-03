@@ -1,3 +1,4 @@
+import 'package:artpro_application_new/detailloker.dart';
 import 'package:artpro_application_new/modeltemp/modeltemp.dart';
 import 'package:artpro_application_new/tambahloker.dart';
 import 'package:flutter/material.dart';
@@ -56,91 +57,82 @@ class _ListLokerState extends State<ListLoker> {
                     itemBuilder: (context, index) {
                       return Column(
                         children: [
-                          Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0)),
-                            elevation: 3,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                          child: Text(
-                                        MListLoker.isiListLoker[index].kategori,
-                                        style: GoogleFonts.poppins(
-                                            textStyle: const TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold)),
-                                      )),
-                                      Column(
-                                        children: [
-                                          IconButton(
-                                            onPressed: () {},
-                                            icon: Icon(
-                                              Icons.create_rounded,
-                                              color: Color(int.parse(
-                                                  globals.color_primary)),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      IconButton(
-                                          onPressed: () {},
-                                          icon: Icon(
-                                            Icons.delete,
-                                            color: Color(int.parse(
-                                                globals.color_secondary)),
-                                          ))
-                                    ],
-                                  ),
-                                  Text(
-                                    MListLoker.isiListLoker[index].asalkota,
-                                    style: GoogleFonts.poppins(
-                                        textStyle: const TextStyle(
-                                            fontSize: 13,
-                                            color: Color.fromARGB(
-                                                255, 138, 138, 138))),
-                                  ),
-                                  Text(
-                                    MListLoker.isiListLoker[index].rangegaji,
-                                    style: GoogleFonts.poppins(
-                                        textStyle: const TextStyle(
-                                            fontSize: 13,
-                                            color: Color.fromARGB(
-                                                255, 138, 138, 138))),
-                                  ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  Container(
-                                    child: Column(
-                                      children: MListLoker
-                                          .isiListLoker[index].kriteria
-                                          .map((strone) {
-                                        return Row(children: [
-                                          const Text(
-                                            "\u2022",
-                                            style: TextStyle(fontSize: 15),
-                                          ), //bullet text
-                                          const SizedBox(
-                                            width: 10,
-                                          ), //space between bullet and text
-                                          Expanded(
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => DetailLoker(
+                                            index: index,
+                                          )));
+                            },
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0)),
+                              elevation: 3,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Expanded(
                                             child: Text(
-                                              strone,
-                                              style: GoogleFonts.poppins(
-                                                  textStyle: const TextStyle(
-                                                      fontSize: 13)),
-                                            ), //text
-                                          )
-                                        ]);
-                                      }).toList(),
+                                          MListLoker
+                                              .isiListLoker[index].kategori,
+                                          style: GoogleFonts.poppins(
+                                              textStyle: const TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold)),
+                                        )),
+                                      ],
                                     ),
-                                  )
-                                ],
+                                    Text(
+                                      "${MListLoker.isiListLoker[0].kecamatan}, ${MListLoker.isiListLoker[0].asalkota} | ${MListLoker.isiListLoker[0].jaraklokasi}",
+                                      style: GoogleFonts.poppins(
+                                          textStyle: const TextStyle(
+                                              fontSize: 13,
+                                              color: Color.fromARGB(
+                                                  255, 138, 138, 138))),
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Text(
+                                      "Post pada ${MListLoker.isiListLoker[index].tglpost}",
+                                      style: GoogleFonts.poppins(
+                                          textStyle: const TextStyle(
+                                              fontSize: 13,
+                                              color: Colors.black)),
+                                    )
+                                    // Container(
+                                    //   child: Column(
+                                    //     children: MListLoker
+                                    //         .isiListLoker[index].kriteria
+                                    //         .map((strone) {
+                                    //       return Row(children: [
+                                    //         const Text(
+                                    //           "\u2022",
+                                    //           style: TextStyle(fontSize: 15),
+                                    //         ), //bullet text
+                                    //         const SizedBox(
+                                    //           width: 10,
+                                    //         ), //space between bullet and text
+                                    //         Expanded(
+                                    //           child: Text(
+                                    //             strone,
+                                    //             style: GoogleFonts.poppins(
+                                    //                 textStyle: const TextStyle(
+                                    //                     fontSize: 13)),
+                                    //           ), //text
+                                    //         )
+                                    //       ]);
+                                    //     }).toList(),
+                                    //   ),
+                                    // )
+                                  ],
+                                ),
                               ),
                             ),
                           ),

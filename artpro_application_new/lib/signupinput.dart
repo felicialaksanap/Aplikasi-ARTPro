@@ -59,10 +59,11 @@ class _SignUpInputState extends State<SignUpInput> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getDetailProvinsi();
+    menuProvinsi.add("-Pilih-");
     menuKotKab.add("-Pilih-");
     menuKecamatan.add("-Pilih-");
     menuKelurahan.add("-Pilih-");
+    getDetailProvinsi();
   }
 
   Future<void> getDetailProvinsi() async {
@@ -71,6 +72,7 @@ class _SignUpInputState extends State<SignUpInput> {
         listProvinsi = [];
         listProvinsi = value;
 
+        menuProvinsi = [];
         menuProvinsi.add("-Pilih-");
         for (int i = 0; i < listProvinsi.length; i++) {
           menuProvinsi.add(listProvinsi[i].nama);
@@ -417,7 +419,7 @@ class _SignUpInputState extends State<SignUpInput> {
                                   listKecamatan[i].idKecamatan.toString();
                             }
                           }
-                          getDetailKecamatan(idKecamatan);
+                          getDetailKelurahan(idKecamatan);
                         });
                       },
                     ),
@@ -484,7 +486,6 @@ class _SignUpInputState extends State<SignUpInput> {
                                   listKelurahan[i].idKelurahan.toString();
                             }
                           }
-                          getDetailKelurahan(idKelurahan);
                         });
                       },
                     ),

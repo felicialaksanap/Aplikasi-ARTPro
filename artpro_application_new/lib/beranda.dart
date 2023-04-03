@@ -34,10 +34,12 @@ class _BerandaState extends State<Beranda> {
                 ),
                 IconButton(
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const NotifikasiPage()));
+                      if (globals.status_user == "majikan") {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const NotifikasiPage()));
+                      }
                     },
                     icon: Icon(
                       Icons.notifications_active_rounded,
@@ -371,11 +373,8 @@ class _BerandaState extends State<Beranda> {
                             ))
                       ],
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
+                    GestureDetector(
+                      onTap: () {},
                       child: Card(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0)),
@@ -396,37 +395,10 @@ class _BerandaState extends State<Beranda> {
                                               fontWeight: FontWeight.bold)),
                                     ),
                                   ),
-                                  Column(
-                                    children: [
-                                      IconButton(
-                                        onPressed: () {},
-                                        icon: Icon(
-                                          Icons.create_rounded,
-                                          color: Color(
-                                              int.parse(globals.color_primary)),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  IconButton(
-                                      onPressed: () {},
-                                      icon: Icon(
-                                        Icons.delete,
-                                        color: Color(
-                                            int.parse(globals.color_secondary)),
-                                      ))
                                 ],
                               ),
                               Text(
-                                MListLoker.isiListLoker[0].asalkota,
-                                style: GoogleFonts.poppins(
-                                    textStyle: const TextStyle(
-                                        fontSize: 13,
-                                        color: Color.fromARGB(
-                                            255, 138, 138, 138))),
-                              ),
-                              Text(
-                                MListLoker.isiListLoker[0].rangegaji,
+                                "${MListLoker.isiListLoker[0].kecamatan}, ${MListLoker.isiListLoker[0].asalkota} | ${MListLoker.isiListLoker[0].jaraklokasi}",
                                 style: GoogleFonts.poppins(
                                     textStyle: const TextStyle(
                                         fontSize: 13,
@@ -436,29 +408,60 @@ class _BerandaState extends State<Beranda> {
                               const SizedBox(
                                 height: 20,
                               ),
-                              Container(
-                                child: Column(
-                                  children: MListLoker.isiListLoker[0].kriteria
-                                      .map((strone) {
-                                    return Row(children: [
-                                      const Text(
-                                        "\u2022",
-                                        style: TextStyle(fontSize: 15),
-                                      ), //bullet text
-                                      const SizedBox(
-                                        width: 10,
-                                      ), //space between bullet and text
-                                      Expanded(
-                                        child: Text(
-                                          strone,
-                                          style: GoogleFonts.poppins(
-                                              textStyle: const TextStyle(
-                                                  fontSize: 13)),
-                                        ), //text
-                                      )
-                                    ]);
-                                  }).toList(),
-                                ),
+                              Text(
+                                "Post pada ${MListLoker.isiListLoker[0].tglpost}",
+                                style: GoogleFonts.poppins(
+                                    textStyle: const TextStyle(
+                                        fontSize: 13, color: Colors.black)),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    GestureDetector(
+                      onTap: () {},
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0)),
+                        elevation: 3,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      MListLoker.isiListLoker[1].kategori,
+                                      style: GoogleFonts.poppins(
+                                          textStyle: const TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold)),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Text(
+                                "${MListLoker.isiListLoker[1].kecamatan}, ${MListLoker.isiListLoker[1].asalkota} | ${MListLoker.isiListLoker[1].jaraklokasi}",
+                                style: GoogleFonts.poppins(
+                                    textStyle: const TextStyle(
+                                        fontSize: 13,
+                                        color: Color.fromARGB(
+                                            255, 138, 138, 138))),
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Text(
+                                "Post pada ${MListLoker.isiListLoker[0].tglpost}",
+                                style: GoogleFonts.poppins(
+                                    textStyle: const TextStyle(
+                                        fontSize: 13, color: Colors.black)),
                               )
                             ],
                           ),

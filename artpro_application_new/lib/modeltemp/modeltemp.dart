@@ -45,16 +45,23 @@ class MListART {
 
 class MListLoker {
   String kategori;
+  String kecamatan;
   String asalkota;
+  String jaraklokasi;
+  String tglpost;
   String rangegaji;
   List<String> kriteria = [];
 
-  MListLoker(this.kategori, this.asalkota, this.rangegaji, this.kriteria);
+  MListLoker(this.kategori, this.kecamatan, this.asalkota, this.jaraklokasi,
+      this.tglpost, this.rangegaji, this.kriteria);
 
   static List<MListLoker> isiListLoker = [
     MListLoker(
       'Pembantu Rumah Tangga',
+      'Gayungsari',
       'Kota Surabaya',
+      '5.3 km',
+      '15-12-2022',
       'Rp 2.000.000 - 2.500.000',
       [
         'Menginap',
@@ -63,13 +70,15 @@ class MListLoker {
         'Punya Hewan Peliharaan'
       ],
     ),
-    MListLoker('Supir Pribadi', 'Kota Surabaya', 'Rp 5.000.000 - 6.000.000', [
+    MListLoker('Supir Pribadi', 'Siwalankerto', 'Kota Surabaya', '10.2 km',
+        '16-12-2022', 'Rp 5.000.000 - 6.000.000', [
       'Terdapat Kamar Tidur',
       'Mengantar Anak Sekolah dan Istri Belanja',
       'Tidak Merokok',
       'Vaksin Covid-19 Lengkap'
     ]),
-    MListLoker('Baby Sitter', 'Kota Surabaya', 'Rp 5.000.000 - 6.000.000', [
+    MListLoker('Baby Sitter', 'Simokerto', 'Kota Surabaya', '0.8 km',
+        '2-2-2023', 'Rp 5.000.000 - 6.000.000', [
       'Menjaga Bayi di bawah 1 Tahun',
       'Diajak berjemur setiap pagi',
       'Dirumah ada hewan peliharaan',

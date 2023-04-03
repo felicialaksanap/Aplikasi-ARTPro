@@ -93,126 +93,126 @@ class _PenilaianState extends State<Penilaian> {
             const SizedBox(
               height: 20,
             ),
-            Text(
-              "Nilai Keseluruhan",
-              style: GoogleFonts.poppins(
-                  textStyle: const TextStyle(
-                      fontSize: 15, fontWeight: FontWeight.w500)),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      if (pathsmilealt != "assets/icons/smile-alt-orange.png" &&
-                          pathdis != "assets/icons/dis-orange.png") {
-                        if (pathsmile == "assets/icons/smile-green.png") {
-                          pathsmile = "assets/icons/smile-orange.png";
-                        } else {
-                          pathsmile = "assets/icons/smile-green.png";
-                        }
-                      }
-                    });
-                  },
-                  child: Column(
-                    children: [
-                      Image.asset(
-                        pathsmile,
-                        width: 60,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "baik",
-                        style: GoogleFonts.poppins(
-                            textStyle: const TextStyle(fontSize: 15)),
-                      )
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      if (pathsmile != "assets/icons/smile-orange.png" &&
-                          pathdis != "assets/icons/dis-orange.png") {
-                        if (pathsmilealt ==
-                            "assets/icons/smile-alt-green.png") {
-                          pathsmilealt = "assets/icons/smile-alt-orange.png";
-                        } else {
-                          pathsmilealt = "assets/icons/smile-alt-green.png";
-                        }
-                      }
-                    });
-                  },
-                  child: Column(
-                    children: [
-                      Image.asset(
-                        pathsmilealt,
-                        width: 60,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "cukup",
-                        style: GoogleFonts.poppins(
-                            textStyle: const TextStyle(fontSize: 15)),
-                      )
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      if (pathsmile != "assets/icons/smile-orange.png" &&
-                          pathsmilealt != "assets/icons/smile-alt-orange.png") {
-                        if (pathdis == "assets/icons/dis-green.png") {
-                          pathdis = "assets/icons/dis-orange.png";
-                        } else {
-                          pathdis = "assets/icons/dis-green.png";
-                        }
-                      }
-                      // if (pathdis == "assets/icons/dis-green.png") {
-                      //   pathdis = "assets/icons/dis-orange.png";
-                      // } else {
-                      //   pathdis = "assets/icons/dis-green.png";
-                      // }
-                    });
-                  },
-                  child: Column(
-                    children: [
-                      Image.asset(
-                        pathdis,
-                        width: 60,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "buruk",
-                        style: GoogleFonts.poppins(
-                            textStyle: const TextStyle(fontSize: 15)),
-                      )
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Container(
-              height: 1,
-              color: const Color.fromARGB(255, 138, 138, 138),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
+            // Text(
+            //   "Nilai Keseluruhan",
+            //   style: GoogleFonts.poppins(
+            //       textStyle: const TextStyle(
+            //           fontSize: 15, fontWeight: FontWeight.w500)),
+            // ),
+            // const SizedBox(
+            //   height: 20,
+            // ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+            //   children: [
+            //     GestureDetector(
+            //       onTap: () {
+            //         setState(() {
+            //           if (pathsmilealt != "assets/icons/smile-alt-orange.png" &&
+            //               pathdis != "assets/icons/dis-orange.png") {
+            //             if (pathsmile == "assets/icons/smile-green.png") {
+            //               pathsmile = "assets/icons/smile-orange.png";
+            //             } else {
+            //               pathsmile = "assets/icons/smile-green.png";
+            //             }
+            //           }
+            //         });
+            //       },
+            //       child: Column(
+            //         children: [
+            //           Image.asset(
+            //             pathsmile,
+            //             width: 60,
+            //           ),
+            //           const SizedBox(
+            //             height: 10,
+            //           ),
+            //           Text(
+            //             "baik",
+            //             style: GoogleFonts.poppins(
+            //                 textStyle: const TextStyle(fontSize: 15)),
+            //           )
+            //         ],
+            //       ),
+            //     ),
+            //     GestureDetector(
+            //       onTap: () {
+            //         setState(() {
+            //           if (pathsmile != "assets/icons/smile-orange.png" &&
+            //               pathdis != "assets/icons/dis-orange.png") {
+            //             if (pathsmilealt ==
+            //                 "assets/icons/smile-alt-green.png") {
+            //               pathsmilealt = "assets/icons/smile-alt-orange.png";
+            //             } else {
+            //               pathsmilealt = "assets/icons/smile-alt-green.png";
+            //             }
+            //           }
+            //         });
+            //       },
+            //       child: Column(
+            //         children: [
+            //           Image.asset(
+            //             pathsmilealt,
+            //             width: 60,
+            //           ),
+            //           const SizedBox(
+            //             height: 10,
+            //           ),
+            //           Text(
+            //             "cukup",
+            //             style: GoogleFonts.poppins(
+            //                 textStyle: const TextStyle(fontSize: 15)),
+            //           )
+            //         ],
+            //       ),
+            //     ),
+            //     GestureDetector(
+            //       onTap: () {
+            //         setState(() {
+            //           if (pathsmile != "assets/icons/smile-orange.png" &&
+            //               pathsmilealt != "assets/icons/smile-alt-orange.png") {
+            //             if (pathdis == "assets/icons/dis-green.png") {
+            //               pathdis = "assets/icons/dis-orange.png";
+            //             } else {
+            //               pathdis = "assets/icons/dis-green.png";
+            //             }
+            //           }
+            //           // if (pathdis == "assets/icons/dis-green.png") {
+            //           //   pathdis = "assets/icons/dis-orange.png";
+            //           // } else {
+            //           //   pathdis = "assets/icons/dis-green.png";
+            //           // }
+            //         });
+            //       },
+            //       child: Column(
+            //         children: [
+            //           Image.asset(
+            //             pathdis,
+            //             width: 60,
+            //           ),
+            //           const SizedBox(
+            //             height: 10,
+            //           ),
+            //           Text(
+            //             "buruk",
+            //             style: GoogleFonts.poppins(
+            //                 textStyle: const TextStyle(fontSize: 15)),
+            //           )
+            //         ],
+            //       ),
+            //     ),
+            //   ],
+            // ),
+            // const SizedBox(
+            //   height: 20,
+            // ),
+            // Container(
+            //   height: 1,
+            //   color: const Color.fromARGB(255, 138, 138, 138),
+            // ),
+            // const SizedBox(
+            //   height: 20,
+            // ),
             Text(
               "Nilai per Indikator",
               style: GoogleFonts.poppins(
