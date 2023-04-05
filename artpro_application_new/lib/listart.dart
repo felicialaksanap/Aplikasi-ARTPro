@@ -29,6 +29,7 @@ class _ListARTState extends State<ListART> {
   bool marriedSel = false;
   bool petSelect = false;
   bool motorSel = false;
+  bool mobilSel = false;
   bool maPerSel = false;
   bool masakSel = false;
   bool pJawaSel = false;
@@ -718,7 +719,33 @@ class _ListARTState extends State<ListART> {
                                   ? Color(int.parse(globals.color_primary))
                                   : const Color.fromARGB(255, 217, 217, 217),
                               width: motorSel ? 2 : 1)),
-                      child: Text("Sepeda Motor",
+                      child: Text("Menyetir Sepeda Motor",
+                          style: GoogleFonts.poppins(
+                              textStyle: const TextStyle(fontSize: 14))),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        mobilSel = !mobilSel;
+                      });
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50.0),
+                          border: Border.all(
+                              color: mobilSel
+                                  ? Color(int.parse(globals.color_primary))
+                                  : const Color.fromARGB(255, 217, 217, 217),
+                              width: mobilSel ? 2 : 1)),
+                      child: Text("Menyetir Mobil",
                           style: GoogleFonts.poppins(
                               textStyle: const TextStyle(fontSize: 14))),
                     ),

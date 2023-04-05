@@ -377,7 +377,7 @@ class _SignUpInputDState extends State<SignUpInputD> {
               height: 10,
             ),
             Text(
-              'Kebutuhan Lain',
+              'Keterangan Lain',
               style: GoogleFonts.poppins(
                   textStyle: const TextStyle(
                       fontSize: 15,
@@ -404,7 +404,7 @@ class _SignUpInputDState extends State<SignUpInputD> {
                     }),
                 Expanded(
                   child: Text(
-                    "Tidak takut hewan peliharaan (kucing / anjing / lainnya)",
+                    "Tidak takut hewan",
                     style: GoogleFonts.poppins(
                         textStyle: const TextStyle(fontSize: 15)),
                   ),
@@ -422,7 +422,7 @@ class _SignUpInputDState extends State<SignUpInputD> {
                       });
                     }),
                 Text(
-                  "Mabuk perjalanan",
+                  "Tidak Mabuk perjalanan",
                   style: GoogleFonts.poppins(
                       textStyle: const TextStyle(fontSize: 15)),
                 ),
@@ -439,7 +439,7 @@ class _SignUpInputDState extends State<SignUpInputD> {
                       });
                     }),
                 Text(
-                  "Bisa memasak",
+                  "Memasak",
                   style: GoogleFonts.poppins(
                       textStyle: const TextStyle(fontSize: 15)),
                 ),
@@ -456,7 +456,7 @@ class _SignUpInputDState extends State<SignUpInputD> {
                       });
                     }),
                 Text(
-                  "Bisa menyetir sepeda motor",
+                  "Menyetir sepeda motor",
                   style: GoogleFonts.poppins(
                       textStyle: const TextStyle(fontSize: 15)),
                 ),
@@ -473,7 +473,7 @@ class _SignUpInputDState extends State<SignUpInputD> {
                       });
                     }),
                 Text(
-                  "Bisa menyetir mobil",
+                  "Menyetir mobil",
                   style: GoogleFonts.poppins(
                       textStyle: const TextStyle(fontSize: 15)),
                 ),

@@ -17,6 +17,14 @@ class _TambahLokerState extends State<TambahLoker> {
   bool k_obog = false;
   bool k_tk = false;
 
+  bool tthewan = false;
+  bool masak = false;
+  bool tmperj = false;
+  bool mspdmtr = false;
+  bool mmobil = false;
+  bool menginap = false;
+  bool warnen = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -222,7 +230,7 @@ class _TambahLokerState extends State<TambahLoker> {
               height: 20,
             ),
             Text(
-              'Berapa gaji yang diinginkan?',
+              'Kenapa membuka lowongan kerja ini?',
               style: GoogleFonts.poppins(
                   textStyle: const TextStyle(
                       fontSize: 15,
@@ -233,6 +241,215 @@ class _TambahLokerState extends State<TambahLoker> {
               height: 5,
             ),
             FormFieldTemplate("kriteria"),
+            const SizedBox(
+              height: 20,
+            ),
+            Text(
+              'Jelaskan uraian tugas untuk lowongan ini?',
+              style: GoogleFonts.poppins(
+                  textStyle: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black)),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            FormFieldTemplate("kriteria"),
+            const SizedBox(
+              height: 20,
+            ),
+            Text(
+              'Pilih kriteria yang sesuai dengan loker ini!',
+              style: GoogleFonts.poppins(
+                  textStyle: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black)),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      tthewan = !tthewan;
+                    });
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50.0),
+                        border: Border.all(
+                            color: tthewan == true
+                                ? Color(int.parse(globals.color_primary))
+                                : const Color.fromARGB(255, 138, 138, 138),
+                            width: tthewan == true ? 2 : 1)),
+                    child: Text(
+                      "Tidak Takut Hewan",
+                      style: GoogleFonts.poppins(
+                          textStyle: const TextStyle(fontSize: 14)),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      masak = !masak;
+                    });
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50.0),
+                        border: Border.all(
+                            color: masak == true
+                                ? Color(int.parse(globals.color_primary))
+                                : const Color.fromARGB(255, 138, 138, 138),
+                            width: masak == true ? 2 : 1)),
+                    child: Text(
+                      "Memasak",
+                      style: GoogleFonts.poppins(
+                          textStyle: const TextStyle(fontSize: 14)),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  tmperj = !tmperj;
+                });
+              },
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50.0),
+                    border: Border.all(
+                        color: tmperj == true
+                            ? Color(int.parse(globals.color_primary))
+                            : const Color.fromARGB(255, 138, 138, 138),
+                        width: tmperj == true ? 2 : 1)),
+                child: Text(
+                  "Tidak Mabuk Perjalanan",
+                  style: GoogleFonts.poppins(
+                      textStyle: const TextStyle(fontSize: 14)),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  mspdmtr = !mspdmtr;
+                });
+              },
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50.0),
+                    border: Border.all(
+                        color: mspdmtr == true
+                            ? Color(int.parse(globals.color_primary))
+                            : const Color.fromARGB(255, 138, 138, 138),
+                        width: mspdmtr == true ? 2 : 1)),
+                child: Text(
+                  "Menyetir Sepeda Motor",
+                  style: GoogleFonts.poppins(
+                      textStyle: const TextStyle(fontSize: 14)),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  mmobil = !mmobil;
+                });
+              },
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50.0),
+                    border: Border.all(
+                        color: mmobil == true
+                            ? Color(int.parse(globals.color_primary))
+                            : const Color.fromARGB(255, 138, 138, 138),
+                        width: mmobil == true ? 2 : 1)),
+                child: Text(
+                  "Menyetir Mobil",
+                  style: GoogleFonts.poppins(
+                      textStyle: const TextStyle(fontSize: 14)),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      menginap = !menginap;
+                    });
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50.0),
+                        border: Border.all(
+                            color: menginap == true
+                                ? Color(int.parse(globals.color_primary))
+                                : const Color.fromARGB(255, 138, 138, 138),
+                            width: menginap == true ? 2 : 1)),
+                    child: Text(
+                      "Menginap",
+                      style: GoogleFonts.poppins(
+                          textStyle: const TextStyle(fontSize: 14)),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      warnen = !warnen;
+                    });
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50.0),
+                        border: Border.all(
+                            color: warnen == true
+                                ? Color(int.parse(globals.color_primary))
+                                : const Color.fromARGB(255, 138, 138, 138),
+                            width: warnen == true ? 2 : 1)),
+                    child: Text(
+                      "Warnen",
+                      style: GoogleFonts.poppins(
+                          textStyle: const TextStyle(fontSize: 14)),
+                    ),
+                  ),
+                ),
+              ],
+            ),
             const SizedBox(
               height: 50,
             ),
@@ -263,6 +480,9 @@ class _TambahLokerState extends State<TambahLoker> {
                 ),
               ],
             ),
+            const SizedBox(
+              height: 20,
+            )
           ],
         ),
       ),

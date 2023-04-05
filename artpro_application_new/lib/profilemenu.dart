@@ -146,49 +146,58 @@ class _ProfileMenuState extends State<ProfileMenu> {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 10,
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ListLoker()));
-                },
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20.0),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            blurRadius: 4,
-                            offset: const Offset(0, 2))
-                      ]),
-                  padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Buka Lowongan Kerja",
-                        style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                                fontSize: 15,
-                                color: Color(int.parse(globals.color_primary)),
-                                fontWeight: FontWeight.w500)),
+              Visibility(
+                visible: globals.status_user == "majikan" ? true : false,
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ListLoker()));
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20.0),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 2))
+                            ]),
+                        padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Buka Lowongan Kerja",
+                              style: GoogleFonts.poppins(
+                                  textStyle: TextStyle(
+                                      fontSize: 15,
+                                      color: Color(
+                                          int.parse(globals.color_primary)),
+                                      fontWeight: FontWeight.w500)),
+                            ),
+                            Text(
+                              ">>>>>",
+                              style: GoogleFonts.poppins(
+                                  textStyle: TextStyle(
+                                      fontSize: 15,
+                                      color: Color(
+                                          int.parse(globals.color_primary)),
+                                      fontWeight: FontWeight.bold)),
+                            ),
+                          ],
+                        ),
                       ),
-                      Text(
-                        ">>>>>",
-                        style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                                fontSize: 15,
-                                color: Color(int.parse(globals.color_primary)),
-                                fontWeight: FontWeight.bold)),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(

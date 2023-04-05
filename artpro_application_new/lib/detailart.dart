@@ -15,8 +15,8 @@ class DetailART extends StatefulWidget {
 class _DetailARTState extends State<DetailART> {
   List<String> ketlain = [
     "Tidak takut hewan",
-    "Mabuk perjalanan",
-    "Sepeda Motor",
+    "Tidak Mabuk perjalanan",
+    "Menyetir Sepeda Motor",
     "Memasak"
   ];
 
@@ -337,7 +337,7 @@ class _DetailARTState extends State<DetailART> {
                 itemCount: ketlain.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    childAspectRatio: 5,
+                    childAspectRatio: 3,
                     crossAxisSpacing: 5,
                     mainAxisSpacing: 5),
                 itemBuilder: (context, index) {

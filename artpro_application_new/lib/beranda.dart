@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import './global.dart' as globals;
 import './modeltemp/modeltemp.dart';
+import 'detailloker.dart';
 
 class Beranda extends StatefulWidget {
   const Beranda({super.key});
@@ -374,7 +375,14 @@ class _BerandaState extends State<Beranda> {
                       ],
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DetailLoker(
+                                      index: 0,
+                                    )));
+                      },
                       child: Card(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0)),
@@ -385,25 +393,53 @@ class _BerandaState extends State<Beranda> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  Container(
+                                    width: 60,
+                                    height: 60,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(50.0),
+                                      image: const DecorationImage(
+                                          image: AssetImage(
+                                              'assets/images/person-4.jpg'),
+                                          fit: BoxFit.fill),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
                                   Expanded(
-                                    child: Text(
-                                      MListLoker.isiListLoker[0].kategori,
-                                      style: GoogleFonts.poppins(
-                                          textStyle: const TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold)),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          MListLoker.isiListLoker[0].kategori,
+                                          style: GoogleFonts.poppins(
+                                              textStyle: const TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold)),
+                                        ),
+                                        Text(
+                                          'Rosa Fiore',
+                                          style: GoogleFonts.poppins(
+                                              textStyle: const TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w500)),
+                                        ),
+                                        Text(
+                                          "${MListLoker.isiListLoker[0].kecamatan}, ${MListLoker.isiListLoker[0].asalkota} | ${MListLoker.isiListLoker[0].jaraklokasi}",
+                                          style: GoogleFonts.poppins(
+                                              textStyle: const TextStyle(
+                                                  fontSize: 13,
+                                                  color: Color.fromARGB(
+                                                      255, 138, 138, 138))),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ],
-                              ),
-                              Text(
-                                "${MListLoker.isiListLoker[0].kecamatan}, ${MListLoker.isiListLoker[0].asalkota} | ${MListLoker.isiListLoker[0].jaraklokasi}",
-                                style: GoogleFonts.poppins(
-                                    textStyle: const TextStyle(
-                                        fontSize: 13,
-                                        color: Color.fromARGB(
-                                            255, 138, 138, 138))),
                               ),
                               const SizedBox(
                                 height: 20,
@@ -412,7 +448,9 @@ class _BerandaState extends State<Beranda> {
                                 "Post pada ${MListLoker.isiListLoker[0].tglpost}",
                                 style: GoogleFonts.poppins(
                                     textStyle: const TextStyle(
-                                        fontSize: 13, color: Colors.black)),
+                                        fontSize: 11,
+                                        color: Color.fromARGB(
+                                            255, 138, 138, 138))),
                               )
                             ],
                           ),
@@ -423,7 +461,14 @@ class _BerandaState extends State<Beranda> {
                       height: 5,
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DetailLoker(
+                                      index: 1,
+                                    )));
+                      },
                       child: Card(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0)),
@@ -434,34 +479,64 @@ class _BerandaState extends State<Beranda> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  Container(
+                                    width: 60,
+                                    height: 60,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(50.0),
+                                      image: const DecorationImage(
+                                          image: AssetImage(
+                                              'assets/images/person-4.jpg'),
+                                          fit: BoxFit.fill),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
                                   Expanded(
-                                    child: Text(
-                                      MListLoker.isiListLoker[1].kategori,
-                                      style: GoogleFonts.poppins(
-                                          textStyle: const TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold)),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          MListLoker.isiListLoker[1].kategori,
+                                          style: GoogleFonts.poppins(
+                                              textStyle: const TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold)),
+                                        ),
+                                        Text(
+                                          'Rosa Fiore',
+                                          style: GoogleFonts.poppins(
+                                              textStyle: const TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w500)),
+                                        ),
+                                        Text(
+                                          "${MListLoker.isiListLoker[1].kecamatan}, ${MListLoker.isiListLoker[1].asalkota} | ${MListLoker.isiListLoker[1].jaraklokasi}",
+                                          style: GoogleFonts.poppins(
+                                              textStyle: const TextStyle(
+                                                  fontSize: 13,
+                                                  color: Color.fromARGB(
+                                                      255, 138, 138, 138))),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ],
-                              ),
-                              Text(
-                                "${MListLoker.isiListLoker[1].kecamatan}, ${MListLoker.isiListLoker[1].asalkota} | ${MListLoker.isiListLoker[1].jaraklokasi}",
-                                style: GoogleFonts.poppins(
-                                    textStyle: const TextStyle(
-                                        fontSize: 13,
-                                        color: Color.fromARGB(
-                                            255, 138, 138, 138))),
                               ),
                               const SizedBox(
                                 height: 20,
                               ),
                               Text(
-                                "Post pada ${MListLoker.isiListLoker[0].tglpost}",
+                                "Post pada ${MListLoker.isiListLoker[1].tglpost}",
                                 style: GoogleFonts.poppins(
                                     textStyle: const TextStyle(
-                                        fontSize: 13, color: Colors.black)),
+                                        fontSize: 11,
+                                        color: Color.fromARGB(
+                                            255, 138, 138, 138))),
                               )
                             ],
                           ),
