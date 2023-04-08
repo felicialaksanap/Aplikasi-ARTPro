@@ -166,60 +166,71 @@ class _ListARTState extends State<ListART> {
                     )
                   ],
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  children: [
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      "Jarak Lokasi",
-                      style: GoogleFonts.poppins(
-                          textStyle: const TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold)),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "0 km",
-                        style: GoogleFonts.poppins(
-                            textStyle: const TextStyle(fontSize: 15)),
-                      ),
-                      Text(
-                        "5.250 km",
-                        style: GoogleFonts.poppins(
-                            textStyle: const TextStyle(fontSize: 15)),
-                      ),
-                    ],
-                  ),
-                ),
-                SliderTheme(
-                  data: SliderTheme.of(context).copyWith(
-                      valueIndicatorColor:
-                          Color(int.parse(globals.color_secondary)),
-                      valueIndicatorTextStyle: GoogleFonts.poppins(
-                          textStyle: const TextStyle(color: Colors.white))),
-                  child: Slider(
-                      value: curLokasiVal,
-                      max: 5250,
-                      divisions: 10,
-                      activeColor: Color(int.parse(globals.color_primary)),
-                      thumbColor: Color(int.parse(globals.color_primary)),
-                      inactiveColor: const Color(0x1A246A73),
-                      label: curLokasiVal.round().toString(),
-                      onChanged: (value) {
-                        setState(() {
-                          curLokasiVal = value;
-                        });
-                      }),
-                ),
+                Visibility(
+                    visible: warnenSelect == true ? true : false,
+                    child: Column(
+                      children: [
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          children: [
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              "Jarak Lokasi",
+                              style: GoogleFonts.poppins(
+                                  textStyle: const TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold)),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding:
+                              const EdgeInsets.only(left: 10.0, right: 10.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "0 km",
+                                style: GoogleFonts.poppins(
+                                    textStyle: const TextStyle(fontSize: 15)),
+                              ),
+                              Text(
+                                "5.250 km",
+                                style: GoogleFonts.poppins(
+                                    textStyle: const TextStyle(fontSize: 15)),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SliderTheme(
+                          data: SliderTheme.of(context).copyWith(
+                              valueIndicatorColor:
+                                  Color(int.parse(globals.color_secondary)),
+                              valueIndicatorTextStyle: GoogleFonts.poppins(
+                                  textStyle:
+                                      const TextStyle(color: Colors.white))),
+                          child: Slider(
+                              value: curLokasiVal,
+                              max: 5250,
+                              divisions: 10,
+                              activeColor:
+                                  Color(int.parse(globals.color_primary)),
+                              thumbColor:
+                                  Color(int.parse(globals.color_primary)),
+                              inactiveColor: const Color(0x1A246A73),
+                              label: curLokasiVal.round().toString(),
+                              onChanged: (value) {
+                                setState(() {
+                                  curLokasiVal = value;
+                                });
+                              }),
+                        ),
+                      ],
+                    )),
                 const SizedBox(
                   height: 20,
                 ),

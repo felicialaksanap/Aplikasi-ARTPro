@@ -18,24 +18,17 @@ class _ListLokerState extends State<ListLoker> {
   bool inapSelect = false;
   bool warnenSelect = false;
   double curLokasiVal = 0.0;
-  bool lessOneYearSel = false;
-  bool oneYearSel = false;
-  bool twoYearSel = false;
-  bool moreThreeYearSel = false;
-  bool islamSel = false;
-  bool katolikSel = false;
-  bool kristenSel = false;
-  bool hinduSel = false;
-  bool budhaSel = false;
-  bool konghucuSel = false;
-  bool singleSel = false;
-  bool marriedSel = false;
+  bool prtSel = false;
+  bool babySel = false;
+  bool seniorSel = false;
+  bool supirSel = false;
+  bool officeSel = false;
+  bool gardenerSel = false;
   bool petSelect = false;
   bool motorSel = false;
   bool mobilSel = false;
   bool maPerSel = false;
   bool masakSel = false;
-  bool pJawaSel = false;
 
   @override
   Widget build(BuildContext context) {
@@ -182,60 +175,71 @@ class _ListLokerState extends State<ListLoker> {
                     )
                   ],
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  children: [
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      "Jarak Lokasi",
-                      style: GoogleFonts.poppins(
-                          textStyle: const TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold)),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "0 km",
-                        style: GoogleFonts.poppins(
-                            textStyle: const TextStyle(fontSize: 15)),
-                      ),
-                      Text(
-                        "5.250 km",
-                        style: GoogleFonts.poppins(
-                            textStyle: const TextStyle(fontSize: 15)),
-                      ),
-                    ],
-                  ),
-                ),
-                SliderTheme(
-                  data: SliderTheme.of(context).copyWith(
-                      valueIndicatorColor:
-                          Color(int.parse(globals.color_secondary)),
-                      valueIndicatorTextStyle: GoogleFonts.poppins(
-                          textStyle: const TextStyle(color: Colors.white))),
-                  child: Slider(
-                      value: curLokasiVal,
-                      max: 5250,
-                      divisions: 10,
-                      activeColor: Color(int.parse(globals.color_primary)),
-                      thumbColor: Color(int.parse(globals.color_primary)),
-                      inactiveColor: const Color(0x1A246A73),
-                      label: curLokasiVal.round().toString(),
-                      onChanged: (value) {
-                        setState(() {
-                          curLokasiVal = value;
-                        });
-                      }),
-                ),
+                Visibility(
+                    visible: warnenSelect == true ? true : false,
+                    child: Column(
+                      children: [
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          children: [
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              "Jarak Lokasi",
+                              style: GoogleFonts.poppins(
+                                  textStyle: const TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold)),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding:
+                              const EdgeInsets.only(left: 10.0, right: 10.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "0 km",
+                                style: GoogleFonts.poppins(
+                                    textStyle: const TextStyle(fontSize: 15)),
+                              ),
+                              Text(
+                                "5.250 km",
+                                style: GoogleFonts.poppins(
+                                    textStyle: const TextStyle(fontSize: 15)),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SliderTheme(
+                          data: SliderTheme.of(context).copyWith(
+                              valueIndicatorColor:
+                                  Color(int.parse(globals.color_secondary)),
+                              valueIndicatorTextStyle: GoogleFonts.poppins(
+                                  textStyle:
+                                      const TextStyle(color: Colors.white))),
+                          child: Slider(
+                              value: curLokasiVal,
+                              max: 5250,
+                              divisions: 10,
+                              activeColor:
+                                  Color(int.parse(globals.color_primary)),
+                              thumbColor:
+                                  Color(int.parse(globals.color_primary)),
+                              inactiveColor: const Color(0x1A246A73),
+                              label: curLokasiVal.round().toString(),
+                              onChanged: (value) {
+                                setState(() {
+                                  curLokasiVal = value;
+                                });
+                              }),
+                        ),
+                      ],
+                    )),
                 const SizedBox(
                   height: 20,
                 ),
@@ -323,7 +327,7 @@ class _ListLokerState extends State<ListLoker> {
                       width: 10,
                     ),
                     Text(
-                      "Pengalaman Kerja",
+                      "Kategori",
                       style: GoogleFonts.poppins(
                           textStyle: const TextStyle(
                               fontSize: 15, fontWeight: FontWeight.bold)),
@@ -333,345 +337,154 @@ class _ListLokerState extends State<ListLoker> {
                 const SizedBox(
                   height: 5,
                 ),
-                Row(
-                  children: [
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          lessOneYearSel = !lessOneYearSel;
-                        });
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50.0),
-                            border: Border.all(
-                                color: lessOneYearSel
-                                    ? Color(int.parse(globals.color_primary))
-                                    : const Color.fromARGB(255, 217, 217, 217),
-                                width: lessOneYearSel ? 2 : 1)),
-                        child: Text("<1 Tahun",
-                            style: GoogleFonts.poppins(
-                                textStyle: const TextStyle(fontSize: 14))),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            prtSel = !prtSel;
+                          });
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50.0),
+                              border: Border.all(
+                                  color: prtSel
+                                      ? Color(int.parse(globals.color_primary))
+                                      : const Color.fromARGB(
+                                          255, 217, 217, 217),
+                                  width: prtSel ? 2 : 1)),
+                          child: Text("Pekerja Rumah Tangga",
+                              style: GoogleFonts.poppins(
+                                  textStyle: const TextStyle(fontSize: 14))),
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          oneYearSel = !oneYearSel;
-                        });
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50.0),
-                            border: Border.all(
-                                color: oneYearSel
-                                    ? Color(int.parse(globals.color_primary))
-                                    : const Color.fromARGB(255, 217, 217, 217),
-                                width: oneYearSel ? 2 : 1)),
-                        child: Text("1 Tahun",
-                            style: GoogleFonts.poppins(
-                                textStyle: const TextStyle(fontSize: 14))),
+                      const SizedBox(
+                        height: 5,
                       ),
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Row(
-                  children: [
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          twoYearSel = !twoYearSel;
-                        });
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50.0),
-                            border: Border.all(
-                                color: twoYearSel
-                                    ? Color(int.parse(globals.color_primary))
-                                    : const Color.fromARGB(255, 217, 217, 217),
-                                width: twoYearSel ? 2 : 1)),
-                        child: Text("2 Tahun",
-                            style: GoogleFonts.poppins(
-                                textStyle: const TextStyle(fontSize: 14))),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            babySel = !babySel;
+                          });
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50.0),
+                              border: Border.all(
+                                  color: babySel
+                                      ? Color(int.parse(globals.color_primary))
+                                      : const Color.fromARGB(
+                                          255, 217, 217, 217),
+                                  width: babySel ? 2 : 1)),
+                          child: Text("Baby Sitter",
+                              style: GoogleFonts.poppins(
+                                  textStyle: const TextStyle(fontSize: 14))),
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          moreThreeYearSel = !moreThreeYearSel;
-                        });
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50.0),
-                            border: Border.all(
-                                color: moreThreeYearSel
-                                    ? Color(int.parse(globals.color_primary))
-                                    : const Color.fromARGB(255, 217, 217, 217),
-                                width: moreThreeYearSel ? 2 : 1)),
-                        child: Text(">3 Tahun",
-                            style: GoogleFonts.poppins(
-                                textStyle: const TextStyle(fontSize: 14))),
+                      const SizedBox(
+                        height: 5,
                       ),
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  children: [
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      "Agama",
-                      style: GoogleFonts.poppins(
-                          textStyle: const TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold)),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Row(
-                  children: [
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          islamSel = !islamSel;
-                        });
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50.0),
-                            border: Border.all(
-                                color: islamSel
-                                    ? Color(int.parse(globals.color_primary))
-                                    : const Color.fromARGB(255, 217, 217, 217),
-                                width: islamSel ? 2 : 1)),
-                        child: Text("Islam",
-                            style: GoogleFonts.poppins(
-                                textStyle: const TextStyle(fontSize: 14))),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            seniorSel = !seniorSel;
+                          });
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50.0),
+                              border: Border.all(
+                                  color: seniorSel
+                                      ? Color(int.parse(globals.color_primary))
+                                      : const Color.fromARGB(
+                                          255, 217, 217, 217),
+                                  width: seniorSel ? 2 : 1)),
+                          child: Text("Penjaga Lansia",
+                              style: GoogleFonts.poppins(
+                                  textStyle: const TextStyle(fontSize: 14))),
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          katolikSel = !katolikSel;
-                        });
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50.0),
-                            border: Border.all(
-                                color: katolikSel
-                                    ? Color(int.parse(globals.color_primary))
-                                    : const Color.fromARGB(255, 217, 217, 217),
-                                width: katolikSel ? 2 : 1)),
-                        child: Text("Katolik",
-                            style: GoogleFonts.poppins(
-                                textStyle: const TextStyle(fontSize: 14))),
+                      const SizedBox(
+                        height: 5,
                       ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          kristenSel = !kristenSel;
-                        });
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50.0),
-                            border: Border.all(
-                                color: kristenSel
-                                    ? Color(int.parse(globals.color_primary))
-                                    : const Color.fromARGB(255, 217, 217, 217),
-                                width: kristenSel ? 2 : 1)),
-                        child: Text("Kristen",
-                            style: GoogleFonts.poppins(
-                                textStyle: const TextStyle(fontSize: 14))),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            supirSel = !supirSel;
+                          });
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50.0),
+                              border: Border.all(
+                                  color: supirSel
+                                      ? Color(int.parse(globals.color_primary))
+                                      : const Color.fromARGB(
+                                          255, 217, 217, 217),
+                                  width: supirSel ? 2 : 1)),
+                          child: Text("Supir Pribadi",
+                              style: GoogleFonts.poppins(
+                                  textStyle: const TextStyle(fontSize: 14))),
+                        ),
                       ),
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Row(
-                  children: [
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          hinduSel = !hinduSel;
-                        });
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50.0),
-                            border: Border.all(
-                                color: hinduSel
-                                    ? Color(int.parse(globals.color_primary))
-                                    : const Color.fromARGB(255, 217, 217, 217),
-                                width: hinduSel ? 2 : 1)),
-                        child: Text("Hindu",
-                            style: GoogleFonts.poppins(
-                                textStyle: const TextStyle(fontSize: 14))),
+                      const SizedBox(
+                        height: 5,
                       ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          budhaSel = !budhaSel;
-                        });
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50.0),
-                            border: Border.all(
-                                color: budhaSel
-                                    ? Color(int.parse(globals.color_primary))
-                                    : const Color.fromARGB(255, 217, 217, 217),
-                                width: budhaSel ? 2 : 1)),
-                        child: Text("Buddha",
-                            style: GoogleFonts.poppins(
-                                textStyle: const TextStyle(fontSize: 14))),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            officeSel = !officeSel;
+                          });
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50.0),
+                              border: Border.all(
+                                  color: officeSel
+                                      ? Color(int.parse(globals.color_primary))
+                                      : const Color.fromARGB(
+                                          255, 217, 217, 217),
+                                  width: officeSel ? 2 : 1)),
+                          child: Text("Office Boy / Girl",
+                              style: GoogleFonts.poppins(
+                                  textStyle: const TextStyle(fontSize: 14))),
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          konghucuSel = !konghucuSel;
-                        });
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50.0),
-                            border: Border.all(
-                                color: konghucuSel
-                                    ? Color(int.parse(globals.color_primary))
-                                    : const Color.fromARGB(255, 217, 217, 217),
-                                width: konghucuSel ? 2 : 1)),
-                        child: Text("Konghucu",
-                            style: GoogleFonts.poppins(
-                                textStyle: const TextStyle(fontSize: 14))),
+                      const SizedBox(
+                        height: 5,
                       ),
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  children: [
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      "Status Pernikahan",
-                      style: GoogleFonts.poppins(
-                          textStyle: const TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold)),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Row(
-                  children: [
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          singleSel = !singleSel;
-                        });
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50.0),
-                            border: Border.all(
-                                color: singleSel
-                                    ? Color(int.parse(globals.color_primary))
-                                    : const Color.fromARGB(255, 217, 217, 217),
-                                width: singleSel ? 2 : 1)),
-                        child: Text("Single",
-                            style: GoogleFonts.poppins(
-                                textStyle: const TextStyle(fontSize: 14))),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            gardenerSel = !gardenerSel;
+                          });
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50.0),
+                              border: Border.all(
+                                  color: gardenerSel
+                                      ? Color(int.parse(globals.color_primary))
+                                      : const Color.fromARGB(
+                                          255, 217, 217, 217),
+                                  width: gardenerSel ? 2 : 1)),
+                          child: Text("Tukang Kebun",
+                              style: GoogleFonts.poppins(
+                                  textStyle: const TextStyle(fontSize: 14))),
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          marriedSel = !marriedSel;
-                        });
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50.0),
-                            border: Border.all(
-                                color: marriedSel
-                                    ? Color(int.parse(globals.color_primary))
-                                    : const Color.fromARGB(255, 217, 217, 217),
-                                width: marriedSel ? 2 : 1)),
-                        child: Text("Menikah",
-                            style: GoogleFonts.poppins(
-                                textStyle: const TextStyle(fontSize: 14))),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 const SizedBox(
                   height: 20,
@@ -814,32 +627,6 @@ class _ListLokerState extends State<ListLoker> {
                                   : const Color.fromARGB(255, 217, 217, 217),
                               width: masakSel ? 2 : 1)),
                       child: Text("Memasak",
-                          style: GoogleFonts.poppins(
-                              textStyle: const TextStyle(fontSize: 14))),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        pJawaSel = !pJawaSel;
-                      });
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50.0),
-                          border: Border.all(
-                              color: pJawaSel
-                                  ? Color(int.parse(globals.color_primary))
-                                  : const Color.fromARGB(255, 217, 217, 217),
-                              width: pJawaSel ? 2 : 1)),
-                      child: Text("Dari Pulau Jawa",
                           style: GoogleFonts.poppins(
                               textStyle: const TextStyle(fontSize: 14))),
                     ),

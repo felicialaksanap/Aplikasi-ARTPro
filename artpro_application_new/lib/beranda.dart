@@ -1,4 +1,5 @@
 import 'package:artpro_application_new/listart.dart';
+import 'package:artpro_application_new/listberita.dart';
 import 'package:artpro_application_new/listloker.dart';
 import 'package:artpro_application_new/notifikasi.dart';
 import 'package:flutter/material.dart';
@@ -548,13 +549,33 @@ class _BerandaState extends State<Beranda> {
             const SizedBox(
               height: 40,
             ),
-            Text(
-              'Berita & Tips',
-              style: GoogleFonts.poppins(
-                  textStyle: const TextStyle(
-                      color: Color.fromARGB(255, 22, 15, 41),
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold)),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Berita & Tips',
+                  style: GoogleFonts.poppins(
+                      textStyle: const TextStyle(
+                          color: Color.fromARGB(255, 22, 15, 41),
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold)),
+                ),
+                TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ListBerita()));
+                    },
+                    child: Text(
+                      "Lihat semua",
+                      style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                              fontSize: 12,
+                              color:
+                                  Color(int.parse(globals.color_secondary)))),
+                    ))
+              ],
             ),
             const SizedBox(
               height: 10,
