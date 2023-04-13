@@ -1,3 +1,4 @@
+import 'package:artpro_application_new/detailberita.dart';
 import 'package:artpro_application_new/listart.dart';
 import 'package:artpro_application_new/listberita.dart';
 import 'package:artpro_application_new/listloker.dart';
@@ -588,7 +589,11 @@ class _BerandaState extends State<Beranda> {
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
-                      print("selected index berita: $index");
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  DetailBerita(index: index)));
                     },
                     child: Row(
                       children: [

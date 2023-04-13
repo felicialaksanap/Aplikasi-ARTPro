@@ -4,7 +4,7 @@ import 'package:artpro_application_new/services/services.dart';
 import 'package:artpro_application_new/signupinput_dua.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart'; // date format
+import 'package:google_fonts/google_fonts.dart';
 import 'global.dart' as globals;
 import './intro_verif.dart';
 
@@ -684,6 +684,14 @@ class _SignUpInputState extends State<SignUpInput> {
                             dropKelu != "-Pilih-" &&
                             dropKec != "-Pilih-") {
                           if (globals.status_user == "majikan") {
+                            // From a query
+                            // final query = "${alamatdctr.text}, $dropKota";
+                            // var addresses = await Geocoder.local
+                            //     .findAddressesFromQuery(query);
+                            // var first = addresses.first;
+                            // print(
+                            //     "${first.featureName} : ${first.coordinates}");
+
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
