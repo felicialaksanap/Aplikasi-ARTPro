@@ -1,6 +1,7 @@
 import 'package:artpro_application_new/verifktp_dua.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'global.dart' as globals;
 
@@ -16,6 +17,7 @@ class _VerifikasiKTPSState extends State<VerifikasiKTPS> {
   String dateformat = "";
   String jenisKelamin = "";
 
+  String message = "";
   TextEditingController noktpctr = TextEditingController();
   TextEditingController namactr = TextEditingController();
   TextEditingController tlctr = TextEditingController();
@@ -27,6 +29,19 @@ class _VerifikasiKTPSState extends State<VerifikasiKTPS> {
     noktpctr.dispose();
     namactr.dispose();
     tlctr.dispose();
+  }
+
+  void addToGlobal() {
+    setState(() {
+      globals.nik = noktpctr.text;
+      globals.namalengkap = namactr.text;
+      globals.tempatlahir = tlctr.text;
+      globals.tanggallahir = dateformat;
+      globals.jeniskelamin = jenisKelamin[0].toUpperCase();
+    });
+
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const VerifikasiKTPD()));
   }
 
   @override
@@ -107,49 +122,134 @@ class _VerifikasiKTPSState extends State<VerifikasiKTPS> {
             const SizedBox(
               height: 20,
             ),
-            Text(
-              'No. KTP',
-              style: GoogleFonts.poppins(
-                  textStyle: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black)),
+            Row(
+              children: [
+                Text(
+                  'No. KTP ',
+                  style: GoogleFonts.poppins(
+                      textStyle: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black)),
+                ),
+                Text(
+                  " *",
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          fontSize: 15,
+                          color: Color(int.parse(globals.color_secondary)))),
+                )
+              ],
             ),
-            FormFieldTemplate(noktpctr),
+            Container(
+              height: 50,
+              child: TextField(
+                controller: noktpctr,
+                onChanged: (value) {
+                  if (value.length != 16) {
+                    setState(() {
+                      message = "digit nomor ktp kurang";
+                    });
+                  } else {
+                    setState(() {
+                      message = "";
+                    });
+                  }
+                },
+                cursorColor: Color(int.parse(globals.color_primary)),
+                style: GoogleFonts.poppins(
+                    textStyle:
+                        const TextStyle(fontSize: 15, color: Colors.black)),
+                decoration: const InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color: Color.fromARGB(255, 138, 138, 138),
+                          width: 1.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color: Color.fromARGB(255, 138, 138, 138),
+                          width: 1.0),
+                    ),
+                    contentPadding: EdgeInsets.only(bottom: 2.0, left: 8.0)),
+              ),
+            ),
+            Visibility(
+                visible: message != "" ? true : false,
+                child: Text(
+                  message,
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          fontSize: 12,
+                          color: Color(int.parse(globals.color_secondary)))),
+                )),
             const SizedBox(
               height: 10,
             ),
-            Text(
-              'Nama Lengkap',
-              style: GoogleFonts.poppins(
-                  textStyle: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black)),
+            Row(
+              children: [
+                Text(
+                  'Nama Lengkap',
+                  style: GoogleFonts.poppins(
+                      textStyle: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black)),
+                ),
+                Text(
+                  " *",
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          fontSize: 15,
+                          color: Color(int.parse(globals.color_secondary)))),
+                )
+              ],
             ),
             FormFieldTemplate(namactr),
             const SizedBox(
               height: 10,
             ),
-            Text(
-              'Tempat Lahir',
-              style: GoogleFonts.poppins(
-                  textStyle: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black)),
+            Row(
+              children: [
+                Text(
+                  'Tempat Lahir',
+                  style: GoogleFonts.poppins(
+                      textStyle: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black)),
+                ),
+                Text(
+                  " *",
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          fontSize: 15,
+                          color: Color(int.parse(globals.color_secondary)))),
+                )
+              ],
             ),
             FormFieldTemplate(tlctr),
             const SizedBox(
               height: 10,
             ),
-            Text(
-              'Tanggal Lahir',
-              style: GoogleFonts.poppins(
-                  textStyle: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black)),
+            Row(
+              children: [
+                Text(
+                  'Tanggal Lahir',
+                  style: GoogleFonts.poppins(
+                      textStyle: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black)),
+                ),
+                Text(
+                  " *",
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          fontSize: 15,
+                          color: Color(int.parse(globals.color_secondary)))),
+                )
+              ],
             ),
             Container(
               height: 50,
@@ -195,13 +295,24 @@ class _VerifikasiKTPSState extends State<VerifikasiKTPS> {
             const SizedBox(
               height: 10,
             ),
-            Text(
-              'Jenis Kelamin',
-              style: GoogleFonts.poppins(
-                  textStyle: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black)),
+            Row(
+              children: [
+                Text(
+                  'Jenis Kelamin',
+                  style: GoogleFonts.poppins(
+                      textStyle: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black)),
+                ),
+                Text(
+                  " *",
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          fontSize: 15,
+                          color: Color(int.parse(globals.color_secondary)))),
+                )
+              ],
             ),
             Row(
               children: [
@@ -272,10 +383,45 @@ class _VerifikasiKTPSState extends State<VerifikasiKTPS> {
                   height: 50,
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const VerifikasiKTPD()));
+                      if (noktpctr.text != "" &&
+                          namactr.text != "" &&
+                          tlctr.text != "" &&
+                          dateformat != "" &&
+                          jenisKelamin != "") {
+                        addToGlobal();
+                      } else {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                content: Text(
+                                  'Silahkan mengisi bagian yang diberi tanda * atau melakukan klik centang untuk persetujuan',
+                                  style: GoogleFonts.poppins(
+                                      textStyle: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600)),
+                                  textAlign: TextAlign.center,
+                                ),
+                                actions: [
+                                  Center(
+                                    child: TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text(
+                                          "OK",
+                                          style: GoogleFonts.poppins(
+                                              textStyle: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Color(int.parse(globals
+                                                      .color_secondary)))),
+                                        )),
+                                  )
+                                ],
+                              );
+                            });
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor:

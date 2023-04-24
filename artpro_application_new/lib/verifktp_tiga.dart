@@ -5,7 +5,7 @@ import 'package:dotted_border/dotted_border.dart';
 // import 'package:flutter_camera_overlay/flutter_camera_overlay.dart';
 // import 'package:flutter_camera_overlay/model.dart';
 // import 'package:camera/camera.dart';
-// import 'package:image_picker/image_picker.dart';
+import 'package:image_picker/image_picker.dart';
 import './global.dart' as globals;
 import './sum_verif.dart';
 
@@ -17,24 +17,28 @@ class VerifikasiKTPT extends StatefulWidget {
 }
 
 class _VerifikasiKTPTState extends State<VerifikasiKTPT> {
-  // var imageFile;
-  // String pathPhoto = "";
-  // final ImagePicker _picker = ImagePicker();
+  XFile? imagektp;
+  XFile? imageselfiektp;
+  final ImagePicker picker = ImagePicker();
 
-  // Future<void> pickImage(ImageSource source) async {
-  //   final XFile? image =
-  //       await _picker.pickImage(source: source, imageQuality: 10);
+  String pathPhoto = "";
 
-  //   if (image != null) {
-  //     setState(() {
-  //       imageFile = File(image.path);
-  //       pathPhoto = image.path;
+  Future getImage(ImageSource media, String take) async {
+    var img = await picker.pickImage(source: media);
 
-  //       print("path photo: $pathPhoto");
-  //       globals.imagepath = pathPhoto;
-  //     });
-  //   }
-  // }
+    if (take == "ktp") {
+      setState(() {
+        imagektp = img;
+        globals.fotoktp = imagektp;
+      });
+    } else {
+      setState(() {
+        imageselfiektp = img;
+        globals.selfiektp = imageselfiektp;
+      });
+    }
+  }
+
   // OverlayFormat format = OverlayFormat.cardID1;
 
   @override
@@ -140,64 +144,7 @@ class _VerifikasiKTPTState extends State<VerifikasiKTPT> {
             GestureDetector(
               onTap: () {
                 // KTP
-                // showModalBottomSheet(
-                //     context: context,
-                //     builder: (BuildContext context) {
-                //       return Container(
-                //         height: 150,
-                //         padding: const EdgeInsets.only(top: 30),
-                //         color: Colors.white,
-                //         child: Center(
-                //           child: Row(
-                //             mainAxisAlignment: MainAxisAlignment.center,
-                //             children: [
-                //               Column(
-                //                 children: [
-                //                   TextButton(
-                //                     onPressed: () {
-                //                       pickImage(ImageSource.gallery);
-                //                       Navigator.pop(context);
-                //                     },
-                //                     child: Icon(Icons.abc),
-                //                   ),
-                //                   Text(
-                //                     "Pilih Dari Album",
-                //                     style: GoogleFonts.roboto(
-                //                         textStyle: TextStyle(
-                //                             fontSize: 16,
-                //                             color: Color(int.parse(
-                //                                 globals.color_primary)))),
-                //                   )
-                //                 ],
-                //               ),
-                //               const SizedBox(
-                //                 width: 40,
-                //               ),
-                //               Column(
-                //                 children: [
-                //                   TextButton(
-                //                       onPressed: () {
-                //                         pickImage(ImageSource.camera);
-                //                         Navigator.pop(context);
-                //                       },
-                //                       child: Icon(
-                //                         Icons.abc,
-                //                       )),
-                //                   Text(
-                //                     "Mengambil Foto",
-                //                     style: GoogleFonts.roboto(
-                //                         textStyle: TextStyle(
-                //                             fontSize: 16,
-                //                             color: Color(int.parse(
-                //                                 globals.color_primary)))),
-                //                   )
-                //                 ],
-                //               ),
-                //             ],
-                //           ),
-                //         ),
-                //       );
-                //     });
+                getImage(ImageSource.gallery, "ktp");
               },
               child: Container(
                 width: MediaQuery.of(context).size.width,
@@ -253,7 +200,8 @@ class _VerifikasiKTPTState extends State<VerifikasiKTPT> {
             ),
             GestureDetector(
               onTap: () {
-                print("click 2");
+                // Selfie KTP
+                getImage(ImageSource.gallery, "selfiektp");
               },
               child: Container(
                 width: MediaQuery.of(context).size.width,

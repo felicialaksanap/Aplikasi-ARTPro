@@ -113,6 +113,20 @@ class _VerifikasiKTPDState extends State<VerifikasiKTPD> {
     });
   }
 
+  void addToGlobal() {
+    setState(() {
+      globals.alamatktp = alamatkctr.text;
+      globals.kecktp = dropKec;
+      globals.kelktp = dropKelu;
+      globals.provktp = dropProvinsi;
+      globals.kotaktp = dropKota;
+      globals.rt = rtctr.text;
+      globals.rw = rwctr.text;
+    });
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const VerifikasiKTPT()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -191,25 +205,69 @@ class _VerifikasiKTPDState extends State<VerifikasiKTPD> {
             const SizedBox(
               height: 20,
             ),
-            Text(
-              'Alamat sesuai KTP',
-              style: GoogleFonts.poppins(
-                  textStyle: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black)),
+            Row(
+              children: [
+                Text(
+                  'Alamat sesuai KTP',
+                  style: GoogleFonts.poppins(
+                      textStyle: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black)),
+                ),
+                Text(
+                  " *",
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          fontSize: 15,
+                          color: Color(int.parse(globals.color_secondary)))),
+                )
+              ],
             ),
-            FormFieldTemplate("alamat", alamatkctr),
+            Container(
+              child: TextField(
+                controller: alamatkctr,
+                cursorColor: Color(int.parse(globals.color_primary)),
+                style: GoogleFonts.poppins(
+                    textStyle:
+                        const TextStyle(fontSize: 15, color: Colors.black)),
+                decoration: const InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color: Color.fromARGB(255, 138, 138, 138),
+                          width: 1.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color: Color.fromARGB(255, 138, 138, 138),
+                          width: 1.0),
+                    ),
+                    hintText: "Mawar No.57",
+                    contentPadding: EdgeInsets.fromLTRB(8, 4, 8, 4)),
+                maxLines: 4,
+              ),
+            ),
             const SizedBox(
               height: 10,
             ),
-            Text(
-              'Provinsi',
-              style: GoogleFonts.poppins(
-                  textStyle: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black)),
+            Row(
+              children: [
+                Text(
+                  'Provinsi',
+                  style: GoogleFonts.poppins(
+                      textStyle: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black)),
+                ),
+                Text(
+                  " *",
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          fontSize: 15,
+                          color: Color(int.parse(globals.color_secondary)))),
+                )
+              ],
             ),
             Container(
                 width: MediaQuery.of(context).size.width,
@@ -258,13 +316,24 @@ class _VerifikasiKTPDState extends State<VerifikasiKTPD> {
             const SizedBox(
               height: 10,
             ),
-            Text(
-              'Kabupaten/Kota',
-              style: GoogleFonts.poppins(
-                  textStyle: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black)),
+            Row(
+              children: [
+                Text(
+                  'Kabupaten/Kota',
+                  style: GoogleFonts.poppins(
+                      textStyle: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black)),
+                ),
+                Text(
+                  " *",
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          fontSize: 15,
+                          color: Color(int.parse(globals.color_secondary)))),
+                )
+              ],
             ),
             Container(
                 width: MediaQuery.of(context).size.width,
@@ -313,13 +382,24 @@ class _VerifikasiKTPDState extends State<VerifikasiKTPD> {
             const SizedBox(
               height: 10,
             ),
-            Text(
-              'Kecamatan',
-              style: GoogleFonts.poppins(
-                  textStyle: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black)),
+            Row(
+              children: [
+                Text(
+                  'Kecamatan',
+                  style: GoogleFonts.poppins(
+                      textStyle: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black)),
+                ),
+                Text(
+                  " *",
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          fontSize: 15,
+                          color: Color(int.parse(globals.color_secondary)))),
+                )
+              ],
             ),
             Container(
                 width: MediaQuery.of(context).size.width,
@@ -369,13 +449,24 @@ class _VerifikasiKTPDState extends State<VerifikasiKTPD> {
             const SizedBox(
               height: 10,
             ),
-            Text(
-              'Kelurahan/Desa',
-              style: GoogleFonts.poppins(
-                  textStyle: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black)),
+            Row(
+              children: [
+                Text(
+                  'Kelurahan/Desa',
+                  style: GoogleFonts.poppins(
+                      textStyle: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black)),
+                ),
+                Text(
+                  " *",
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          fontSize: 15,
+                          color: Color(int.parse(globals.color_secondary)))),
+                )
+              ],
             ),
             Container(
                 width: MediaQuery.of(context).size.width,
@@ -430,15 +521,49 @@ class _VerifikasiKTPDState extends State<VerifikasiKTPD> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'RT',
-                        style: GoogleFonts.poppins(
-                            textStyle: const TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black)),
+                      Row(
+                        children: [
+                          Text(
+                            'RT',
+                            style: GoogleFonts.poppins(
+                                textStyle: const TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black)),
+                          ),
+                          Text(
+                            " *",
+                            style: GoogleFonts.poppins(
+                                textStyle: TextStyle(
+                                    fontSize: 15,
+                                    color: Color(
+                                        int.parse(globals.color_secondary)))),
+                          )
+                        ],
                       ),
-                      FormFieldTemplate("rt", rtctr)
+                      Container(
+                        child: TextField(
+                          controller: rtctr,
+                          cursorColor: Color(int.parse(globals.color_primary)),
+                          style: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                                  fontSize: 15, color: Colors.black)),
+                          decoration: const InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color.fromARGB(255, 138, 138, 138),
+                                    width: 1.0),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color.fromARGB(255, 138, 138, 138),
+                                    width: 1.0),
+                              ),
+                              hintText: "001",
+                              contentPadding: EdgeInsets.fromLTRB(8, 4, 8, 4)),
+                          maxLines: 1,
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -449,15 +574,49 @@ class _VerifikasiKTPDState extends State<VerifikasiKTPD> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'RW',
-                        style: GoogleFonts.poppins(
-                            textStyle: const TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black)),
+                      Row(
+                        children: [
+                          Text(
+                            'RW',
+                            style: GoogleFonts.poppins(
+                                textStyle: const TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black)),
+                          ),
+                          Text(
+                            " *",
+                            style: GoogleFonts.poppins(
+                                textStyle: TextStyle(
+                                    fontSize: 15,
+                                    color: Color(
+                                        int.parse(globals.color_secondary)))),
+                          )
+                        ],
                       ),
-                      FormFieldTemplate("rw", rwctr)
+                      Container(
+                        child: TextField(
+                          controller: rwctr,
+                          cursorColor: Color(int.parse(globals.color_primary)),
+                          style: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                                  fontSize: 15, color: Colors.black)),
+                          decoration: const InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color.fromARGB(255, 138, 138, 138),
+                                    width: 1.0),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color.fromARGB(255, 138, 138, 138),
+                                    width: 1.0),
+                              ),
+                              hintText: "002",
+                              contentPadding: EdgeInsets.fromLTRB(8, 4, 8, 4)),
+                          maxLines: 1,
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -474,10 +633,47 @@ class _VerifikasiKTPDState extends State<VerifikasiKTPD> {
                   height: 50,
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const VerifikasiKTPT()));
+                      if (alamatkctr.text != "" &&
+                          dropProvinsi != "-Pilih-" &&
+                          dropKota != "-Pilih-" &&
+                          dropKec != "-Pilih-" &&
+                          dropKelu != "-Pilih-" &&
+                          rtctr.text != "" &&
+                          rwctr.text != "") {
+                        addToGlobal();
+                      } else {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                content: Text(
+                                  'Silahkan mengisi bagian yang diberi tanda * atau melakukan klik centang untuk persetujuan',
+                                  style: GoogleFonts.poppins(
+                                      textStyle: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600)),
+                                  textAlign: TextAlign.center,
+                                ),
+                                actions: [
+                                  Center(
+                                    child: TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text(
+                                          "OK",
+                                          style: GoogleFonts.poppins(
+                                              textStyle: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Color(int.parse(globals
+                                                      .color_secondary)))),
+                                        )),
+                                  )
+                                ],
+                              );
+                            });
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor:
@@ -501,26 +697,4 @@ class _VerifikasiKTPDState extends State<VerifikasiKTPD> {
       ),
     );
   }
-}
-
-Widget FormFieldTemplate(String? fill, TextEditingController controller) {
-  return Container(
-    child: TextField(
-      controller: controller,
-      cursorColor: Color(int.parse(globals.color_primary)),
-      style: GoogleFonts.poppins(
-          textStyle: const TextStyle(fontSize: 15, color: Colors.black)),
-      decoration: const InputDecoration(
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-                color: Color.fromARGB(255, 138, 138, 138), width: 1.0),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-                color: Color.fromARGB(255, 138, 138, 138), width: 1.0),
-          ),
-          contentPadding: EdgeInsets.fromLTRB(8, 4, 8, 4)),
-      maxLines: fill == "alamat" ? 4 : 1,
-    ),
-  );
 }

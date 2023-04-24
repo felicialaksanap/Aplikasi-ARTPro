@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:artpro_application_new/mainberanda.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -48,8 +50,10 @@ class _SummaryVerifikasiState extends State<SummaryVerifikasi> {
             Text(
               "Silahkan periksa kembali informasi yang sudah dimasukkan. Informasi yang dikirim untuk verifikasi harus sesuai dengan KTP.",
               style: GoogleFonts.poppins(
-                  textStyle:
-                      const TextStyle(fontSize: 15, color: Colors.black)),
+                  textStyle: TextStyle(
+                      fontSize: 15,
+                      color: Color(int.parse(globals.color_secondary)),
+                      fontWeight: FontWeight.w600)),
             ),
             const SizedBox(
               height: 10,
@@ -100,7 +104,7 @@ class _SummaryVerifikasiState extends State<SummaryVerifikasi> {
                 ),
                 Expanded(
                   child: Text(
-                    "value",
+                    globals.nik,
                     style: GoogleFonts.poppins(
                         textStyle:
                             const TextStyle(fontSize: 15, color: Colors.black)),
@@ -124,7 +128,7 @@ class _SummaryVerifikasiState extends State<SummaryVerifikasi> {
                 ),
                 Expanded(
                   child: Text(
-                    "value",
+                    globals.namalengkap,
                     style: GoogleFonts.poppins(
                         textStyle:
                             const TextStyle(fontSize: 15, color: Colors.black)),
@@ -148,7 +152,7 @@ class _SummaryVerifikasiState extends State<SummaryVerifikasi> {
                 ),
                 Expanded(
                   child: Text(
-                    "value",
+                    globals.tempatlahir,
                     style: GoogleFonts.poppins(
                         textStyle:
                             const TextStyle(fontSize: 15, color: Colors.black)),
@@ -172,7 +176,7 @@ class _SummaryVerifikasiState extends State<SummaryVerifikasi> {
                 ),
                 Expanded(
                   child: Text(
-                    "value",
+                    globals.tanggallahir,
                     style: GoogleFonts.poppins(
                         textStyle:
                             const TextStyle(fontSize: 15, color: Colors.black)),
@@ -196,7 +200,7 @@ class _SummaryVerifikasiState extends State<SummaryVerifikasi> {
                 ),
                 Expanded(
                   child: Text(
-                    "value",
+                    globals.jeniskelamin == "L" ? "Laki - Laki" : "Perempuan",
                     style: GoogleFonts.poppins(
                         textStyle:
                             const TextStyle(fontSize: 15, color: Colors.black)),
@@ -253,7 +257,7 @@ class _SummaryVerifikasiState extends State<SummaryVerifikasi> {
                 ),
                 Expanded(
                   child: Text(
-                    "value",
+                    globals.alamatktp,
                     style: GoogleFonts.poppins(
                         textStyle:
                             const TextStyle(fontSize: 15, color: Colors.black)),
@@ -277,7 +281,7 @@ class _SummaryVerifikasiState extends State<SummaryVerifikasi> {
                 ),
                 Expanded(
                   child: Text(
-                    "value",
+                    globals.provktp,
                     style: GoogleFonts.poppins(
                         textStyle:
                             const TextStyle(fontSize: 15, color: Colors.black)),
@@ -301,7 +305,7 @@ class _SummaryVerifikasiState extends State<SummaryVerifikasi> {
                 ),
                 Expanded(
                   child: Text(
-                    "value",
+                    globals.kotaktp,
                     style: GoogleFonts.poppins(
                         textStyle:
                             const TextStyle(fontSize: 15, color: Colors.black)),
@@ -325,7 +329,7 @@ class _SummaryVerifikasiState extends State<SummaryVerifikasi> {
                 ),
                 Expanded(
                   child: Text(
-                    "value",
+                    globals.kecktp,
                     style: GoogleFonts.poppins(
                         textStyle:
                             const TextStyle(fontSize: 15, color: Colors.black)),
@@ -349,7 +353,7 @@ class _SummaryVerifikasiState extends State<SummaryVerifikasi> {
                 ),
                 Expanded(
                   child: Text(
-                    "value",
+                    globals.kelktp,
                     style: GoogleFonts.poppins(
                         textStyle:
                             const TextStyle(fontSize: 15, color: Colors.black)),
@@ -373,7 +377,7 @@ class _SummaryVerifikasiState extends State<SummaryVerifikasi> {
                 ),
                 Expanded(
                   child: Text(
-                    "value",
+                    globals.rt,
                     style: GoogleFonts.poppins(
                         textStyle:
                             const TextStyle(fontSize: 15, color: Colors.black)),
@@ -397,7 +401,7 @@ class _SummaryVerifikasiState extends State<SummaryVerifikasi> {
                 ),
                 Expanded(
                   child: Text(
-                    "value",
+                    globals.rw,
                     style: GoogleFonts.poppins(
                         textStyle:
                             const TextStyle(fontSize: 15, color: Colors.black)),
@@ -407,6 +411,59 @@ class _SummaryVerifikasiState extends State<SummaryVerifikasi> {
             ),
             const SizedBox(
               height: 20,
+            ),
+            Container(
+              height: 1,
+              color: Color(int.parse(globals.color_primary)),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Keperluan Foto",
+                  style: GoogleFonts.poppins(
+                      textStyle: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black)),
+                ),
+                GestureDetector(
+                  onTap: () {},
+                  child: Text(
+                    'Ubah',
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            fontSize: 15,
+                            color: Color(int.parse(globals.color_secondary)))),
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 200,
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: FileImage(File('${globals.fotoktp!.path}')))),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 200,
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: FileImage(File('${globals.selfiektp!.path}')))),
+            ),
+            const SizedBox(
+              height: 30,
             ),
             Container(
               child: CheckboxListTile(

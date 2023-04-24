@@ -1,10 +1,13 @@
-// ignore_for_file: non_constant_identifier_names, sized_box_for_whitespace, avoid_unnecessary_containers, avoid_print
+// ignore_for_file: non_constant_identifier_names, sized_box_for_whitespace, avoid_unnecessary_containers, avoid_print, use_build_context_synchronously
 
 import 'package:artpro_application_new/services/services.dart';
 import 'package:artpro_application_new/signupinput_dua.dart';
+import 'dart:convert';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:http/http.dart' as http;
 import 'global.dart' as globals;
 import './intro_verif.dart';
 
@@ -21,6 +24,11 @@ class _SignUpInputState extends State<SignUpInput> {
   bool is_selected = false;
 
   String message = "";
+  String msgtelp = "";
+  String msgemail = "";
+  String longitude = "";
+  String latitude = "";
+  String msgpass = "";
   String dropProvinsi = '-Pilih-';
   String dropKota = '-Pilih-';
   String dropKelu = '-Pilih-';
@@ -126,6 +134,50 @@ class _SignUpInputState extends State<SignUpInput> {
     });
   }
 
+  void getLongLat(String street, String city) async {
+    List<Location> locations = await locationFromAddress("$street, $city");
+    Location loc = locations[0];
+    setState(() {
+      latitude = "${loc.latitude}";
+      longitude = "${loc.longitude}";
+    });
+    addToGlobal();
+  }
+
+  void addToGlobal() {
+    setState(() {
+      globals.email = emailctr.text;
+      globals.password = passctr.text;
+      globals.alamatdom = alamatdctr.text;
+      globals.kecdom = dropKec;
+      globals.keldom = dropKelu;
+      globals.provdom = dropProvinsi;
+      globals.kotadom = dropKota;
+      globals.latitude = latitude;
+      globals.longitude = longitude;
+    });
+    addAkunUser();
+  }
+
+  void addAkunUser() async {
+    // var url = "${globals.urlapi}addakunuser";
+    // var response = await http.post(Uri.parse(url), body: {
+    //   "email": globals.email,
+    //   "password": globals.password,
+    //   "statususer": globals.status_user
+    // });
+    // if (response.statusCode == 200) {
+    //   final data = jsonDecode(response.body);
+    //   var lastId = data['data']['getIdLast'];
+    //   setState(() {
+    //     globals.iduser = lastId.toString();
+    //   });
+
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const IntroVerifikasi()));
+    //}
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -177,7 +229,49 @@ class _SignUpInputState extends State<SignUpInput> {
                   )
                 ],
               ),
-              FormFieldTemplate("email", emailctr),
+              Container(
+                child: TextField(
+                  controller: emailctr,
+                  onChanged: (value) {
+                    if (value.characters.contains("@")) {
+                      setState(() {
+                        msgemail = "";
+                      });
+                    } else {
+                      setState(() {
+                        msgemail = "format email tidak sesuai";
+                      });
+                    }
+                  },
+                  cursorColor: Color(int.parse(globals.color_primary)),
+                  style: GoogleFonts.poppins(
+                      textStyle:
+                          const TextStyle(fontSize: 15, color: Colors.black)),
+                  decoration: const InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Color.fromARGB(255, 138, 138, 138),
+                            width: 1.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Color.fromARGB(255, 138, 138, 138),
+                            width: 1.0),
+                      ),
+                      hintText: "contoh@gmail.com",
+                      contentPadding: EdgeInsets.fromLTRB(8, 4, 8, 4)),
+                  maxLines: 1,
+                ),
+              ),
+              Visibility(
+                  visible: msgemail != "" ? true : false,
+                  child: Text(
+                    msgemail,
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            fontSize: 12,
+                            color: Color(int.parse(globals.color_secondary)))),
+                  )),
               const SizedBox(
                 height: 10,
               ),
@@ -200,7 +294,49 @@ class _SignUpInputState extends State<SignUpInput> {
                   )
                 ],
               ),
-              FormFieldTemplate("telephone", notelpctr),
+              Container(
+                child: TextField(
+                  controller: notelpctr,
+                  onChanged: (value) {
+                    if (value.length < 11 || value.length > 13) {
+                      setState(() {
+                        msgtelp = "format nomor telephone tidak sesuai";
+                      });
+                    } else {
+                      setState(() {
+                        msgtelp = "";
+                      });
+                    }
+                  },
+                  cursorColor: Color(int.parse(globals.color_primary)),
+                  style: GoogleFonts.poppins(
+                      textStyle:
+                          const TextStyle(fontSize: 15, color: Colors.black)),
+                  decoration: const InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Color.fromARGB(255, 138, 138, 138),
+                            width: 1.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Color.fromARGB(255, 138, 138, 138),
+                            width: 1.0),
+                      ),
+                      hintText: "08xxxxxxxxx",
+                      contentPadding: EdgeInsets.fromLTRB(8, 4, 8, 4)),
+                  maxLines: 1,
+                ),
+              ),
+              Visibility(
+                  visible: msgtelp != "" ? true : false,
+                  child: Text(
+                    msgtelp,
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            fontSize: 12,
+                            color: Color(int.parse(globals.color_secondary)))),
+                  )),
               const SizedBox(
                 height: 10,
               ),
@@ -223,7 +359,29 @@ class _SignUpInputState extends State<SignUpInput> {
                   )
                 ],
               ),
-              FormFieldTemplate("alamat", alamatdctr),
+              Container(
+                child: TextField(
+                  controller: alamatdctr,
+                  cursorColor: Color(int.parse(globals.color_primary)),
+                  style: GoogleFonts.poppins(
+                      textStyle:
+                          const TextStyle(fontSize: 15, color: Colors.black)),
+                  decoration: const InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Color.fromARGB(255, 138, 138, 138),
+                            width: 1.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Color.fromARGB(255, 138, 138, 138),
+                            width: 1.0),
+                      ),
+                      hintText: "Mawar No.57",
+                      contentPadding: EdgeInsets.fromLTRB(8, 4, 8, 4)),
+                  maxLines: 4,
+                ),
+              ),
               const SizedBox(
                 height: 10,
               ),
@@ -516,6 +674,17 @@ class _SignUpInputState extends State<SignUpInput> {
                 height: 50,
                 child: TextField(
                   controller: passctr,
+                  onChanged: (value) {
+                    if (value.length > 16) {
+                      setState(() {
+                        msgpass = "password tidak melebihi 16 Karakter";
+                      });
+                    } else {
+                      setState(() {
+                        msgpass = "";
+                      });
+                    }
+                  },
                   obscureText: hide_pass,
                   cursorColor: Color(int.parse(globals.color_primary)),
                   style: GoogleFonts.poppins(
@@ -547,6 +716,15 @@ class _SignUpInputState extends State<SignUpInput> {
                   ),
                 ),
               ),
+              Visibility(
+                  visible: msgpass != "" ? true : false,
+                  child: Text(
+                    msgpass,
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            fontSize: 12,
+                            color: Color(int.parse(globals.color_secondary)))),
+                  )),
               const SizedBox(
                 height: 10,
               ),
@@ -684,19 +862,7 @@ class _SignUpInputState extends State<SignUpInput> {
                             dropKelu != "-Pilih-" &&
                             dropKec != "-Pilih-") {
                           if (globals.status_user == "majikan") {
-                            // From a query
-                            // final query = "${alamatdctr.text}, $dropKota";
-                            // var addresses = await Geocoder.local
-                            //     .findAddressesFromQuery(query);
-                            // var first = addresses.first;
-                            // print(
-                            //     "${first.featureName} : ${first.coordinates}");
-
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const IntroVerifikasi()));
+                            getLongLat(alamatdctr.text, dropKota);
                           } else {
                             Navigator.push(
                                 context,
@@ -763,26 +929,4 @@ class _SignUpInputState extends State<SignUpInput> {
           ),
         ));
   }
-}
-
-Widget FormFieldTemplate(String? fill, TextEditingController controller) {
-  return Container(
-    child: TextField(
-      controller: controller,
-      cursorColor: Color(int.parse(globals.color_primary)),
-      style: GoogleFonts.poppins(
-          textStyle: const TextStyle(fontSize: 15, color: Colors.black)),
-      decoration: const InputDecoration(
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-                color: Color.fromARGB(255, 138, 138, 138), width: 1.0),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-                color: Color.fromARGB(255, 138, 138, 138), width: 1.0),
-          ),
-          contentPadding: EdgeInsets.fromLTRB(8, 4, 8, 4)),
-      maxLines: fill == "alamat" ? 4 : 1,
-    ),
-  );
 }

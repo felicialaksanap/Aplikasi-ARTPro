@@ -41,9 +41,9 @@ dependencies:
   intl: ^0.18.0
   dotted_border: ^2.0.0+3
   # flutter_camera_overlay: ^0.1.1
-  # image_picker: ^0.8.7
+  image_picker: ^0.8.7
   multi_charts: ^0.3.0
-  # geocoder: ^0.2.1
+  geocoding: ^2.1.0
 
 flutter_icons:
   android: "launcher_icon"
