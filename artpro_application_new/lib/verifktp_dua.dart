@@ -46,11 +46,16 @@ class _VerifikasiKTPDState extends State<VerifikasiKTPD> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    menuProvinsi.add("-Pilih-");
-    menuKotKab.add("-Pilih-");
-    menuKecamatan.add("-Pilih-");
-    menuKelurahan.add("-Pilih-");
-    getDetailProvinsi();
+
+    if (globals.alamatktp != "") {
+      checkValue();
+    } else {
+      menuProvinsi.add("-Pilih-");
+      menuKotKab.add("-Pilih-");
+      menuKecamatan.add("-Pilih-");
+      menuKelurahan.add("-Pilih-");
+      getDetailProvinsi();
+    }
   }
 
   Future<void> getDetailProvinsi() async {
@@ -110,6 +115,36 @@ class _VerifikasiKTPDState extends State<VerifikasiKTPD> {
           menuKelurahan.add(listKelurahan[i].nama);
         }
       });
+    });
+  }
+
+  void checkValue() async {
+    String idProvinsi = "";
+    String idKotKab = "";
+    String idKecamatan = "";
+    String idKelurahan = "";
+
+    await getDetailProvinsi();
+    // await getDetailKotKab(globals.idprovktp);
+    // await getDetailKecamatan(globals.idkotktp);
+    // await getDetailKelurahan(globals.idkecktp);
+
+    setState(() {
+      alamatkctr.text = globals.alamatktp;
+
+      dropProvinsi = globals.provktp;
+      getDetailKotKab(globals.idprovktp);
+
+      dropKota = globals.kotaktp;
+      getDetailKecamatan(globals.idkotktp);
+
+      dropKec = globals.kecktp;
+      getDetailKelurahan(globals.idkecktp);
+
+      dropKelu = globals.kelktp;
+
+      rtctr.text = globals.rt;
+      rwctr.text = globals.rw;
     });
   }
 
@@ -308,6 +343,7 @@ class _VerifikasiKTPDState extends State<VerifikasiKTPD> {
                             idProvinsi = listProvinsi[i].idProvinsi.toString();
                           }
                         }
+                        globals.idprovktp = idProvinsi;
                         getDetailKotKab(idProvinsi);
                       });
                     },
@@ -374,6 +410,7 @@ class _VerifikasiKTPDState extends State<VerifikasiKTPD> {
                             idKotKab = listKotKab[i].idKotKab.toString();
                           }
                         }
+                        globals.idkotktp = idKotKab;
                         getDetailKecamatan(idKotKab);
                       });
                     },
@@ -441,6 +478,7 @@ class _VerifikasiKTPDState extends State<VerifikasiKTPD> {
                                 listKecamatan[i].idKecamatan.toString();
                           }
                         }
+                        globals.kecktp = idKecamatan;
                         getDetailKelurahan(idKecamatan);
                       });
                     },
@@ -508,6 +546,7 @@ class _VerifikasiKTPDState extends State<VerifikasiKTPD> {
                                 listKelurahan[i].idKelurahan.toString();
                           }
                         }
+                        globals.idkelktp = idKelurahan;
                       });
                     },
                   ),

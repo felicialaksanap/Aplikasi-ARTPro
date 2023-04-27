@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,6 +8,7 @@ import 'package:dotted_border/dotted_border.dart';
 // import 'package:flutter_camera_overlay/model.dart';
 // import 'package:camera/camera.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
 import './global.dart' as globals;
 import './sum_verif.dart';
 
@@ -21,24 +24,47 @@ class _VerifikasiKTPTState extends State<VerifikasiKTPT> {
   XFile? imageselfiektp;
   final ImagePicker picker = ImagePicker();
 
-  String pathPhoto = "";
+  bool statusvisktp = true;
+  bool statusvisselfie = true;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    if (globals.fotoktp?.path != null) {
+      checkValue();
+    }
+  }
 
   Future getImage(ImageSource media, String take) async {
-    var img = await picker.pickImage(source: media);
+    var img = await picker.pickImage(source: media, imageQuality: 10);
 
     if (take == "ktp") {
       setState(() {
         imagektp = img;
         globals.fotoktp = imagektp;
+        print("foto ktp path: ${globals.fotoktp?.path}");
+        statusvisktp = false;
       });
     } else {
       setState(() {
         imageselfiektp = img;
         globals.selfiektp = imageselfiektp;
+        statusvisselfie = false;
       });
     }
   }
 
+  void checkValue() {
+    setState(() {
+      imagektp = globals.fotoktp;
+      statusvisktp = false;
+
+      imageselfiektp = globals.selfiektp;
+      statusvisselfie = false;
+    });
+  }
   // OverlayFormat format = OverlayFormat.cardID1;
 
   @override
@@ -122,7 +148,7 @@ class _VerifikasiKTPTState extends State<VerifikasiKTPT> {
             Row(
               children: [
                 Text(
-                  'Ambil Foto',
+                  'Foto Data Verifikasi',
                   style: GoogleFonts.poppins(
                       textStyle: const TextStyle(
                           fontSize: 15,
@@ -157,13 +183,26 @@ class _VerifikasiKTPTState extends State<VerifikasiKTPT> {
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
                       children: [
-                        Container(
-                          width: 80,
-                          height: 80,
-                          color: const Color.fromARGB(255, 138, 138, 138),
-                          child: const Icon(
-                            Icons.camera_alt,
-                            color: Colors.white,
+                        Visibility(
+                          visible: statusvisktp,
+                          child: Container(
+                            width: 80,
+                            height: 80,
+                            color: const Color.fromARGB(255, 138, 138, 138),
+                            child: const Icon(
+                              Icons.camera_alt,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        Visibility(
+                          visible: !statusvisktp,
+                          child: Container(
+                            width: 80,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image:
+                                        FileImage(File('${imagektp?.path}')))),
                           ),
                         ),
                         const SizedBox(
@@ -181,7 +220,7 @@ class _VerifikasiKTPTState extends State<VerifikasiKTPT> {
                                       fontSize: 15)),
                             ),
                             Text(
-                              'Ambil foto KTP kamu',
+                              'Upload foto KTP kamu',
                               style: GoogleFonts.poppins(
                                   textStyle: const TextStyle(
                                       color: Color.fromARGB(255, 138, 138, 138),
@@ -214,13 +253,26 @@ class _VerifikasiKTPTState extends State<VerifikasiKTPT> {
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
                       children: [
-                        Container(
-                          width: 80,
-                          height: 80,
-                          color: const Color.fromARGB(255, 138, 138, 138),
-                          child: const Icon(
-                            Icons.camera_alt,
-                            color: Colors.white,
+                        Visibility(
+                          visible: statusvisselfie,
+                          child: Container(
+                            width: 80,
+                            height: 80,
+                            color: const Color.fromARGB(255, 138, 138, 138),
+                            child: const Icon(
+                              Icons.camera_alt,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        Visibility(
+                          visible: !statusvisselfie,
+                          child: Container(
+                            width: 80,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: FileImage(
+                                        File('${imageselfiektp?.path}')))),
                           ),
                         ),
                         const SizedBox(
@@ -239,7 +291,7 @@ class _VerifikasiKTPTState extends State<VerifikasiKTPT> {
                                         fontSize: 15)),
                               ),
                               Text(
-                                'Ambil foto kamu sambil memegang KTP',
+                                'Upload foto selfie kamu sambil memegang KTP',
                                 style: GoogleFonts.poppins(
                                     textStyle: const TextStyle(
                                         color:

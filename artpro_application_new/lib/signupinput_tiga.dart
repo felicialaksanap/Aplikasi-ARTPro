@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_interpolation_to_compose_strings
+
 import 'package:artpro_application_new/intro_verif.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,6 +19,8 @@ class _SignUpInputTState extends State<SignUpInputT> {
   bool k_supir = false;
   bool k_obog = false;
   bool k_tk = false;
+  String kategori = "";
+  int count = 0;
 
   TextEditingController expctr = TextEditingController();
   TextEditingController mingajictr = TextEditingController();
@@ -29,6 +33,67 @@ class _SignUpInputTState extends State<SignUpInputT> {
     expctr.dispose();
     mingajictr.dispose();
     maxgajictr.dispose();
+  }
+
+  void addToGlobal() {
+    setState(() {
+      if (k_prt == true) {
+        kategori = "prt";
+        if (k_bs == true) {
+          kategori = kategori + ", babysitter";
+          if (k_sc == true) {
+            kategori = kategori + ", seniorcare";
+          } else if (k_supir == true) {
+            kategori = kategori + ", supir";
+          } else if (k_obog == true) {
+            kategori = kategori + ", officeboy";
+          } else if (k_tk == true) {
+            kategori = kategori + ", tukangkebun";
+          }
+        } else if (k_sc == true) {
+          kategori = kategori + ", seniorcare";
+          if (k_supir == true) {
+            kategori = kategori + ", supir";
+          } else if (k_obog == true) {
+            kategori = kategori + ", officeboy";
+          } else if (k_tk == true) {
+            kategori = kategori + ", tukangkebun";
+          }
+        } else if (k_supir == true) {
+          kategori = kategori + ", supir";
+          if (k_obog == true) {
+            kategori = kategori + ", officeboy";
+          } else if (k_tk == true) {
+            kategori = kategori + ", tukangkebun";
+          }
+        } else if (k_obog == true) {
+          kategori = kategori + ", officeboy";
+          if (k_tk == true) {
+            kategori = kategori + ", tukangkebun";
+          }
+        } else if (k_tk == true) {
+          kategori = kategori + ", tukangkebun";
+        }
+      } else if (k_bs == true) {
+        kategori = "babysitter";
+      } else if (k_sc == true) {
+        kategori = "seniorcare";
+      } else if (k_supir == true) {
+        kategori = "supir";
+      } else if (k_obog == true) {
+        kategori = "officeboy";
+      } else if (k_tk == true) {
+        kategori = "tukangkebun";
+      }
+
+      globals.kategori = kategori;
+      globals.pengalaman = expctr.text;
+      globals.gajiawal = mingajictr.text;
+      globals.gajiakhir = maxgajictr.text;
+
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const IntroVerifikasi()));
+    });
   }
 
   @override
@@ -94,14 +159,21 @@ class _SignUpInputTState extends State<SignUpInputT> {
                 Checkbox(
                     activeColor: Color(int.parse(globals.color_primary)),
                     value: k_prt,
-                    onChanged: (value) {
-                      setState(() {
-                        k_prt = value!;
-                      });
-                    }),
+                    onChanged: count > 2 && k_prt == false
+                        ? null
+                        : (value) {
+                            setState(() {
+                              k_prt = value!;
+                              if (k_prt == true) {
+                                count++;
+                              } else {
+                                count--;
+                              }
+                            });
+                          }),
                 Expanded(
                   child: Text(
-                    "Pekerja/Pembantu Rumah Tangga",
+                    "Pembantu Rumah Tangga",
                     style: GoogleFonts.poppins(
                         textStyle: const TextStyle(fontSize: 15)),
                   ),
@@ -113,11 +185,18 @@ class _SignUpInputTState extends State<SignUpInputT> {
                 Checkbox(
                     activeColor: Color(int.parse(globals.color_primary)),
                     value: k_bs,
-                    onChanged: (value) {
-                      setState(() {
-                        k_bs = value!;
-                      });
-                    }),
+                    onChanged: count > 2 && k_bs == false
+                        ? null
+                        : (value) {
+                            setState(() {
+                              k_bs = value!;
+                              if (k_bs == true) {
+                                count++;
+                              } else {
+                                count--;
+                              }
+                            });
+                          }),
                 Text(
                   "Baby Sitter",
                   style: GoogleFonts.poppins(
@@ -130,11 +209,18 @@ class _SignUpInputTState extends State<SignUpInputT> {
                 Checkbox(
                     activeColor: Color(int.parse(globals.color_primary)),
                     value: k_sc,
-                    onChanged: (value) {
-                      setState(() {
-                        k_sc = value!;
-                      });
-                    }),
+                    onChanged: count > 2 && k_sc == false
+                        ? null
+                        : (value) {
+                            setState(() {
+                              k_sc = value!;
+                              if (k_sc == true) {
+                                count++;
+                              } else {
+                                count--;
+                              }
+                            });
+                          }),
                 Text(
                   "Pendamping Lansia",
                   style: GoogleFonts.poppins(
@@ -147,11 +233,18 @@ class _SignUpInputTState extends State<SignUpInputT> {
                 Checkbox(
                     activeColor: Color(int.parse(globals.color_primary)),
                     value: k_supir,
-                    onChanged: (value) {
-                      setState(() {
-                        k_supir = value!;
-                      });
-                    }),
+                    onChanged: count > 2 && k_supir == false
+                        ? null
+                        : (value) {
+                            setState(() {
+                              k_supir = value!;
+                              if (k_supir == true) {
+                                count++;
+                              } else {
+                                count--;
+                              }
+                            });
+                          }),
                 Text(
                   "Supir Pribadi",
                   style: GoogleFonts.poppins(
@@ -164,11 +257,18 @@ class _SignUpInputTState extends State<SignUpInputT> {
                 Checkbox(
                     activeColor: Color(int.parse(globals.color_primary)),
                     value: k_obog,
-                    onChanged: (value) {
-                      setState(() {
-                        k_obog = value!;
-                      });
-                    }),
+                    onChanged: count > 2 && k_obog == false
+                        ? null
+                        : (value) {
+                            setState(() {
+                              k_obog = value!;
+                              if (k_obog == true) {
+                                count++;
+                              } else {
+                                count--;
+                              }
+                            });
+                          }),
                 Text(
                   "Office Boy/Office Girl",
                   style: GoogleFonts.poppins(
@@ -181,11 +281,18 @@ class _SignUpInputTState extends State<SignUpInputT> {
                 Checkbox(
                     activeColor: Color(int.parse(globals.color_primary)),
                     value: k_tk,
-                    onChanged: (value) {
-                      setState(() {
-                        k_tk = value!;
-                      });
-                    }),
+                    onChanged: count > 2 && k_tk == false
+                        ? null
+                        : (value) {
+                            setState(() {
+                              k_tk = value!;
+                              if (k_tk == true) {
+                                count++;
+                              } else {
+                                count--;
+                              }
+                            });
+                          }),
                 Text(
                   "Tukang Kebun",
                   style: GoogleFonts.poppins(
@@ -215,7 +322,29 @@ class _SignUpInputTState extends State<SignUpInputT> {
                 )
               ],
             ),
-            FormFieldTemplate("pengalaman", expctr),
+            Container(
+              child: TextField(
+                controller: expctr,
+                cursorColor: Color(int.parse(globals.color_primary)),
+                style: GoogleFonts.poppins(
+                    textStyle:
+                        const TextStyle(fontSize: 15, color: Colors.black)),
+                decoration: const InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color: Color.fromARGB(255, 138, 138, 138),
+                          width: 1.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color: Color.fromARGB(255, 138, 138, 138),
+                          width: 1.0),
+                    ),
+                    hintText: "Ceritakan pengalaman di sini ....",
+                    contentPadding: EdgeInsets.fromLTRB(8, 4, 8, 4)),
+                maxLines: 7,
+              ),
+            ),
             const SizedBox(
               height: 10,
             ),
@@ -253,7 +382,31 @@ class _SignUpInputTState extends State<SignUpInputT> {
                 ),
                 Expanded(
                   child: Column(
-                    children: [FormFieldTemplate("gaji", mingajictr)],
+                    children: [
+                      Container(
+                        child: TextField(
+                          controller: mingajictr,
+                          cursorColor: Color(int.parse(globals.color_primary)),
+                          style: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                                  fontSize: 15, color: Colors.black)),
+                          decoration: const InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color.fromARGB(255, 138, 138, 138),
+                                    width: 1.0),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color.fromARGB(255, 138, 138, 138),
+                                    width: 1.0),
+                              ),
+                              hintText: "3500000",
+                              contentPadding: EdgeInsets.fromLTRB(8, 4, 8, 4)),
+                          maxLines: 1,
+                        ),
+                      )
+                    ],
                   ),
                 ),
                 const SizedBox(
@@ -272,7 +425,31 @@ class _SignUpInputTState extends State<SignUpInputT> {
                 ),
                 Expanded(
                   child: Column(
-                    children: [FormFieldTemplate("gaji", maxgajictr)],
+                    children: [
+                      Container(
+                        child: TextField(
+                          controller: maxgajictr,
+                          cursorColor: Color(int.parse(globals.color_primary)),
+                          style: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                                  fontSize: 15, color: Colors.black)),
+                          decoration: const InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color.fromARGB(255, 138, 138, 138),
+                                    width: 1.0),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color.fromARGB(255, 138, 138, 138),
+                                    width: 1.0),
+                              ),
+                              hintText: "5500000",
+                              contentPadding: EdgeInsets.fromLTRB(8, 4, 8, 4)),
+                          maxLines: 1,
+                        ),
+                      )
+                    ],
                   ),
                 )
               ],
@@ -297,11 +474,7 @@ class _SignUpInputTState extends State<SignUpInputT> {
                         if (expctr.text != "" &&
                             mingajictr.text != "" &&
                             maxgajictr.text != "") {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const IntroVerifikasi()));
+                          addToGlobal();
                         } else {
                           showDialog(
                               context: context,
@@ -395,26 +568,4 @@ class _SignUpInputTState extends State<SignUpInputT> {
       ),
     );
   }
-}
-
-Widget FormFieldTemplate(String? fill, TextEditingController controller) {
-  return Container(
-    child: TextField(
-      controller: controller,
-      cursorColor: Color(int.parse(globals.color_primary)),
-      style: GoogleFonts.poppins(
-          textStyle: const TextStyle(fontSize: 15, color: Colors.black)),
-      decoration: const InputDecoration(
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-                color: Color.fromARGB(255, 138, 138, 138), width: 1.0),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-                color: Color.fromARGB(255, 138, 138, 138), width: 1.0),
-          ),
-          contentPadding: EdgeInsets.fromLTRB(8, 4, 8, 4)),
-      maxLines: fill == "pengalaman" ? 7 : 1,
-    ),
-  );
 }

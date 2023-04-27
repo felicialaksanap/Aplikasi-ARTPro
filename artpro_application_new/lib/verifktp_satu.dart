@@ -23,12 +23,36 @@ class _VerifikasiKTPSState extends State<VerifikasiKTPS> {
   TextEditingController tlctr = TextEditingController();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    checkValue();
+  }
+
+  @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
     noktpctr.dispose();
     namactr.dispose();
     tlctr.dispose();
+  }
+
+  void checkValue() {
+    setState(() {
+      if (globals.nik != "") {
+        noktpctr.text = globals.nik;
+        namactr.text = globals.namalengkap;
+        tlctr.text = globals.tempatlahir;
+        dateformat = globals.tanggallahir;
+
+        if (globals.jeniskelamin == "P") {
+          jenisKelamin = "perempuan";
+        } else {
+          jenisKelamin = "laki-laki";
+        }
+      }
+    });
   }
 
   void addToGlobal() {

@@ -12,6 +12,7 @@ class SignUpInputD extends StatefulWidget {
 
 class _SignUpInputDState extends State<SignUpInputD> {
   String agama = "";
+  String tipekerja = "";
   bool t_menginap = false;
   bool t_warnen = false;
   bool l_hewan = false;
@@ -31,6 +32,33 @@ class _SignUpInputDState extends State<SignUpInputD> {
     beratctr.dispose();
     tinggictr.dispose();
     pendidikanctr.dispose();
+  }
+
+  void addToGlobal() {
+    setState(() {
+      if (t_menginap == true && t_warnen == true) {
+        tipekerja = "menginap, warnen";
+      } else if (t_menginap == true && t_warnen == false) {
+        tipekerja = "meningap";
+      } else if (t_menginap == false && t_warnen == true) {
+        tipekerja = "warnen";
+      }
+
+      globals.berat = beratctr.text;
+      globals.tinggi = tinggictr.text;
+      globals.pendidikanterakhir = pendidikanctr.text;
+      globals.agama = agama;
+      globals.tipekerja = tipekerja;
+      globals.hewan = l_hewan.toString();
+      globals.mabukJalan = l_mperj.toString();
+      globals.spdmotor = l_spdmotor.toString();
+      globals.mobil = l_mobil.toString();
+      globals.masak = l_masak.toString();
+
+      print("tipe kerja: ${globals.tipekerja}");
+    });
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const SignUpInputT()));
   }
 
   @override
@@ -496,10 +524,7 @@ class _SignUpInputDState extends State<SignUpInputD> {
                               agama != "" &&
                               t_menginap == true ||
                           t_warnen == true) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const SignUpInputT()));
+                        addToGlobal();
                       } else {
                         showDialog(
                             context: context,
@@ -565,6 +590,7 @@ Widget FormFieldTemplate(TextEditingController controller) {
   return Container(
     child: TextField(
       controller: controller,
+      textCapitalization: TextCapitalization.characters,
       cursorColor: Color(int.parse(globals.color_primary)),
       style: GoogleFonts.poppins(
           textStyle: const TextStyle(fontSize: 15, color: Colors.black)),

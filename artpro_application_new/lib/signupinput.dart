@@ -155,27 +155,33 @@ class _SignUpInputState extends State<SignUpInput> {
       globals.kotadom = dropKota;
       globals.latitude = latitude;
       globals.longitude = longitude;
+      globals.telephone = notelpctr.text;
     });
     addAkunUser();
   }
 
   void addAkunUser() async {
-    // var url = "${globals.urlapi}addakunuser";
-    // var response = await http.post(Uri.parse(url), body: {
-    //   "email": globals.email,
-    //   "password": globals.password,
-    //   "statususer": globals.status_user
-    // });
-    // if (response.statusCode == 200) {
-    //   final data = jsonDecode(response.body);
-    //   var lastId = data['data']['getIdLast'];
-    //   setState(() {
-    //     globals.iduser = lastId.toString();
-    //   });
+    var url = "${globals.urlapi}addakunuser";
+    var response = await http.post(Uri.parse(url), body: {
+      "email": globals.email,
+      "password": globals.password,
+      "statususer": globals.status_user
+    });
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      var lastId = data['data']['getIdLast'];
+      setState(() {
+        globals.iduser = lastId.toString();
+      });
 
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const IntroVerifikasi()));
-    //}
+      if (globals.status_user == "majikan") {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const IntroVerifikasi()));
+      } else {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const SignUpInputD()));
+      }
+    }
   }
 
   @override
@@ -209,7 +215,6 @@ class _SignUpInputState extends State<SignUpInput> {
               const SizedBox(
                 height: 10,
               ),
-              // kata pengantar lagi ??
               Row(
                 children: [
                   Text(
@@ -679,6 +684,10 @@ class _SignUpInputState extends State<SignUpInput> {
                       setState(() {
                         msgpass = "password tidak melebihi 16 Karakter";
                       });
+                    } else if (value.length < 6) {
+                      setState(() {
+                        msgpass = "password minimal 6 karakter";
+                      });
                     } else {
                       setState(() {
                         msgpass = "";
@@ -861,15 +870,7 @@ class _SignUpInputState extends State<SignUpInput> {
                             dropKota != "-Pilih-" &&
                             dropKelu != "-Pilih-" &&
                             dropKec != "-Pilih-") {
-                          if (globals.status_user == "majikan") {
-                            getLongLat(alamatdctr.text, dropKota);
-                          } else {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const SignUpInputD()));
-                          }
+                          getLongLat(alamatdctr.text, dropKota);
                         } else {
                           showDialog(
                               context: context,

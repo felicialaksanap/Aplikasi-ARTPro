@@ -1,9 +1,14 @@
-import 'dart:io';
+// ignore_for_file: use_build_context_synchronously
 
+import 'dart:io';
 import 'package:artpro_application_new/mainberanda.dart';
+import 'package:artpro_application_new/verifktp_dua.dart';
+import 'package:artpro_application_new/verifktp_satu.dart';
+import 'package:artpro_application_new/verifktp_tiga.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 import './global.dart' as globals;
 
 class SummaryVerifikasi extends StatefulWidget {
@@ -15,6 +20,103 @@ class SummaryVerifikasi extends StatefulWidget {
 
 class _SummaryVerifikasiState extends State<SummaryVerifikasi> {
   bool is_selected = false;
+
+  Future<void> sentToDatabase() async {
+    // === SIMPAN PROFILE ===
+    var url = "${globals.urlapi}addprofileuser";
+    var response = await http.post(Uri.parse(url), body: {
+      "iduser": globals.iduser,
+      "namalengkap": globals.namalengkap,
+      "jeniskelamin": globals.jeniskelamin,
+      "tempatlahir": globals.tempatlahir,
+      "tanggallahir": globals.tanggallahir,
+      "telephone": globals.telephone,
+      "profilepicpath": "-"
+    });
+    // END OF SIMPAN PROFILE
+
+    // SIMPAN DATA VERIFIKASI //
+    var url2 = "${globals.urlapi}addverifikasidata";
+    var response2 = await http.post(Uri.parse(url2), body: {
+      "iduser": globals.iduser,
+      "nik": globals.nik,
+      "tempatlahir": globals.tempatlahir,
+      "tanggallahir": globals.tanggallahir,
+      "alamat": globals.alamatktp,
+      "kecamatan": globals.kecktp,
+      "kelurahan": globals.kelktp,
+      "rt": globals.rt,
+      "rw": globals.rw,
+      "fotoktp": "-",
+      "selfiektp": "-",
+      "statusverifikasi": "belum validasi"
+    });
+    // END OF SIMPAN DATA VERIFIKASI
+
+    // SIMPAN DOMISILI USER
+    var url3 = "${globals.urlapi}adduserdomisili";
+    var response3 = await http.post(Uri.parse(url3), body: {
+      "iduser": globals.iduser,
+      "alamat": globals.alamatdom,
+      "kecamata": globals.kecdom,
+      "kelurahan": globals.keldom,
+      "provinsi": globals.provdom,
+      "kota": globals.kotadom,
+      "longitude": globals.longitude,
+      "latitude": globals.latitude
+    });
+    // END OF SIMPAN DOMISILI USER
+
+    // === UPLOAD IMAGE ===
+    var url4 = "${globals.urlapi}uploadimage";
+    var request = http.MultipartRequest('POST', Uri.parse(url4));
+    request.fields['id'] = globals.iduser.toString();
+    request.fields['folder'] = 'fotoktp';
+    request.files
+        .add(await http.MultipartFile.fromPath('photo', globals.fotoktp!.path));
+    var res = await request.send();
+
+    var request2 = http.MultipartRequest('POST', Uri.parse(url4));
+    request2.fields['id'] = globals.iduser.toString();
+    request2.fields['folder'] = 'selfiektp';
+    request2.files.add(
+        await http.MultipartFile.fromPath('photo', globals.selfiektp!.path));
+    var res2 = await request2.send();
+    // === END UPLOAD IMAGE ===
+
+    if (globals.status_user == "pekerja") {
+      // SIMPAN DETAIL PROFILE ART
+      var url5 = "${globals.urlapi}addprofileart";
+      var response5 = await http.post(Uri.parse(url5), body: {
+        "iduser": globals.iduser,
+        "pendidikanterakhir": globals.pendidikanterakhir,
+        "beratbadan": globals.berat,
+        "tinggi": globals.tinggi,
+        "agama": globals.agama,
+        "tipekerja": globals.tipekerja,
+        "hewan": globals.hewan,
+        "mabukjalan": globals.mabukJalan,
+        "sepedamotor": globals.spdmotor,
+        "mobil": globals.mobil,
+        "masak": globals.masak
+      });
+      // END OF SIMPAN DETAIL PROFILE ART
+
+      // SIMPAN DETAIL KERJA ART
+      var url6 = "${globals.urlapi}addkerjaart";
+      var response6 = await http.post(Uri.parse(url6), body: {
+        "iduser": globals.iduser,
+        "kategori": globals.kategori,
+        "pengalaman": globals.pengalaman,
+        "gajiawal": globals.gajiawal,
+        "gajiakhir": globals.gajiakhir
+      });
+      // END OF SIMPAN DETAIL KERJA ART
+    }
+
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const MainBeranda()));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +179,12 @@ class _SummaryVerifikasiState extends State<SummaryVerifikasi> {
                           color: Colors.black)),
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const VerifikasiKTPS()));
+                  },
                   child: Text(
                     'Ubah',
                     style: GoogleFonts.poppins(
@@ -230,7 +337,12 @@ class _SummaryVerifikasiState extends State<SummaryVerifikasi> {
                           color: Colors.black)),
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const VerifikasiKTPD()));
+                  },
                   child: Text(
                     'Ubah',
                     style: GoogleFonts.poppins(
@@ -431,7 +543,12 @@ class _SummaryVerifikasiState extends State<SummaryVerifikasi> {
                           color: Colors.black)),
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const VerifikasiKTPT()));
+                  },
                   child: Text(
                     'Ubah',
                     style: GoogleFonts.poppins(
@@ -537,10 +654,11 @@ class _SummaryVerifikasiState extends State<SummaryVerifikasi> {
                             ),
                           ),
                           TextButton(
-                            onPressed: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const MainBeranda())),
+                            onPressed: () {
+                              if (is_selected == true) {
+                                sentToDatabase();
+                              }
+                            },
                             child: Text(
                               'Masuk',
                               style: GoogleFonts.poppins(

@@ -7,7 +7,7 @@ String color_secondary = '0xFFFF4D00';
 
 int select_index = 0;
 
-String urlapi = "http://192.168.1.14:1234/";
+String urlapi = "http://192.168.1.22:1234/";
 
 // Akun User //
 String email = "";
@@ -21,7 +21,7 @@ String jeniskelamin = "";
 String tempatlahir = "";
 String tanggallahir = "";
 String telephone = "";
-String profpicpath = "";
+XFile? profpicpath;
 
 // Alamat Domisili User //
 String alamatdom = "";
@@ -44,3 +44,29 @@ String rw = "";
 XFile? fotoktp;
 XFile? selfiektp;
 String statusverifikasi = "";
+
+// Id detail address of verifikasi user //
+String idprovktp = "";
+String idkotktp = "";
+String idkecktp = "";
+String idkelktp = "";
+
+// Profile ART //
+String pendidikanterakhir = "";
+String berat = "";
+String tinggi = "";
+String agama = "";
+String tipekerja =
+    ""; // more than one choices, use ",", for easy to filter it to list
+String hewan = "";
+String mabukJalan = "";
+String spdmotor = "";
+String mobil = "";
+String masak = "";
+
+// Detail kerja ART //
+String kategori =
+    ""; // it can be more than one, so use "," for easy to convert it to list
+String pengalaman = "";
+String gajiawal = "";
+String gajiakhir = "";
