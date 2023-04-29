@@ -19,7 +19,6 @@ class _SignUpInputTState extends State<SignUpInputT> {
   bool k_supir = false;
   bool k_obog = false;
   bool k_tk = false;
-  String kategori = "";
   int count = 0;
 
   TextEditingController expctr = TextEditingController();
@@ -37,56 +36,12 @@ class _SignUpInputTState extends State<SignUpInputT> {
 
   void addToGlobal() {
     setState(() {
-      if (k_prt == true) {
-        kategori = "prt";
-        if (k_bs == true) {
-          kategori = kategori + ", babysitter";
-          if (k_sc == true) {
-            kategori = kategori + ", seniorcare";
-          } else if (k_supir == true) {
-            kategori = kategori + ", supir";
-          } else if (k_obog == true) {
-            kategori = kategori + ", officeboy";
-          } else if (k_tk == true) {
-            kategori = kategori + ", tukangkebun";
-          }
-        } else if (k_sc == true) {
-          kategori = kategori + ", seniorcare";
-          if (k_supir == true) {
-            kategori = kategori + ", supir";
-          } else if (k_obog == true) {
-            kategori = kategori + ", officeboy";
-          } else if (k_tk == true) {
-            kategori = kategori + ", tukangkebun";
-          }
-        } else if (k_supir == true) {
-          kategori = kategori + ", supir";
-          if (k_obog == true) {
-            kategori = kategori + ", officeboy";
-          } else if (k_tk == true) {
-            kategori = kategori + ", tukangkebun";
-          }
-        } else if (k_obog == true) {
-          kategori = kategori + ", officeboy";
-          if (k_tk == true) {
-            kategori = kategori + ", tukangkebun";
-          }
-        } else if (k_tk == true) {
-          kategori = kategori + ", tukangkebun";
-        }
-      } else if (k_bs == true) {
-        kategori = "babysitter";
-      } else if (k_sc == true) {
-        kategori = "seniorcare";
-      } else if (k_supir == true) {
-        kategori = "supir";
-      } else if (k_obog == true) {
-        kategori = "officeboy";
-      } else if (k_tk == true) {
-        kategori = "tukangkebun";
-      }
-
-      globals.kategori = kategori;
+      globals.kprt = k_prt.toString();
+      globals.kbabysitter = k_bs.toString();
+      globals.kseniorcare = k_sc.toString();
+      globals.ksupir = k_supir.toString();
+      globals.kofficeboy = k_obog.toString();
+      globals.ktukangkebun = k_tk.toString();
       globals.pengalaman = expctr.text;
       globals.gajiawal = mingajictr.text;
       globals.gajiakhir = maxgajictr.text;

@@ -1,6 +1,11 @@
+import 'dart:io';
+
 import 'package:artpro_application_new/gantipass.dart';
 import 'package:artpro_application_new/mainberanda.dart';
+import 'package:artpro_application_new/services/userservices.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:google_fonts/google_fonts.dart';
 import './global.dart' as globals;
@@ -24,6 +29,10 @@ class _ProfileEditState extends State<ProfileEdit> {
   TextEditingController notelpctr = TextEditingController();
   TextEditingController emailctr = TextEditingController();
 
+  XFile? imageprofpic;
+  final ImagePicker picker = ImagePicker();
+  List<ProfileUser> listProfileUser = [];
+
   @override
   void initState() {
     // TODO: implement initState
@@ -36,6 +45,46 @@ class _ProfileEditState extends State<ProfileEdit> {
     emailctr.text = globals.email;
 
     dateformat = globals.tanggallahir;
+
+    print("profpic file: ${globals.profpicpath}");
+    print("profpic db: ${globals.profpicpathdb}");
+  }
+
+  Future getImage(ImageSource media, String take) async {
+    var img = await picker.pickImage(source: media, imageQuality: 10);
+
+    setState(() {
+      imageprofpic = img;
+      globals.profpicpath = imageprofpic;
+      print("profpic file click: ${globals.profpicpath?.path}");
+    });
+
+    var url = "${globals.urlapi}uploadimage";
+    var request = http.MultipartRequest('POST', Uri.parse(url));
+    request.fields['id'] = globals.iduser.toString();
+    request.fields['folder'] = take;
+    request.files.add(
+        await http.MultipartFile.fromPath('photo', globals.profpicpath!.path));
+    var res = await request.send();
+  }
+
+  void getAkunProfileUser() async {
+    ProfileUser.getData(globals.iduser).then((value) {
+      listProfileUser = value;
+      if (listProfileUser.isNotEmpty) {
+        setState(() {
+          globals.namalengkap = listProfileUser[0].namalengkap;
+          globals.jeniskelamin = listProfileUser[0].jeniskelamin;
+          globals.tempatlahir = listProfileUser[0].tempatlahir;
+          globals.tanggallahir = listProfileUser[0].tanggallahir;
+          globals.telephone = listProfileUser[0].telephone;
+          globals.profpicpathdb = listProfileUser[0].profilepicpath;
+        });
+      }
+    });
+
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const MainBeranda()));
   }
 
   @override
@@ -46,7 +95,7 @@ class _ProfileEditState extends State<ProfileEdit> {
         elevation: 0,
         leading: IconButton(
           onPressed: () {
-            Navigator.pop(context);
+            getAkunProfileUser();
           },
           icon: Icon(
             Icons.arrow_back_ios,
@@ -94,29 +143,50 @@ class _ProfileEditState extends State<ProfileEdit> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  height: 100,
-                  width: 100,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50.0),
-                      image: const DecorationImage(
-                          image: AssetImage(
-                            "assets/images/person-4.jpg",
+                globals.profpicpath != null
+                    ? Container(
+                        height: 100,
+                        width: 100,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50.0),
+                            image: DecorationImage(
+                                image: FileImage(
+                                    File("${globals.profpicpath?.path}")),
+                                fit: BoxFit.fill)),
+                      )
+                    : globals.profpicpathdb != "-"
+                        ? Container(
+                            height: 100,
+                            width: 100,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50.0),
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                        '${globals.urlapi}getimage?id=${globals.iduser}&folder=profpic'),
+                                    fit: BoxFit.fill)),
+                          )
+                        : Icon(
+                            Icons.account_circle_rounded,
+                            size: 100,
+                            color: Color(int.parse(globals.color_primary)),
                           ),
-                          fit: BoxFit.fill)),
-                ),
               ],
             ),
-            Center(
-              child: TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    'Ganti Gambar',
-                    style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
-                            fontSize: 15,
-                            color: Color(int.parse(globals.color_primary)))),
-                  )),
+            Visibility(
+              visible: statusedit == true ? true : false,
+              child: Center(
+                child: TextButton(
+                    onPressed: () {
+                      getImage(ImageSource.gallery, "profpic");
+                    },
+                    child: Text(
+                      'Ganti Gambar',
+                      style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                              fontSize: 15,
+                              color: Color(int.parse(globals.color_primary)))),
+                    )),
+              ),
             ),
             const SizedBox(
               height: 20,

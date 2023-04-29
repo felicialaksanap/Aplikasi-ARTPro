@@ -31,20 +31,26 @@ class _MainBerandaState extends State<MainBeranda> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _widgetOptions[globals.select_index],
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-              icon: Icon(Icons.home_filled), label: 'Beranda'),
-          BottomNavigationBarItem(icon: Icon(Icons.assignment), label: 'Karir'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.account_box), label: 'Profile'),
-        ],
-        currentIndex: globals.select_index,
-        selectedItemColor: Color(int.parse(globals.color_primary)),
-        unselectedItemColor: const Color.fromARGB(255, 67, 67, 67),
-        onTap: _onItemTapped,
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: Scaffold(
+        body: _widgetOptions[globals.select_index],
+        bottomNavigationBar: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+                icon: Icon(Icons.home_filled), label: 'Beranda'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.assignment), label: 'Karir'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.account_box), label: 'Profile'),
+          ],
+          currentIndex: globals.select_index,
+          selectedItemColor: Color(int.parse(globals.color_primary)),
+          unselectedItemColor: const Color.fromARGB(255, 67, 67, 67),
+          onTap: _onItemTapped,
+        ),
       ),
     );
   }

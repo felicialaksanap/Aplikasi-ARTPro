@@ -149,7 +149,8 @@ class DetailProfileART {
   String beratbadan = "";
   String tinggibadan = "";
   String agama = "";
-  String tipekerja = "";
+  String tkmenginap = "";
+  String tkwarnen = "";
   String hewan = "";
   String mabukjalan = "";
   String sepedamotor = "";
@@ -162,7 +163,8 @@ class DetailProfileART {
       required this.beratbadan,
       required this.tinggibadan,
       required this.agama,
-      required this.tipekerja,
+      required this.tkmenginap,
+      required this.tkwarnen,
       required this.hewan,
       required this.mabukjalan,
       required this.sepedamotor,
@@ -176,7 +178,8 @@ class DetailProfileART {
         beratbadan: object['beratbadan'],
         tinggibadan: object['tinggibadan'],
         agama: object['agama'],
-        tipekerja: object['tipekerja'],
+        tkmenginap: object['tkmenginap'],
+        tkwarnen: object['tkwarnen'],
         hewan: object['hewan'],
         mabukjalan: object['mabukjalan'],
         sepedamotor: object['sepedamotor'],
@@ -207,14 +210,24 @@ class DetailProfileART {
 
 class DetailKerjaART {
   String iduser = "";
-  String kategori = "";
+  String kprt = "";
+  String kbabysitter = "";
+  String kseniorcare = "";
+  String ksupir = "";
+  String kofficeboy = "";
+  String ktukangkebun = "";
   String pengalaman = "";
   String gajiawal = "";
   String gajiakhir = "";
 
   DetailKerjaART(
       {required this.iduser,
-      required this.kategori,
+      required this.kprt,
+      required this.kbabysitter,
+      required this.kseniorcare,
+      required this.ksupir,
+      required this.kofficeboy,
+      required this.ktukangkebun,
       required this.pengalaman,
       required this.gajiawal,
       required this.gajiakhir});
@@ -222,7 +235,12 @@ class DetailKerjaART {
   factory DetailKerjaART.createData(Map<String, dynamic> object) {
     return DetailKerjaART(
         iduser: object['iduser'].toString(),
-        kategori: object['kategori'],
+        kprt: object['kprt'],
+        kbabysitter: object['kbabysitter'],
+        kseniorcare: object['kseniorcare'],
+        ksupir: object['ksupir'],
+        kofficeboy: object['kofficeboy'],
+        ktukangkebun: object['ktukangkebun'],
         pengalaman: object['pengalaman'],
         gajiawal: object['gajiawal'],
         gajiakhir: object['gajiakhir']);

@@ -50,8 +50,6 @@ class _SplashScreenState extends State<SplashScreen> {
     globals.email = prefs.getString("email") ?? "";
     globals.password = prefs.getString("password") ?? "";
 
-    print("email from sp: ${globals.email}");
-
     if (globals.email != "") {
       AkunUser.getData(globals.email, globals.password).then((value) {
         setState(() {
@@ -99,7 +97,8 @@ class _SplashScreenState extends State<SplashScreen> {
                   globals.berat = listDetailProfART[0].beratbadan;
                   globals.tinggi = listDetailProfART[0].tinggibadan;
                   globals.agama = listDetailProfART[0].agama;
-                  globals.tipekerja = listDetailProfART[0].tipekerja;
+                  globals.tkmenginap = listDetailProfART[0].tkmenginap;
+                  globals.tkwarnen = listDetailProfART[0].tkwarnen;
                   globals.hewan = listDetailProfART[0].hewan;
                   globals.mabukJalan = listDetailProfART[0].mabukjalan;
                   globals.spdmotor = listDetailProfART[0].sepedamotor;
@@ -111,7 +110,12 @@ class _SplashScreenState extends State<SplashScreen> {
               DetailKerjaART.getData(globals.iduser).then((value) {
                 listDetailKerjaART = value;
                 if (listDetailKerjaART.isNotEmpty) {
-                  globals.kategori = listDetailKerjaART[0].kategori;
+                  globals.kprt = listDetailKerjaART[0].kprt;
+                  globals.kbabysitter = listDetailKerjaART[0].kbabysitter;
+                  globals.kseniorcare = listDetailKerjaART[0].kseniorcare;
+                  globals.ksupir = listDetailKerjaART[0].ksupir;
+                  globals.kofficeboy = listDetailKerjaART[0].kofficeboy;
+                  globals.ktukangkebun = listDetailKerjaART[0].ktukangkebun;
                   globals.pengalaman = listDetailKerjaART[0].pengalaman;
                   globals.gajiawal = listDetailKerjaART[0].gajiawal;
                   globals.gajiakhir = listDetailKerjaART[0].gajiakhir;

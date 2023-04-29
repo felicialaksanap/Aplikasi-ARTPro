@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
+import 'dart:io';
+
 import 'package:artpro_application_new/listloker.dart';
 import 'package:artpro_application_new/loginmenu.dart';
 import 'package:artpro_application_new/profileedit.dart';
@@ -49,17 +51,34 @@ class _ProfileMenuState extends State<ProfileMenu> {
                 children: [
                   Column(
                     children: [
-                      Container(
-                        height: 100,
-                        width: 100,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50.0),
-                            image: const DecorationImage(
-                                image: AssetImage(
-                                  "assets/images/person-4.jpg",
+                      globals.profpicpath != null
+                          ? Container(
+                              height: 100,
+                              width: 100,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50.0),
+                                  image: DecorationImage(
+                                      image: FileImage(
+                                          File("${globals.profpicpath?.path}")),
+                                      fit: BoxFit.fill)),
+                            )
+                          : globals.profpicpathdb != "-"
+                              ? Container(
+                                  height: 100,
+                                  width: 100,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(50.0),
+                                      image: DecorationImage(
+                                          image: NetworkImage(
+                                              '${globals.urlapi}getimage?id=${globals.iduser}&folder=profpic'),
+                                          fit: BoxFit.fill)),
+                                )
+                              : Icon(
+                                  Icons.account_circle_rounded,
+                                  size: 100,
+                                  color:
+                                      Color(int.parse(globals.color_primary)),
                                 ),
-                                fit: BoxFit.fill)),
-                      ),
                       const SizedBox(
                         height: 10,
                       ),
@@ -295,6 +314,7 @@ class _ProfileMenuState extends State<ProfileMenu> {
               ),
               GestureDetector(
                 onTap: () {
+                  globals.select_index = 0;
                   sharedprefAkunUser();
                 },
                 child: Container(
