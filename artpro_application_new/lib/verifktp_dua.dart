@@ -33,6 +33,11 @@ class _VerifikasiKTPDState extends State<VerifikasiKTPD> {
   List<DetailKelurahan> listKelurahan = [];
   List<String> menuKelurahan = [];
 
+  bool getMenuProv = false;
+  bool getMenuKot = false;
+  bool getMenuKec = false;
+  bool getMenuKel = false;
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -47,13 +52,13 @@ class _VerifikasiKTPDState extends State<VerifikasiKTPD> {
     // TODO: implement initState
     super.initState();
 
+    menuProvinsi.add("-Pilih-");
+    menuKotKab.add("-Pilih-");
+    menuKecamatan.add("-Pilih-");
+    menuKelurahan.add("-Pilih-");
     if (globals.alamatktp != "") {
-      checkValue();
+      getDetailAddress();
     } else {
-      menuProvinsi.add("-Pilih-");
-      menuKotKab.add("-Pilih-");
-      menuKecamatan.add("-Pilih-");
-      menuKelurahan.add("-Pilih-");
       getDetailProvinsi();
     }
   }
@@ -68,6 +73,10 @@ class _VerifikasiKTPDState extends State<VerifikasiKTPD> {
         menuProvinsi.add("-Pilih-");
         for (int i = 0; i < listProvinsi.length; i++) {
           menuProvinsi.add(listProvinsi[i].nama);
+        }
+
+        if (globals.alamatktp != "") {
+          dropProvinsi = globals.provktp;
         }
       });
     });
@@ -84,6 +93,10 @@ class _VerifikasiKTPDState extends State<VerifikasiKTPD> {
         for (int i = 0; i < listKotKab.length; i++) {
           menuKotKab.add(listKotKab[i].nama);
         }
+
+        if (globals.alamatktp != "") {
+          dropKota = globals.kotaktp;
+        }
       });
     });
   }
@@ -98,6 +111,10 @@ class _VerifikasiKTPDState extends State<VerifikasiKTPD> {
         menuKecamatan.add("-Pilih-");
         for (int i = 0; i < listKecamatan.length; i++) {
           menuKecamatan.add(listKecamatan[i].nama);
+        }
+
+        if (globals.alamatktp != "") {
+          dropKec = globals.kecktp;
         }
       });
     });
@@ -114,33 +131,29 @@ class _VerifikasiKTPDState extends State<VerifikasiKTPD> {
         for (int i = 0; i < listKelurahan.length; i++) {
           menuKelurahan.add(listKelurahan[i].nama);
         }
+
+        if (globals.alamatktp != "") {
+          dropKelu = globals.kelktp ;
+          checkValue();
+        }
       });
     });
   }
 
-  void checkValue() async {
-    String idProvinsi = "";
-    String idKotKab = "";
-    String idKecamatan = "";
-    String idKelurahan = "";
-
+  void getDetailAddress() async {
     await getDetailProvinsi();
-    // await getDetailKotKab(globals.idprovktp);
-    // await getDetailKecamatan(globals.idkotktp);
-    // await getDetailKelurahan(globals.idkecktp);
+    await getDetailKotKab(globals.idprovktp);
+    await getDetailKecamatan(globals.idkotktp);
+    await getDetailKelurahan(globals.idkecktp);
+  }
 
+  void checkValue() {
     setState(() {
       alamatkctr.text = globals.alamatktp;
 
       dropProvinsi = globals.provktp;
-      getDetailKotKab(globals.idprovktp);
-
       dropKota = globals.kotaktp;
-      getDetailKecamatan(globals.idkotktp);
-
       dropKec = globals.kecktp;
-      getDetailKelurahan(globals.idkecktp);
-
       dropKelu = globals.kelktp;
 
       rtctr.text = globals.rt;
@@ -478,7 +491,7 @@ class _VerifikasiKTPDState extends State<VerifikasiKTPD> {
                                 listKecamatan[i].idKecamatan.toString();
                           }
                         }
-                        globals.kecktp = idKecamatan;
+                        globals.idkecktp = idKecamatan;
                         getDetailKelurahan(idKecamatan);
                       });
                     },

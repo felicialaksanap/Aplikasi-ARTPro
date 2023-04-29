@@ -1,10 +1,11 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
 import 'package:artpro_application_new/listloker.dart';
 import 'package:artpro_application_new/loginmenu.dart';
 import 'package:artpro_application_new/profileedit.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import './global.dart' as globals;
 
 class ProfileMenu extends StatefulWidget {
@@ -15,6 +16,15 @@ class ProfileMenu extends StatefulWidget {
 }
 
 class _ProfileMenuState extends State<ProfileMenu> {
+  sharedprefAkunUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("email", "");
+    prefs.setString("password", "");
+
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const LoginMenu()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +66,7 @@ class _ProfileMenuState extends State<ProfileMenu> {
                       Row(
                         children: [
                           Text(
-                            'Delaney Hill',
+                            globals.namalengkap,
                             style: GoogleFonts.poppins(
                                 textStyle: const TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.bold)),
@@ -79,14 +89,14 @@ class _ProfileMenuState extends State<ProfileMenu> {
                         height: 10,
                       ),
                       Text(
-                        'keeling.horacio@email.com',
+                        globals.email,
                         style: GoogleFonts.poppins(
                             textStyle: const TextStyle(
                                 fontSize: 15,
                                 color: Color.fromARGB(255, 67, 67, 67))),
                       ),
                       Text(
-                        '+6281246053145',
+                        globals.telephone,
                         style: GoogleFonts.poppins(
                             textStyle: const TextStyle(
                                 fontSize: 15,
@@ -285,10 +295,7 @@ class _ProfileMenuState extends State<ProfileMenu> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const LoginMenu()));
+                  sharedprefAkunUser();
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width,

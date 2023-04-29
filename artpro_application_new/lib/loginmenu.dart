@@ -1,10 +1,14 @@
 // ignore_for_file: non_constant_identifier_names, sized_box_for_whitespace
 
+import 'package:artpro_application_new/beranda.dart';
+import 'package:artpro_application_new/services/userservices.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import './global.dart' as globals;
 import './mainberanda.dart';
 import './signupmenu.dart';
+import 'package:artpro_application_new/services/services.dart';
 
 class LoginMenu extends StatefulWidget {
   const LoginMenu({super.key});
@@ -14,9 +18,63 @@ class LoginMenu extends StatefulWidget {
 }
 
 class _LoginMenuState extends State<LoginMenu> {
-  TextEditingController username = TextEditingController();
-  TextEditingController password = TextEditingController();
+  TextEditingController emailctr = TextEditingController();
+  TextEditingController passctr = TextEditingController();
   bool hide_pass = true;
+
+  List<AkunUser> listAkunUser = [];
+
+  Future<void> getAkunUser() async {
+    AkunUser.getData(emailctr.text, passctr.text).then((value) async {
+      listAkunUser = value;
+      if (listAkunUser.isNotEmpty) {
+        globals.iduser = listAkunUser[0].iduser;
+        globals.email = listAkunUser[0].email;
+        globals.password = listAkunUser[0].password;
+        globals.status_user = listAkunUser[0].statususer;
+
+        sharedprefAkunUser();
+
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const MainBeranda()));
+      } else {
+        showDialog<String>(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+                  title: Text(
+                    "Email atau password salah",
+                    style: GoogleFonts.poppins(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black),
+                  ),
+                  actions: [
+                    Center(
+                      child: TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                            "OK",
+                            style: GoogleFonts.poppins(
+                                textStyle: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(
+                                        int.parse(globals.color_secondary)))),
+                          )),
+                    )
+                  ],
+                ));
+      }
+    });
+  }
+
+  sharedprefAkunUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("email", globals.email);
+    prefs.setString("password", globals.password);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +115,7 @@ class _LoginMenuState extends State<LoginMenu> {
                 size: 25,
               ),
               title: TextField(
-                controller: username,
+                controller: emailctr,
                 cursorColor: Color(int.parse(globals.color_primary)),
                 style: GoogleFonts.poppins(
                     textStyle:
@@ -83,7 +141,7 @@ class _LoginMenuState extends State<LoginMenu> {
                 size: 25,
               ),
               title: TextField(
-                controller: password,
+                controller: passctr,
                 obscureText: hide_pass,
                 cursorColor: Color(int.parse(globals.color_primary)),
                 style: GoogleFonts.poppins(
@@ -144,11 +202,8 @@ class _LoginMenuState extends State<LoginMenu> {
               height: 50,
               child: ElevatedButton(
                 onPressed: () {
-                  if (username.text != "" && password.text != "") {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const MainBeranda()));
+                  if (emailctr.text != "" && passctr.text != "") {
+                    getAkunUser();
                   } else {
                     showDialog(
                         context: context,

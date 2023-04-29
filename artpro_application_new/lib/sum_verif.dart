@@ -58,7 +58,7 @@ class _SummaryVerifikasiState extends State<SummaryVerifikasi> {
     var response3 = await http.post(Uri.parse(url3), body: {
       "iduser": globals.iduser,
       "alamat": globals.alamatdom,
-      "kecamata": globals.kecdom,
+      "kecamatan": globals.kecdom,
       "kelurahan": globals.keldom,
       "provinsi": globals.provdom,
       "kota": globals.kotadom,
@@ -91,7 +91,7 @@ class _SummaryVerifikasiState extends State<SummaryVerifikasi> {
         "iduser": globals.iduser,
         "pendidikanterakhir": globals.pendidikanterakhir,
         "beratbadan": globals.berat,
-        "tinggi": globals.tinggi,
+        "tinggibadan": globals.tinggi,
         "agama": globals.agama,
         "tipekerja": globals.tipekerja,
         "hewan": globals.hewan,

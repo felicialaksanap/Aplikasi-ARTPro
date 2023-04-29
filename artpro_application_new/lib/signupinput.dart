@@ -7,6 +7,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:http/http.dart' as http;
 import 'global.dart' as globals;
 import './intro_verif.dart';
@@ -184,6 +185,19 @@ class _SignUpInputState extends State<SignUpInput> {
     }
   }
 
+  void validateEmail(String value) {
+    bool validate = EmailValidator.validate(value);
+    if (validate == false) {
+      setState(() {
+        msgemail = "format email tidak sesuai";
+      });
+    } else {
+      setState(() {
+        msgemail = "";
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -238,15 +252,7 @@ class _SignUpInputState extends State<SignUpInput> {
                 child: TextField(
                   controller: emailctr,
                   onChanged: (value) {
-                    if (value.characters.contains("@")) {
-                      setState(() {
-                        msgemail = "";
-                      });
-                    } else {
-                      setState(() {
-                        msgemail = "format email tidak sesuai";
-                      });
-                    }
+                    validateEmail(value);
                   },
                   cursorColor: Color(int.parse(globals.color_primary)),
                   style: GoogleFonts.poppins(

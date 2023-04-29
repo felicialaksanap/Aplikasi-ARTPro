@@ -16,6 +16,28 @@ class _ProfileEditState extends State<ProfileEdit> {
   DateTime date = DateTime.now();
   String dateformat = "";
 
+  bool statusedit = false;
+
+  TextEditingController namactr = TextEditingController();
+  TextEditingController tmplahirctr = TextEditingController();
+  TextEditingController alamatctr = TextEditingController();
+  TextEditingController notelpctr = TextEditingController();
+  TextEditingController emailctr = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    namactr.text = globals.namalengkap;
+    tmplahirctr.text = globals.tempatlahir;
+    alamatctr.text = globals.alamatdom;
+    notelpctr.text = globals.telephone;
+    emailctr.text = globals.email;
+
+    dateformat = globals.tanggallahir;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +54,7 @@ class _ProfileEditState extends State<ProfileEdit> {
           ),
         ),
         title: Text(
-          "Ubah Profile",
+          statusedit == true ? "Ubah Profile" : "Lihat Profile",
           style: GoogleFonts.poppins(
               textStyle: TextStyle(
                   color: Color(int.parse(globals.color_primary)),
@@ -44,15 +66,11 @@ class _ProfileEditState extends State<ProfileEdit> {
               TextButton(
                   onPressed: () {
                     setState(() {
-                      globals.select_index = 2;
+                      statusedit = !statusedit;
                     });
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const MainBeranda()));
                   },
                   child: Text(
-                    'Selesai',
+                    statusedit == true ? 'Selesai' : "Ubah",
                     style: GoogleFonts.poppins(
                         textStyle: TextStyle(
                             color: Color(int.parse(globals.color_secondary)),
@@ -105,113 +123,274 @@ class _ProfileEditState extends State<ProfileEdit> {
             ),
             Text(
               "Nama Lengkap",
-              style:
-                  GoogleFonts.poppins(textStyle: const TextStyle(fontSize: 15)),
+              style: GoogleFonts.poppins(
+                  textStyle: const TextStyle(
+                      fontSize: 15, fontWeight: FontWeight.w500)),
             ),
             const SizedBox(
               height: 5,
             ),
-            FormFieldTemplate(),
+            statusedit == false
+                ? Text(
+                    "     ${globals.namalengkap}",
+                    style: GoogleFonts.poppins(
+                        textStyle: const TextStyle(
+                      fontSize: 15,
+                    )),
+                  )
+                : Container(
+                    child: TextField(
+                      controller: namactr,
+                      cursorColor: Color(int.parse(globals.color_primary)),
+                      style: GoogleFonts.poppins(
+                          textStyle: const TextStyle(
+                              fontSize: 15, color: Colors.black)),
+                      decoration: const InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color.fromARGB(255, 138, 138, 138),
+                                width: 1.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color.fromARGB(255, 138, 138, 138),
+                                width: 1.0),
+                          ),
+                          contentPadding: EdgeInsets.fromLTRB(8, 4, 8, 4)),
+                    ),
+                  ),
             const SizedBox(
               height: 20,
             ),
             Text(
               "Jenis Kelamin",
-              style:
-                  GoogleFonts.poppins(textStyle: const TextStyle(fontSize: 15)),
+              style: GoogleFonts.poppins(
+                  textStyle: const TextStyle(
+                      fontSize: 15, fontWeight: FontWeight.w500)),
             ),
             const SizedBox(
               height: 5,
             ),
-            FormFieldTemplate(),
+            Text(
+              "     ${globals.jeniskelamin == "P" ? "Perempuan" : "Laki-Laki"}",
+              style:
+                  GoogleFonts.poppins(textStyle: const TextStyle(fontSize: 15)),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Text(
+              "Tempat Lahir",
+              style: GoogleFonts.poppins(
+                  textStyle: const TextStyle(
+                      fontSize: 15, fontWeight: FontWeight.w500)),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            statusedit == false
+                ? Text(
+                    "     ${globals.tempatlahir}",
+                    style: GoogleFonts.poppins(
+                        textStyle: const TextStyle(
+                      fontSize: 15,
+                    )),
+                  )
+                : Container(
+                    child: TextField(
+                      controller: tmplahirctr,
+                      cursorColor: Color(int.parse(globals.color_primary)),
+                      style: GoogleFonts.poppins(
+                          textStyle: const TextStyle(
+                              fontSize: 15, color: Colors.black)),
+                      decoration: const InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color.fromARGB(255, 138, 138, 138),
+                                width: 1.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color.fromARGB(255, 138, 138, 138),
+                                width: 1.0),
+                          ),
+                          contentPadding: EdgeInsets.fromLTRB(8, 4, 8, 4)),
+                    ),
+                  ),
             const SizedBox(
               height: 20,
             ),
             Text(
               'Tanggal Lahir',
-              style:
-                  GoogleFonts.poppins(textStyle: const TextStyle(fontSize: 15)),
+              style: GoogleFonts.poppins(
+                  textStyle: const TextStyle(
+                      fontSize: 15, fontWeight: FontWeight.w500)),
             ),
             const SizedBox(
               height: 5,
             ),
-            Container(
-              height: 50,
-              child: ListTile(
-                shape: RoundedRectangleBorder(
-                    side: const BorderSide(
-                        color: Color.fromARGB(255, 138, 138, 138), width: 1.0),
-                    borderRadius: BorderRadius.circular(5.0)),
-                onTap: () async {
-                  DateTime? newDate = await showDatePicker(
-                      context: context,
-                      initialDate: date,
-                      firstDate: DateTime(1900),
-                      lastDate: DateTime(2100));
-                  if (newDate == null) return;
-                  setState(() {
-                    date = newDate;
-                    dateformat = DateFormat('dd-MM-yyyy').format(date);
-                  });
-                },
-                trailing: Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Icon(
-                    Icons.calendar_month,
-                    size: 30,
-                    color: Color(int.parse(globals.color_primary)),
-                  ),
-                ),
-                title: Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Text(
-                    dateformat.isEmpty ? 'DD/MM/YYYY' : dateformat,
+            statusedit == false
+                ? Text(
+                    "     ${globals.tanggallahir}",
                     style: GoogleFonts.poppins(
-                        textStyle: dateformat.isNotEmpty
-                            ? const TextStyle(fontSize: 15, color: Colors.black)
-                            : const TextStyle(
-                                fontSize: 15,
-                                color: Color.fromARGB(255, 138, 138, 138))),
+                        textStyle: const TextStyle(fontSize: 15)),
+                  )
+                : Container(
+                    height: 50,
+                    child: ListTile(
+                      shape: RoundedRectangleBorder(
+                          side: const BorderSide(
+                              color: Color.fromARGB(255, 138, 138, 138),
+                              width: 1.0),
+                          borderRadius: BorderRadius.circular(5.0)),
+                      onTap: () async {
+                        DateTime? newDate = await showDatePicker(
+                            context: context,
+                            initialDate: date,
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime(2100));
+                        if (newDate == null) return;
+                        setState(() {
+                          date = newDate;
+                          dateformat = DateFormat('dd-MM-yyyy').format(date);
+                        });
+                      },
+                      trailing: Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: Icon(
+                          Icons.calendar_month,
+                          size: 30,
+                          color: Color(int.parse(globals.color_primary)),
+                        ),
+                      ),
+                      title: Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: Text(
+                          dateformat,
+                          style: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                                  fontSize: 15, color: Colors.black)),
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ),
             const SizedBox(
               height: 20,
             ),
             Text(
               "Alamat Domisili",
-              style:
-                  GoogleFonts.poppins(textStyle: const TextStyle(fontSize: 15)),
+              style: GoogleFonts.poppins(
+                  textStyle: const TextStyle(
+                      fontSize: 15, fontWeight: FontWeight.w500)),
             ),
             const SizedBox(
               height: 5,
             ),
-            FormFieldTemplate(),
+            statusedit == false
+                ? Text(
+                    "     ${globals.alamatdom}",
+                    style: GoogleFonts.poppins(
+                        textStyle: const TextStyle(fontSize: 15)),
+                  )
+                : Container(
+                    child: TextField(
+                      controller: alamatctr,
+                      cursorColor: Color(int.parse(globals.color_primary)),
+                      style: GoogleFonts.poppins(
+                          textStyle: const TextStyle(
+                              fontSize: 15, color: Colors.black)),
+                      decoration: const InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color.fromARGB(255, 138, 138, 138),
+                                width: 1.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color.fromARGB(255, 138, 138, 138),
+                                width: 1.0),
+                          ),
+                          contentPadding: EdgeInsets.fromLTRB(8, 4, 8, 4)),
+                    ),
+                  ),
             const SizedBox(
               height: 20,
             ),
             Text(
               "No. Telephone",
-              style:
-                  GoogleFonts.poppins(textStyle: const TextStyle(fontSize: 15)),
+              style: GoogleFonts.poppins(
+                  textStyle: const TextStyle(
+                      fontSize: 15, fontWeight: FontWeight.w500)),
             ),
             const SizedBox(
               height: 5,
             ),
-            FormFieldTemplate(),
+            statusedit == false
+                ? Text(
+                    "     ${globals.telephone}",
+                    style: GoogleFonts.poppins(
+                        textStyle: const TextStyle(fontSize: 15)),
+                  )
+                : Container(
+                    child: TextField(
+                      controller: notelpctr,
+                      cursorColor: Color(int.parse(globals.color_primary)),
+                      style: GoogleFonts.poppins(
+                          textStyle: const TextStyle(
+                              fontSize: 15, color: Colors.black)),
+                      decoration: const InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color.fromARGB(255, 138, 138, 138),
+                                width: 1.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color.fromARGB(255, 138, 138, 138),
+                                width: 1.0),
+                          ),
+                          contentPadding: EdgeInsets.fromLTRB(8, 4, 8, 4)),
+                    ),
+                  ),
             const SizedBox(
               height: 20,
             ),
             Text(
               "Email",
-              style:
-                  GoogleFonts.poppins(textStyle: const TextStyle(fontSize: 15)),
+              style: GoogleFonts.poppins(
+                  textStyle: const TextStyle(
+                      fontSize: 15, fontWeight: FontWeight.w500)),
             ),
             const SizedBox(
               height: 5,
             ),
-            FormFieldTemplate(),
+            statusedit == false
+                ? Text(
+                    "     ${globals.email}",
+                    style: GoogleFonts.poppins(
+                        textStyle: const TextStyle(fontSize: 15)),
+                  )
+                : Container(
+                    child: TextField(
+                      controller: emailctr,
+                      cursorColor: Color(int.parse(globals.color_primary)),
+                      style: GoogleFonts.poppins(
+                          textStyle: const TextStyle(
+                              fontSize: 15, color: Colors.black)),
+                      decoration: const InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color.fromARGB(255, 138, 138, 138),
+                                width: 1.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color.fromARGB(255, 138, 138, 138),
+                                width: 1.0),
+                          ),
+                          contentPadding: EdgeInsets.fromLTRB(8, 4, 8, 4)),
+                    ),
+                  ),
             const SizedBox(
               height: 30,
             ),
@@ -313,24 +492,4 @@ class _ProfileEditState extends State<ProfileEdit> {
       ),
     );
   }
-}
-
-Widget FormFieldTemplate() {
-  return Container(
-    child: TextField(
-      cursorColor: Color(int.parse(globals.color_primary)),
-      style: GoogleFonts.poppins(
-          textStyle: const TextStyle(fontSize: 15, color: Colors.black)),
-      decoration: const InputDecoration(
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-                color: Color.fromARGB(255, 138, 138, 138), width: 1.0),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-                color: Color.fromARGB(255, 138, 138, 138), width: 1.0),
-          ),
-          contentPadding: EdgeInsets.fromLTRB(8, 4, 8, 4)),
-    ),
-  );
 }
