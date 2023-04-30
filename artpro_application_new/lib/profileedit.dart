@@ -1,6 +1,7 @@
 import 'dart:io';
 
-import 'package:artpro_application_new/gantipass.dart';
+import 'package:artpro_application_new/editakun.dart';
+import 'package:artpro_application_new/editalamat.dart';
 import 'package:artpro_application_new/mainberanda.dart';
 import 'package:artpro_application_new/services/userservices.dart';
 import 'package:flutter/material.dart';
@@ -25,13 +26,14 @@ class _ProfileEditState extends State<ProfileEdit> {
 
   TextEditingController namactr = TextEditingController();
   TextEditingController tmplahirctr = TextEditingController();
-  TextEditingController alamatctr = TextEditingController();
   TextEditingController notelpctr = TextEditingController();
-  TextEditingController emailctr = TextEditingController();
 
   XFile? imageprofpic;
   final ImagePicker picker = ImagePicker();
   List<ProfileUser> listProfileUser = [];
+
+  String jeniskelamin = "";
+  List<String> menuJenisKelamin = [];
 
   @override
   void initState() {
@@ -40,14 +42,18 @@ class _ProfileEditState extends State<ProfileEdit> {
 
     namactr.text = globals.namalengkap;
     tmplahirctr.text = globals.tempatlahir;
-    alamatctr.text = globals.alamatdom;
     notelpctr.text = globals.telephone;
-    emailctr.text = globals.email;
-
     dateformat = globals.tanggallahir;
 
-    print("profpic file: ${globals.profpicpath}");
-    print("profpic db: ${globals.profpicpathdb}");
+    if (globals.jeniskelamin == "P") {
+      jeniskelamin = "Perempuan";
+      menuJenisKelamin.add("Perempuan");
+      menuJenisKelamin.add("Laki-Laki");
+    } else {
+      jeniskelamin = "Laki-Laki";
+      menuJenisKelamin.add("Laki-Laki");
+      menuJenisKelamin.add("Perempuan");
+    }
   }
 
   Future getImage(ImageSource media, String take) async {
@@ -87,6 +93,31 @@ class _ProfileEditState extends State<ProfileEdit> {
         context, MaterialPageRoute(builder: (context) => const MainBeranda()));
   }
 
+  void updateData() async {
+    setState(() {
+      globals.namalengkap = namactr.text;
+      if (jeniskelamin == "Perempuan") {
+        globals.jeniskelamin = "P";
+      } else {
+        globals.jeniskelamin = "L";
+      }
+      globals.tempatlahir = tmplahirctr.text;
+      globals.tanggallahir = dateformat;
+      globals.telephone = notelpctr.text;
+    });
+
+    var url = "${globals.urlapi}editprofileuser";
+    // ignore: unused_local_variable
+    var response = await http.put(Uri.parse(url), body: {
+      "iduser": globals.iduser,
+      "namalengkap": globals.namalengkap,
+      "jeniskelamin": globals.jeniskelamin,
+      "tempatlahir": globals.tempatlahir,
+      "tanggallahir": globals.tanggallahir,
+      "telephone": globals.telephone
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,6 +146,9 @@ class _ProfileEditState extends State<ProfileEdit> {
               TextButton(
                   onPressed: () {
                     setState(() {
+                      if (statusedit == true) {
+                        updateData();
+                      }
                       statusedit = !statusedit;
                     });
                   },
@@ -241,11 +275,53 @@ class _ProfileEditState extends State<ProfileEdit> {
             const SizedBox(
               height: 5,
             ),
-            Text(
-              "     ${globals.jeniskelamin == "P" ? "Perempuan" : "Laki-Laki"}",
-              style:
-                  GoogleFonts.poppins(textStyle: const TextStyle(fontSize: 15)),
-            ),
+            statusedit == false
+                ? Text(
+                    "     $jeniskelamin",
+                    style: GoogleFonts.poppins(
+                        textStyle: const TextStyle(fontSize: 15)),
+                  )
+                : Container(
+                    width: MediaQuery.of(context).size.width,
+                    padding: const EdgeInsets.fromLTRB(16, 0, 8, 0),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(
+                            color: const Color.fromARGB(255, 138, 138, 138)),
+                        borderRadius: BorderRadius.circular(5.0)),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                        isExpanded: true,
+                        value: jeniskelamin,
+                        style: GoogleFonts.poppins(
+                            textStyle: const TextStyle(
+                                fontSize: 15, color: Colors.black)),
+                        icon: Icon(
+                          Icons.arrow_drop_down,
+                          color: Color(int.parse(globals.color_primary)),
+                        ),
+                        items: menuJenisKelamin.map((item) {
+                          return DropdownMenuItem(
+                            child: Text(
+                              item,
+                              style: GoogleFonts.poppins(
+                                  textStyle: const TextStyle(
+                                      color: Colors.black, fontSize: 15)),
+                            ),
+                            value: item,
+                          );
+                        }).toList(),
+                        onChanged: (newValue) {
+                          setState(() {
+                            jeniskelamin = newValue!;
+                            globals.jeniskelamin = jeniskelamin;
+
+                            print(
+                                "jenis kelamin baru: ${globals.jeniskelamin}");
+                          });
+                        },
+                      ),
+                    )),
             const SizedBox(
               height: 20,
             ),
@@ -348,45 +424,6 @@ class _ProfileEditState extends State<ProfileEdit> {
               height: 20,
             ),
             Text(
-              "Alamat Domisili",
-              style: GoogleFonts.poppins(
-                  textStyle: const TextStyle(
-                      fontSize: 15, fontWeight: FontWeight.w500)),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            statusedit == false
-                ? Text(
-                    "     ${globals.alamatdom}",
-                    style: GoogleFonts.poppins(
-                        textStyle: const TextStyle(fontSize: 15)),
-                  )
-                : Container(
-                    child: TextField(
-                      controller: alamatctr,
-                      cursorColor: Color(int.parse(globals.color_primary)),
-                      style: GoogleFonts.poppins(
-                          textStyle: const TextStyle(
-                              fontSize: 15, color: Colors.black)),
-                      decoration: const InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Color.fromARGB(255, 138, 138, 138),
-                                width: 1.0),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Color.fromARGB(255, 138, 138, 138),
-                                width: 1.0),
-                          ),
-                          contentPadding: EdgeInsets.fromLTRB(8, 4, 8, 4)),
-                    ),
-                  ),
-            const SizedBox(
-              height: 20,
-            ),
-            Text(
               "No. Telephone",
               style: GoogleFonts.poppins(
                   textStyle: const TextStyle(
@@ -404,45 +441,6 @@ class _ProfileEditState extends State<ProfileEdit> {
                 : Container(
                     child: TextField(
                       controller: notelpctr,
-                      cursorColor: Color(int.parse(globals.color_primary)),
-                      style: GoogleFonts.poppins(
-                          textStyle: const TextStyle(
-                              fontSize: 15, color: Colors.black)),
-                      decoration: const InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Color.fromARGB(255, 138, 138, 138),
-                                width: 1.0),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Color.fromARGB(255, 138, 138, 138),
-                                width: 1.0),
-                          ),
-                          contentPadding: EdgeInsets.fromLTRB(8, 4, 8, 4)),
-                    ),
-                  ),
-            const SizedBox(
-              height: 20,
-            ),
-            Text(
-              "Email",
-              style: GoogleFonts.poppins(
-                  textStyle: const TextStyle(
-                      fontSize: 15, fontWeight: FontWeight.w500)),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            statusedit == false
-                ? Text(
-                    "     ${globals.email}",
-                    style: GoogleFonts.poppins(
-                        textStyle: const TextStyle(fontSize: 15)),
-                  )
-                : Container(
-                    child: TextField(
-                      controller: emailctr,
                       cursorColor: Color(int.parse(globals.color_primary)),
                       style: GoogleFonts.poppins(
                           textStyle: const TextStyle(
@@ -517,7 +515,53 @@ class _ProfileEditState extends State<ProfileEdit> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const GantiPassword()));
+                        builder: (context) => EditAkun(kontenEdit: "email")));
+              },
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20.0),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          blurRadius: 4,
+                          offset: const Offset(0, 2))
+                    ]),
+                padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Ganti Email",
+                      style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                              fontSize: 15,
+                              color: Color(int.parse(globals.color_primary)),
+                              fontWeight: FontWeight.w500)),
+                    ),
+                    Text(
+                      ">>>>>",
+                      style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                              fontSize: 15,
+                              color: Color(int.parse(globals.color_primary)),
+                              fontWeight: FontWeight.bold)),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            EditAkun(kontenEdit: "password")));
               },
               child: Container(
                 width: MediaQuery.of(context).size.width,
@@ -555,7 +599,52 @@ class _ProfileEditState extends State<ProfileEdit> {
               ),
             ),
             const SizedBox(
-              height: 100,
+              height: 10,
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const EditAlamat()));
+              },
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20.0),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          blurRadius: 4,
+                          offset: const Offset(0, 2))
+                    ]),
+                padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Ganti Alamat Domisili",
+                      style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                              fontSize: 15,
+                              color: Color(int.parse(globals.color_primary)),
+                              fontWeight: FontWeight.w500)),
+                    ),
+                    Text(
+                      ">>>>>",
+                      style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                              fontSize: 15,
+                              color: Color(int.parse(globals.color_primary)),
+                              fontWeight: FontWeight.bold)),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 50,
             )
           ],
         ),

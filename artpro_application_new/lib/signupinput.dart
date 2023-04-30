@@ -802,7 +802,9 @@ class _SignUpInputState extends State<SignUpInput> {
                           });
                         },
                         icon: Icon(
-                          hide_pass ? Icons.visibility : Icons.visibility_off,
+                          hide_konfpass
+                              ? Icons.visibility
+                              : Icons.visibility_off,
                           color: Color(int.parse(globals.color_primary)),
                         )),
                   ),
