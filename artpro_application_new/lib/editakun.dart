@@ -63,7 +63,7 @@ class _EditAkunState extends State<EditAkun> {
       var url = "${globals.urlapi}editpassuser";
       // ignore: unused_local_variable
       var response = await http.put(Uri.parse(url),
-          body: {"iduser": globals.iduser, "password": globals.password});
+          body: {"email": globals.email, "password": globals.password});
     }
 
     sharedprefAkunUser();
@@ -74,7 +74,43 @@ class _EditAkunState extends State<EditAkun> {
     prefs.setString("email", globals.email);
     prefs.setString("password", globals.password);
 
-    Navigator.pop(context);
+    messagetoBack();
+  }
+
+  messagetoBack() {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text(
+              widget.kontenEdit == "password"
+                  ? "Password berhasil diganti, silahkan kembali ke menu profile"
+                  : "Email berhasil diganti, silahkan kembali ke menu profile",
+              style: GoogleFonts.poppins(
+                  textStyle: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.w600)),
+              textAlign: TextAlign.center,
+            ),
+            actions: [
+              Center(
+                child: TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      "OK",
+                      style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color:
+                                  Color(int.parse(globals.color_secondary)))),
+                    )),
+              )
+            ],
+          );
+        });
   }
 
   @override

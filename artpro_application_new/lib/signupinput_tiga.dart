@@ -2,11 +2,15 @@
 
 import 'package:artpro_application_new/intro_verif.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 import './global.dart' as globals;
 
 class SignUpInputT extends StatefulWidget {
-  const SignUpInputT({super.key});
+  String konten = "";
+  SignUpInputT({super.key, required this.konten});
 
   @override
   State<SignUpInputT> createState() => _SignUpInputTState();
@@ -22,8 +26,16 @@ class _SignUpInputTState extends State<SignUpInputT> {
   int count = 0;
 
   TextEditingController expctr = TextEditingController();
+  // MoneyMaskedTextController mingajictr =
+  //     MoneyMaskedTextController(decimalSeparator: ',', thousandSeparator: '.');
   TextEditingController mingajictr = TextEditingController();
   TextEditingController maxgajictr = TextEditingController();
+
+  static const _locale = 'en';
+  String _formatNumber(String s) =>
+      NumberFormat.decimalPattern(_locale).format(int.parse(s));
+  String get _currency =>
+      NumberFormat.compactSimpleCurrency(locale: _locale).currencySymbol;
 
   @override
   void dispose() {
@@ -34,7 +46,44 @@ class _SignUpInputTState extends State<SignUpInputT> {
     maxgajictr.dispose();
   }
 
-  void addToGlobal() {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    if (widget.konten == "edit") {
+      k_prt = globals.kprt == "false" ? false : true;
+      k_bs = globals.kbabysitter == "false" ? false : true;
+      k_sc = globals.kseniorcare == "false" ? false : true;
+      k_supir = globals.ksupir == "false" ? false : true;
+      k_obog = globals.kofficeboy == "false" ? false : true;
+      k_tk = globals.ktukangkebun == "false" ? false : true;
+      expctr.text = globals.pengalaman;
+      mingajictr.text = globals.gajiawal;
+      maxgajictr.text = globals.gajiakhir;
+
+      if (k_prt == true) {
+        count++;
+      }
+      if (k_bs == true) {
+        count++;
+      }
+      if (k_sc == true) {
+        count++;
+      }
+      if (k_supir == true) {
+        count++;
+      }
+      if (k_obog == true) {
+        count++;
+      }
+      if (k_tk == true) {
+        count++;
+      }
+    }
+  }
+
+  void addToGlobal() async {
     setState(() {
       globals.kprt = k_prt.toString();
       globals.kbabysitter = k_bs.toString();
@@ -45,10 +94,62 @@ class _SignUpInputTState extends State<SignUpInputT> {
       globals.pengalaman = expctr.text;
       globals.gajiawal = mingajictr.text;
       globals.gajiakhir = maxgajictr.text;
+    });
 
+    if (widget.konten == "daftar") {
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const IntroVerifikasi()));
-    });
+    } else {
+      var url = "${globals.urlapi}edituserdetailkerjaart";
+      var response = await http.put(Uri.parse(url), body: {
+        "iduser": globals.iduser,
+        "kprt": globals.kprt,
+        "kbabysitter": globals.kbabysitter,
+        "kseniorcare": globals.kseniorcare,
+        "ksupir": globals.ksupir,
+        "kofficeboy": globals.kofficeboy,
+        "ktukangkebun": globals.ktukangkebun,
+        "pengalaman": globals.pengalaman,
+        "gajiawal": globals.gajiawal,
+        "gajiakhir": globals.gajiakhir
+      });
+
+      messagetoBack();
+    }
+  }
+
+  messagetoBack() {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text(
+              'Informasi detail profile berhasil diganti, silahkan kembali ke menu profile',
+              style: GoogleFonts.poppins(
+                  textStyle: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.w600)),
+              textAlign: TextAlign.center,
+            ),
+            actions: [
+              Center(
+                child: TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      "OK",
+                      style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color:
+                                  Color(int.parse(globals.color_secondary)))),
+                    )),
+              )
+            ],
+          );
+        });
   }
 
   @override
@@ -342,6 +443,16 @@ class _SignUpInputTState extends State<SignUpInputT> {
                         child: TextField(
                           controller: mingajictr,
                           cursorColor: Color(int.parse(globals.color_primary)),
+                          keyboardType: TextInputType.number,
+                          onChanged: (string) {
+                            string =
+                                '${_formatNumber(string.replaceAll(',', ''))}';
+                            mingajictr.value = TextEditingValue(
+                              text: string,
+                              selection: TextSelection.collapsed(
+                                  offset: string.length),
+                            );
+                          },
                           style: GoogleFonts.poppins(
                               textStyle: const TextStyle(
                                   fontSize: 15, color: Colors.black)),
@@ -356,7 +467,7 @@ class _SignUpInputTState extends State<SignUpInputT> {
                                     color: Color.fromARGB(255, 138, 138, 138),
                                     width: 1.0),
                               ),
-                              hintText: "3500000",
+                              hintText: "3,500,000",
                               contentPadding: EdgeInsets.fromLTRB(8, 4, 8, 4)),
                           maxLines: 1,
                         ),
@@ -385,6 +496,16 @@ class _SignUpInputTState extends State<SignUpInputT> {
                         child: TextField(
                           controller: maxgajictr,
                           cursorColor: Color(int.parse(globals.color_primary)),
+                          keyboardType: TextInputType.number,
+                          onChanged: (string) {
+                            string =
+                                '${_formatNumber(string.replaceAll(',', ''))}';
+                            maxgajictr.value = TextEditingValue(
+                              text: string,
+                              selection: TextSelection.collapsed(
+                                  offset: string.length),
+                            );
+                          },
                           style: GoogleFonts.poppins(
                               textStyle: const TextStyle(
                                   fontSize: 15, color: Colors.black)),
@@ -504,7 +625,9 @@ class _SignUpInputTState extends State<SignUpInputT> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30))),
                     child: Text(
-                      "Selanjutnya",
+                      widget.konten == "edit"
+                          ? "Ganti Informasi"
+                          : "Selanjutnya",
                       style: GoogleFonts.poppins(
                           textStyle: const TextStyle(
                               fontSize: 18,

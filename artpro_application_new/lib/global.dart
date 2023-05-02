@@ -7,7 +7,7 @@ String color_secondary = '0xFFFF4D00';
 
 int select_index = 0; // navigasi beranda
 
-String urlapi = "http://192.168.1.22:1234/";
+String urlapi = "http://192.168.1.23:1234/";
 
 // Akun User //
 String email = "";

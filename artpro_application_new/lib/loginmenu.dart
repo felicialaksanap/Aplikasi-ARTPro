@@ -1,6 +1,7 @@
 // ignore_for_file: non_constant_identifier_names, sized_box_for_whitespace
 
 import 'package:artpro_application_new/beranda.dart';
+import 'package:artpro_application_new/editakun.dart';
 import 'package:artpro_application_new/services/userservices.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -252,7 +253,16 @@ class _LoginMenuState extends State<LoginMenu> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          setState(() {
+                            globals.email = emailctr.text;
+                          });
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      EditAkun(kontenEdit: "password")));
+                        },
                         child: Text(
                           'forgot password ?',
                           style: GoogleFonts.poppins(

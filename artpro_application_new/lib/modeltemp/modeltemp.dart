@@ -45,48 +45,99 @@ class MListART {
 
 class MListLoker {
   String kategori;
+  String namamajikan;
   String kecamatan;
   String asalkota;
   String jaraklokasi;
   String tglpost;
   String rangegaji;
   List<String> kriteria = [];
+  String judul;
+  List<String> jobdesc = [];
+  String informasi;
 
-  MListLoker(this.kategori, this.kecamatan, this.asalkota, this.jaraklokasi,
-      this.tglpost, this.rangegaji, this.kriteria);
+  MListLoker(
+      this.kategori,
+      this.namamajikan,
+      this.kecamatan,
+      this.asalkota,
+      this.jaraklokasi,
+      this.tglpost,
+      this.rangegaji,
+      this.kriteria,
+      this.judul,
+      this.jobdesc,
+      this.informasi);
 
   static List<MListLoker> isiListLoker = [
     MListLoker(
-      'Pembantu Rumah Tangga',
-      'Gayungsari',
-      'Kota Surabaya',
-      '5.3 km',
-      '15-12-2022',
-      'Rp 2.000.000 - 2.500.000',
-      [
-        'Menginap',
-        'Bayaran per Bulan',
-        'Rumah 2 Lantai',
-        'Punya Hewan Peliharaan'
-      ],
-    ),
-    MListLoker('Supir Pribadi', 'Siwalankerto', 'Kota Surabaya', '10.2 km',
-        '16-12-2022', 'Rp 5.000.000 - 6.000.000', [
-      'Terdapat Kamar Tidur',
-      'Mengantar Anak Sekolah dan Istri Belanja',
-      'Tidak Merokok',
-      'Vaksin Covid-19 Lengkap'
-    ]),
-    MListLoker('Baby Sitter', 'Simokerto', 'Kota Surabaya', '0.8 km',
-        '2-2-2023', 'Rp 5.000.000 - 6.000.000', [
-      'Menjaga Bayi di bawah 1 Tahun',
-      'Diajak berjemur setiap pagi',
-      'Dirumah ada hewan peliharaan',
-      'Vaksin Covid-19 Lengkap',
-      'Menginap di rumah',
-      'Fasilitas kamar tidur, kamar mandi dalam, makan',
-      'Bisa membawa sepeda motor'
-    ]),
+        'Pembantu Rumah Tangga',
+        'Rosa Fiore',
+        'Gayungsari',
+        'Kota Surabaya',
+        '5.3 km',
+        '15-12-2022',
+        'Rp 2,000,000 - 2,500,000',
+        [
+          'Tidak takut hewan',
+          'Mabuk perjalanan',
+          'Sepeda motor',
+          'Memasak',
+          'Warnen'
+        ],
+        "Pembantu Yang Sabar",
+        [
+          'Membersihkan debu, menyapu, mengepel',
+          'Mencuci dan mengeringkan piring',
+          'Mengganti sprei, merapikan tempat tidur',
+          'Membersihkan dapur',
+          'Membersihkan kamar mandi'
+        ],
+        "Dibutuhkan pembantu rumah tangga yang sabar karena terdapat 2 anak kecil yang nakal dan butuh banyak perhatian"),
+    MListLoker(
+        'Supir Pribadi',
+        'Baim Wong',
+        'Siwalankerto',
+        'Kota Surabaya',
+        '10.2 km',
+        '16-12-2022',
+        'Rp 5,000,000 - 6,000,000',
+        [
+          'Membawa mobil',
+          'Tidak takut hewan',
+          "Membawa sepeda motor",
+          'Menginap'
+        ],
+        "Supir Pribadi Istri",
+        [
+          'Menjaga kebersihan mobil',
+          'Menjaga kebersihan sepeda motor',
+          'Melakukan general check up mobil dan sepeda motor',
+          'Taat aturan lalu lintas',
+          'Bertanggung jawab atas keselamatan penumpang dan mobil'
+        ],
+        "Mengantar istri bekerja dan belanja kebutuhan rumah tangga, serta menjemput anak sekolah"),
+    MListLoker(
+        'Baby Sitter',
+        'Jessica Milla',
+        'Simokerto',
+        'Kota Surabaya',
+        '0.8 km',
+        '2-2-2023',
+        'Rp 5,000,000 - 6,000,000',
+        [
+          'Mabuk perjalanan',
+          'Tidak takut hewan',
+          'Menginap',
+        ],
+        "Baby Sitter Anak Balita",
+        [
+          'Mengurus keperluan pribadi bayi/anak',
+          'Menemani anak bermain',
+          'Membersihkan kamar anak',
+          'Mencuci pakaian anak'
+        ],
+        "Membantu dan menjaga anak, diutamakan yang memiliki daya tahan tubuh yang kuat."),
   ];
 }
 

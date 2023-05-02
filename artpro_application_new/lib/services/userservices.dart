@@ -175,8 +175,8 @@ class DetailProfileART {
     return DetailProfileART(
         iduser: object['iduser'].toString(),
         pendidikanterakhir: object['pendidikanterakhir'],
-        beratbadan: object['beratbadan'],
-        tinggibadan: object['tinggibadan'],
+        beratbadan: object['beratbadan'].toString(),
+        tinggibadan: object['tinggibadan'].toString(),
         agama: object['agama'],
         tkmenginap: object['tkmenginap'],
         tkwarnen: object['tkwarnen'],
@@ -189,7 +189,7 @@ class DetailProfileART {
 
   static Future<List<DetailProfileART>> getData(String iduser) async {
     var url =
-        "${globals.urlapi}datauserdetailprofileart?iduser=${int.parse(iduser)}";
+        "${globals.urlapi}datauserdetailprofileart?iduser=${int.parse(globals.iduser)}";
     var apiResult = await http.get(Uri.parse(url), headers: {
       "Accept": "application/json",
       "Access-Control-Allow-Origin": "*"

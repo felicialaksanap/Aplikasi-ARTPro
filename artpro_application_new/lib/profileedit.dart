@@ -4,6 +4,8 @@ import 'package:artpro_application_new/editakun.dart';
 import 'package:artpro_application_new/editalamat.dart';
 import 'package:artpro_application_new/mainberanda.dart';
 import 'package:artpro_application_new/services/userservices.dart';
+import 'package:artpro_application_new/signupinput_dua.dart';
+import 'package:artpro_application_new/signupinput_tiga.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
@@ -643,6 +645,108 @@ class _ProfileEditState extends State<ProfileEdit> {
                 ),
               ),
             ),
+            Visibility(
+                visible: globals.status_user == "pekerja",
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    SignUpInputD(konten: "edit")));
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20.0),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 2))
+                            ]),
+                        padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Ganti Detail Profile Pekerja",
+                              style: GoogleFonts.poppins(
+                                  textStyle: TextStyle(
+                                      fontSize: 15,
+                                      color: Color(
+                                          int.parse(globals.color_primary)),
+                                      fontWeight: FontWeight.w500)),
+                            ),
+                            Text(
+                              ">>>>>",
+                              style: GoogleFonts.poppins(
+                                  textStyle: TextStyle(
+                                      fontSize: 15,
+                                      color: Color(
+                                          int.parse(globals.color_primary)),
+                                      fontWeight: FontWeight.bold)),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    SignUpInputT(konten: "edit")));
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20.0),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 2))
+                            ]),
+                        padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Ganti Detail Kerja Pekerja",
+                              style: GoogleFonts.poppins(
+                                  textStyle: TextStyle(
+                                      fontSize: 15,
+                                      color: Color(
+                                          int.parse(globals.color_primary)),
+                                      fontWeight: FontWeight.w500)),
+                            ),
+                            Text(
+                              ">>>>>",
+                              style: GoogleFonts.poppins(
+                                  textStyle: TextStyle(
+                                      fontSize: 15,
+                                      color: Color(
+                                          int.parse(globals.color_primary)),
+                                      fontWeight: FontWeight.bold)),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                )),
             const SizedBox(
               height: 50,
             )

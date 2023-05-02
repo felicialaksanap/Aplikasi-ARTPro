@@ -179,8 +179,12 @@ class _SignUpInputState extends State<SignUpInput> {
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const IntroVerifikasi()));
       } else {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const SignUpInputD()));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SignUpInputD(
+                      konten: "daftar",
+                    )));
       }
     }
   }

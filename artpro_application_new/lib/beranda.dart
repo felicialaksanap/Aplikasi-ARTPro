@@ -17,6 +17,9 @@ class Beranda extends StatefulWidget {
 }
 
 class _BerandaState extends State<Beranda> {
+  bool expandsatu = false;
+  bool expanddua = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -389,71 +392,129 @@ class _BerandaState extends State<Beranda> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0)),
                         elevation: 3,
-                        child: Padding(
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    width: 60,
-                                    height: 60,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(50.0),
-                                      image: const DecorationImage(
-                                          image: AssetImage(
-                                              'assets/images/person-4.jpg'),
-                                          fit: BoxFit.fill),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          MListLoker.isiListLoker[0].kategori,
-                                          style: GoogleFonts.poppins(
-                                              textStyle: const TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold)),
-                                        ),
-                                        Text(
-                                          'Rosa Fiore',
-                                          style: GoogleFonts.poppins(
-                                              textStyle: const TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w500)),
-                                        ),
-                                        Text(
-                                          "${MListLoker.isiListLoker[0].kecamatan}, ${MListLoker.isiListLoker[0].asalkota} | ${MListLoker.isiListLoker[0].jaraklokasi}",
-                                          style: GoogleFonts.poppins(
-                                              textStyle: const TextStyle(
-                                                  fontSize: 13,
-                                                  color: Color.fromARGB(
-                                                      255, 138, 138, 138))),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
+                              Text(
+                                MListLoker.isiListLoker[0].judul,
+                                style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(
+                                            int.parse(globals.color_primary)))),
+                              ),
+                              Text(
+                                "Ibu ${MListLoker.isiListLoker[0].namamajikan}",
+                                style: GoogleFonts.poppins(
+                                    textStyle: const TextStyle(
+                                        fontSize: 15, color: Colors.black)),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                "${MListLoker.isiListLoker[0].kecamatan}, ${MListLoker.isiListLoker[0].asalkota} | ${MListLoker.isiListLoker[0].jaraklokasi}",
+                                style: GoogleFonts.poppins(
+                                    textStyle: const TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black)),
+                              ),
+                              Text(
+                                "${MListLoker.isiListLoker[0].rangegaji} per bulan",
+                                style: GoogleFonts.poppins(
+                                    textStyle: const TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black)),
                               ),
                               const SizedBox(
                                 height: 20,
                               ),
                               Text(
-                                "Post pada ${MListLoker.isiListLoker[0].tglpost}",
+                                "${MListLoker.isiListLoker[0].informasi}",
                                 style: GoogleFonts.poppins(
                                     textStyle: const TextStyle(
-                                        fontSize: 11,
-                                        color: Color.fromARGB(
-                                            255, 138, 138, 138))),
-                              )
+                                  fontSize: 13,
+                                )),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Post pada ${MListLoker.isiListLoker[0].tglpost}",
+                                    style: GoogleFonts.poppins(
+                                        textStyle: const TextStyle(
+                                            fontSize: 11, color: Colors.black)),
+                                  ),
+                                  IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          expandsatu = !expandsatu;
+                                        });
+                                      },
+                                      icon: expandsatu == false
+                                          ? Icon(
+                                              Icons.keyboard_arrow_down_rounded,
+                                              color: Color(int.parse(
+                                                  globals.color_primary)),
+                                            )
+                                          : Icon(
+                                              Icons.keyboard_arrow_up_rounded,
+                                              color: Color(int.parse(
+                                                  globals.color_primary)),
+                                            ))
+                                ],
+                              ),
+                              Visibility(
+                                  visible: expandsatu == true ? true : false,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Uraian Tugas",
+                                        style: GoogleFonts.poppins(
+                                            textStyle: const TextStyle(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.bold)),
+                                      ),
+                                      Container(
+                                        child: Column(
+                                          children: MListLoker
+                                              .isiListLoker[0].kriteria
+                                              .map((strone) {
+                                            return Row(children: [
+                                              const Text(
+                                                "\u2022",
+                                                style: TextStyle(fontSize: 15),
+                                              ), //bullet text
+                                              const SizedBox(
+                                                width: 10,
+                                              ), //space between bullet and text
+                                              Expanded(
+                                                child: Text(
+                                                  strone,
+                                                  style: GoogleFonts.poppins(
+                                                      textStyle:
+                                                          const TextStyle(
+                                                              fontSize: 13)),
+                                                ), //text
+                                              )
+                                            ]);
+                                          }).toList(),
+                                        ),
+                                      ),
+                                    ],
+                                  ))
                             ],
                           ),
                         ),

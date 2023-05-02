@@ -109,7 +109,7 @@ class _SummaryVerifikasiState extends State<SummaryVerifikasi> {
         "iduser": globals.iduser,
         "kprt": globals.kprt,
         "kbabysitter": globals.kbabysitter,
-        "Kseniorcare": globals.kseniorcare,
+        "kseniorcare": globals.kseniorcare,
         "ksupir": globals.ksupir,
         "kofficeboy": globals.kofficeboy,
         "ktukangkebun": globals.ktukangkebun,

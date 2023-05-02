@@ -1,10 +1,12 @@
 import 'package:artpro_application_new/signupinput_tiga.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 import './global.dart' as globals;
 
 class SignUpInputD extends StatefulWidget {
-  const SignUpInputD({super.key});
+  String konten = "";
+  SignUpInputD({super.key, required this.konten});
 
   @override
   State<SignUpInputD> createState() => _SignUpInputDState();
@@ -34,7 +36,26 @@ class _SignUpInputDState extends State<SignUpInputD> {
     pendidikanctr.dispose();
   }
 
-  void addToGlobal() {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.konten == "edit") {
+      beratctr.text = globals.berat;
+      tinggictr.text = globals.tinggi;
+      pendidikanctr.text = globals.pendidikanterakhir;
+      agama = globals.agama;
+      t_menginap = globals.tkmenginap == "false" ? false : true;
+      t_warnen = globals.tkwarnen == "false" ? false : true;
+      l_hewan = globals.hewan == "false" ? false : true;
+      l_mperj = globals.mabukJalan == "false" ? false : true;
+      l_spdmotor = globals.spdmotor == "false" ? false : true;
+      l_mobil = globals.mobil == "false" ? false : true;
+      l_masak = globals.masak == "false" ? false : true;
+    }
+  }
+
+  void addToGlobal() async {
     setState(() {
       globals.berat = beratctr.text;
       globals.tinggi = tinggictr.text;
@@ -48,8 +69,67 @@ class _SignUpInputDState extends State<SignUpInputD> {
       globals.mobil = l_mobil.toString();
       globals.masak = l_masak.toString();
     });
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const SignUpInputT()));
+
+    if (widget.konten == "daftar") {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => SignUpInputT(
+                    konten: "daftar",
+                  )));
+    } else {
+      var url = "${globals.urlapi}edituserdetailprofileart";
+      var response = await http.put(Uri.parse(url), body: {
+        "iduser": globals.iduser,
+        "pendidikanterakhir": globals.pendidikanterakhir,
+        "beratbadan": globals.berat,
+        "tinggibadan": globals.tinggi,
+        "agama": globals.agama,
+        "tkmenginap": globals.tkmenginap,
+        "tkwarnen": globals.tkwarnen,
+        "hewan": globals.hewan,
+        "mabukjalan": globals.mabukJalan,
+        "sepedamotor": globals.spdmotor,
+        "mobil": globals.mobil,
+        "masak": globals.masak
+      });
+
+      messagetoBack();
+    }
+  }
+
+  messagetoBack() {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text(
+              'Informasi detail profile berhasil diganti, silahkan kembali ke menu profile',
+              style: GoogleFonts.poppins(
+                  textStyle: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.w600)),
+              textAlign: TextAlign.center,
+            ),
+            actions: [
+              Center(
+                child: TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      "OK",
+                      style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color:
+                                  Color(int.parse(globals.color_secondary)))),
+                    )),
+              )
+            ],
+          );
+        });
   }
 
   @override
@@ -68,7 +148,7 @@ class _SignUpInputDState extends State<SignUpInputD> {
           ),
         ),
         title: Text(
-          "Form Data Diri",
+          widget.konten == "edit" ? "Ganti Detail Profile" : "Form Data Diri",
           style: GoogleFonts.poppins(
               textStyle: TextStyle(
                   color: Color(int.parse(globals.color_primary)),
@@ -556,7 +636,9 @@ class _SignUpInputDState extends State<SignUpInputD> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30))),
                     child: Text(
-                      "Selanjutnya",
+                      widget.konten == "edit"
+                          ? "Ganti Informasi"
+                          : "Selanjutnya",
                       style: GoogleFonts.poppins(
                           textStyle: const TextStyle(
                               fontSize: 18,
