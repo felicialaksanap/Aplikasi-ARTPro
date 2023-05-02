@@ -12,20 +12,20 @@ class DetailLoker extends StatefulWidget {
 }
 
 class _DetailLokerState extends State<DetailLoker> {
-  List<String> ketlain = [
-    "Tidak takut hewan",
-    "Mabuk perjalanan",
-    "Sepeda Motor",
-    "Memasak",
-    "Warnen"
-  ];
+  // List<String> ketlain = [
+  //   "Tidak takut hewan",
+  //   "Mabuk perjalanan",
+  //   "Sepeda Motor",
+  //   "Memasak",
+  //   "Warnen"
+  // ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        elevation: 1,
+        elevation: 0,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios,
@@ -48,54 +48,52 @@ class _DetailLokerState extends State<DetailLoker> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text(
+              MListLoker.isiListLoker[widget.index].judul,
+              style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Color(int.parse(globals.color_primary)))),
+            ),
+            Text(
+              widget.index != 1
+                  ? "Ibu ${MListLoker.isiListLoker[widget.index].namamajikan}"
+                  : "Bapak ${MListLoker.isiListLoker[widget.index].namamajikan}",
+              style: GoogleFonts.poppins(
+                  textStyle:
+                      const TextStyle(fontSize: 15, color: Colors.black)),
+            ),
             const SizedBox(
               height: 10,
             ),
-            Row(
-              children: [
-                Container(
-                  width: 60,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50.0),
-                    image: const DecorationImage(
-                        image: AssetImage('assets/images/person-4.jpg'),
-                        fit: BoxFit.fill),
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        MListLoker.isiListLoker[widget.index].kategori,
-                        style: GoogleFonts.poppins(
-                            textStyle: const TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.bold)),
-                      ),
-                      Text(
-                        'Rosa Fiore',
-                        style: GoogleFonts.poppins(
-                            textStyle: const TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.w500)),
-                      ),
-                      Text(
-                        "${MListLoker.isiListLoker[0].kecamatan}, ${MListLoker.isiListLoker[0].asalkota} | ${MListLoker.isiListLoker[0].jaraklokasi}",
-                        style: GoogleFonts.poppins(
-                            textStyle: const TextStyle(
-                                fontSize: 13,
-                                color: Color.fromARGB(255, 138, 138, 138))),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+            Text(
+              "${MListLoker.isiListLoker[1].kecamatan}, ${MListLoker.isiListLoker[0].asalkota} | ${MListLoker.isiListLoker[0].jaraklokasi}",
+              style: GoogleFonts.poppins(
+                  textStyle: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black)),
+            ),
+            Text(
+              "${MListLoker.isiListLoker[widget.index].rangegaji} per bulan",
+              style: GoogleFonts.poppins(
+                  textStyle: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black)),
             ),
             const SizedBox(
               height: 20,
+            ),
+            Text(
+              "Post pada ${MListLoker.isiListLoker[widget.index].tglpost}",
+              style: GoogleFonts.poppins(
+                  textStyle:
+                      const TextStyle(fontSize: 13, color: Colors.black)),
+            ),
+            const SizedBox(
+              height: 30,
             ),
             Container(
               padding: const EdgeInsets.fromLTRB(4, 4, 32, 4),
@@ -117,10 +115,10 @@ class _DetailLokerState extends State<DetailLoker> {
               height: 10,
             ),
             Text(
-              "Lorem ipsum lalalaa",
+              "${MListLoker.isiListLoker[1].informasi}",
               style: GoogleFonts.poppins(
                   textStyle: const TextStyle(
-                fontSize: 15,
+                fontSize: 13,
               )),
             ),
             const SizedBox(
@@ -147,8 +145,8 @@ class _DetailLokerState extends State<DetailLoker> {
             ),
             Container(
               child: Column(
-                children: MListLoker.isiListLoker[widget.index].kriteria
-                    .map((strone) {
+                children:
+                    MListLoker.isiListLoker[widget.index].jobdesc.map((strone) {
                   return Row(children: [
                     const Text(
                       "\u2022",
@@ -179,7 +177,7 @@ class _DetailLokerState extends State<DetailLoker> {
                       topRight: Radius.circular(20.0),
                       bottomRight: Radius.circular(20.0))),
               child: Text(
-                "Keterangan Lain",
+                "Kriteria",
                 style: GoogleFonts.poppins(
                     textStyle: const TextStyle(
                         fontSize: 15,
@@ -194,10 +192,11 @@ class _DetailLokerState extends State<DetailLoker> {
               child: GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: ketlain.length,
+                itemCount:
+                    MListLoker.isiListLoker[widget.index].kriteria.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    childAspectRatio: 5,
+                    childAspectRatio: 3,
                     crossAxisSpacing: 5,
                     mainAxisSpacing: 5),
                 itemBuilder: (context, index) {
@@ -210,7 +209,7 @@ class _DetailLokerState extends State<DetailLoker> {
                             width: 1)),
                     child: Center(
                       child: Text(
-                        ketlain[index],
+                        MListLoker.isiListLoker[widget.index].kriteria[index],
                         style: GoogleFonts.poppins(
                             textStyle: const TextStyle(fontSize: 14)),
                         textAlign: TextAlign.center,
@@ -231,7 +230,7 @@ class _DetailLokerState extends State<DetailLoker> {
                       topRight: Radius.circular(20.0),
                       bottomRight: Radius.circular(20.0))),
               child: Text(
-                "Range Gaji Yang Ditawarkan",
+                "Kategori Pekerjaan",
                 style: GoogleFonts.poppins(
                     textStyle: const TextStyle(
                         fontSize: 15,
@@ -243,12 +242,12 @@ class _DetailLokerState extends State<DetailLoker> {
               height: 10,
             ),
             Text(
-              MListLoker.isiListLoker[0].rangegaji,
+              MListLoker.isiListLoker[widget.index].kategori,
               style: GoogleFonts.poppins(
                   textStyle: const TextStyle(
                       fontSize: 15,
                       color: Colors.black,
-                      fontWeight: FontWeight.w500)),
+                      fontWeight: FontWeight.bold)),
             ),
             const SizedBox(
               height: 40,
@@ -266,8 +265,12 @@ class _DetailLokerState extends State<DetailLoker> {
                   child: Text(
                     "Lamar Sekarang",
                     style: GoogleFonts.poppins(
-                        textStyle: const TextStyle(fontSize: 15)),
+                        textStyle: const TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.w500)),
                   )),
+            ),
+            const SizedBox(
+              height: 10,
             )
           ],
         ),

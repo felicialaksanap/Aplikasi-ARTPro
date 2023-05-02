@@ -22,24 +22,65 @@ class MListART {
   String gambarUrl;
   String nama;
   String umur;
-  String jarak;
+  String agama;
   String rating;
+  String tempatlahir;
+  String rangegaji;
+  List<String> kriteria = [];
 
-  MListART(this.gambarUrl, this.nama, this.umur, this.jarak, this.rating);
+  MListART(this.gambarUrl, this.nama, this.umur, this.agama, this.rating,
+      this.tempatlahir, this.rangegaji, this.kriteria);
 
   static List<MListART> isiListART = [
-    MListART("assets/images/person-5.jpg", "Michelle Maryati", "20 thn",
-        "0.95 km", "4.5"),
-    MListART("assets/images/person-6.jpg", "Elma Uyainah", "30 thn", "1.2 km",
-        "4.5"),
-    MListART("assets/images/person-7.jpg", "Puput Riyanti", "45 thn", "10.2 km",
-        "4"),
     MListART(
-        "assets/images/person-9.jpg", "Hani Rahimah", "20 thn", "5.0 km", "4"),
-    MListART("assets/images/person-10.jpg", "Maidah Wastuti", "30 thn",
-        "0.5 km", "4.5"),
-    MListART("assets/images/person-11.jpg", "Belinda Nur", "45 thn", "7.2 km",
-        "3.5"),
+        "assets/images/person-5.jpg",
+        "Michelle Maryati",
+        "20 thn",
+        "Islam",
+        "4.5",
+        "Surabaya",
+        "2,500,000 - 3,000,000",
+        ["Tidak takut hewan", "Tidak mabuk perjalanan", "Memasak"]),
+    MListART("assets/images/person-6.jpg", "Elma Uyainah", "30 thn", "Katolik",
+        "4.5", "Kupang", "2,000,000 - 3,000,000", [
+      "Tidak takut hewan",
+      "Tidak mabuk perjalanan",
+      "Memasak",
+      "Bisa sepeda motor"
+    ]),
+    MListART("assets/images/person-7.jpg", "Puput Riyanti", "45 thn", "Islam",
+        "4", "Semarang", "2,500,000 - 3,000,000", [
+      "Tidak takut hewan",
+      "Tidak mabuk perjalanan",
+      "Memasak",
+      "Bisa menyetir mobil"
+    ]),
+    MListART(
+        "assets/images/person-9.jpg",
+        "Hani Rahimah",
+        "20 thn",
+        "Kristen",
+        "4",
+        "Jakarta",
+        "3,000,000 - 3,500,000",
+        ["Tidak takut hewan", "Tidak mabuk perjalanan", "Memasak"]),
+    MListART(
+        "assets/images/person-10.jpg",
+        "Maidah Wastuti",
+        "30 thn",
+        "Katolik",
+        "4.5",
+        "Ambon",
+        "2,500,000 - 3,000,000",
+        ["Bisa menyetir mobil", "Tidak mabuk perjalanan", "Tidak takut hewan"]),
+    MListART("assets/images/person-11.jpg", "Belinda Nur", "45 thn", "Katolik",
+        "3.5", "Papua", "1,500,000 - 2,000,000", [
+      "Tidak takut hewan",
+      "Tidak mabuk perjalanan",
+      "Memasak",
+      "Bisa menyetir mobil",
+      "Bisa sepeda motor"
+    ]),
   ];
 } // assets : person-5 s/d person-11.jpg except person-8.jpg
 
@@ -55,6 +96,7 @@ class MListLoker {
   String judul;
   List<String> jobdesc = [];
   String informasi;
+  bool expand;
 
   MListLoker(
       this.kategori,
@@ -67,7 +109,8 @@ class MListLoker {
       this.kriteria,
       this.judul,
       this.jobdesc,
-      this.informasi);
+      this.informasi,
+      this.expand);
 
   static List<MListLoker> isiListLoker = [
     MListLoker(
@@ -80,8 +123,8 @@ class MListLoker {
         'Rp 2,000,000 - 2,500,000',
         [
           'Tidak takut hewan',
-          'Mabuk perjalanan',
-          'Sepeda motor',
+          'Tidak mabuk perjalanan',
+          'Bisa sepeda motor',
           'Memasak',
           'Warnen'
         ],
@@ -93,7 +136,8 @@ class MListLoker {
           'Membersihkan dapur',
           'Membersihkan kamar mandi'
         ],
-        "Dibutuhkan pembantu rumah tangga yang sabar karena terdapat 2 anak kecil yang nakal dan butuh banyak perhatian"),
+        "Dibutuhkan pembantu rumah tangga yang sabar karena terdapat 2 anak kecil yang nakal dan butuh banyak perhatian",
+        false),
     MListLoker(
         'Supir Pribadi',
         'Baim Wong',
@@ -103,9 +147,9 @@ class MListLoker {
         '16-12-2022',
         'Rp 5,000,000 - 6,000,000',
         [
-          'Membawa mobil',
+          'Bisa menyetir mobil',
           'Tidak takut hewan',
-          "Membawa sepeda motor",
+          "Bisa sepeda motor",
           'Menginap'
         ],
         "Supir Pribadi Istri",
@@ -116,7 +160,8 @@ class MListLoker {
           'Taat aturan lalu lintas',
           'Bertanggung jawab atas keselamatan penumpang dan mobil'
         ],
-        "Mengantar istri bekerja dan belanja kebutuhan rumah tangga, serta menjemput anak sekolah"),
+        "Mengantar istri bekerja dan belanja kebutuhan rumah tangga, serta menjemput anak sekolah",
+        false),
     MListLoker(
         'Baby Sitter',
         'Jessica Milla',
@@ -126,7 +171,7 @@ class MListLoker {
         '2-2-2023',
         'Rp 5,000,000 - 6,000,000',
         [
-          'Mabuk perjalanan',
+          'Tidak mabuk perjalanan',
           'Tidak takut hewan',
           'Menginap',
         ],
@@ -137,7 +182,8 @@ class MListLoker {
           'Membersihkan kamar anak',
           'Mencuci pakaian anak'
         ],
-        "Membantu dan menjaga anak, diutamakan yang memiliki daya tahan tubuh yang kuat."),
+        "Membantu dan menjaga anak, diutamakan yang memiliki daya tahan tubuh yang kuat.",
+        false),
   ];
 }
 

@@ -17,8 +17,27 @@ class Beranda extends StatefulWidget {
 }
 
 class _BerandaState extends State<Beranda> {
-  bool expandsatu = false;
-  bool expanddua = false;
+  List<String> kriteria = [];
+  String tempkriteria = "";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    for (int i = 0; i < MListLoker.isiListLoker.length; i++) {
+      for (int j = 0; j < MListLoker.isiListLoker[i].kriteria.length; j++) {
+        if (j != MListLoker.isiListLoker[i].kriteria.length - 1) {
+          tempkriteria =
+              tempkriteria + MListLoker.isiListLoker[i].kriteria[j] + ", ";
+        } else {
+          tempkriteria = tempkriteria + MListLoker.isiListLoker[i].kriteria[j];
+        }
+      }
+      kriteria.add(tempkriteria);
+      tempkriteria = "";
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +97,9 @@ class _BerandaState extends State<Beranda> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const ListART()));
+                                    builder: (context) => ListART(
+                                          konten: "Pembantu Rumah Tangga",
+                                        )));
                           },
                           child: Container(
                             width: 100,
@@ -121,7 +142,12 @@ class _BerandaState extends State<Beranda> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            print('baby sitter/nanny');
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ListART(
+                                          konten: "Baby Sitter",
+                                        )));
                           },
                           child: Container(
                             width: 100,
@@ -164,7 +190,12 @@ class _BerandaState extends State<Beranda> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            print('penjaga lansia');
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ListART(
+                                          konten: "Penjaga Lansia",
+                                        )));
                           },
                           child: Container(
                             width: 100,
@@ -215,7 +246,12 @@ class _BerandaState extends State<Beranda> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            print('office boy/girl');
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ListART(
+                                          konten: "Office Boy/Girl",
+                                        )));
                           },
                           child: Container(
                             width: 100,
@@ -258,7 +294,12 @@ class _BerandaState extends State<Beranda> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            print('supir pribadi');
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ListART(
+                                          konten: "Supir Pribadi",
+                                        )));
                           },
                           child: Container(
                             width: 100,
@@ -301,7 +342,12 @@ class _BerandaState extends State<Beranda> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            print('tukang kebun');
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ListART(
+                                          konten: "Tukang Kebun",
+                                        )));
                           },
                           child: Container(
                             width: 100,
@@ -458,10 +504,13 @@ class _BerandaState extends State<Beranda> {
                                   IconButton(
                                       onPressed: () {
                                         setState(() {
-                                          expandsatu = !expandsatu;
+                                          MListLoker.isiListLoker[0].expand =
+                                              !MListLoker
+                                                  .isiListLoker[0].expand;
                                         });
                                       },
-                                      icon: expandsatu == false
+                                      icon: MListLoker.isiListLoker[0].expand ==
+                                              false
                                           ? Icon(
                                               Icons.keyboard_arrow_down_rounded,
                                               color: Color(int.parse(
@@ -475,44 +524,46 @@ class _BerandaState extends State<Beranda> {
                                 ],
                               ),
                               Visibility(
-                                  visible: expandsatu == true ? true : false,
+                                  visible:
+                                      MListLoker.isiListLoker[0].expand == true
+                                          ? true
+                                          : false,
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "Uraian Tugas",
+                                        "Kriteria",
                                         style: GoogleFonts.poppins(
                                             textStyle: const TextStyle(
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.bold)),
                                       ),
-                                      Container(
-                                        child: Column(
-                                          children: MListLoker
-                                              .isiListLoker[0].kriteria
-                                              .map((strone) {
-                                            return Row(children: [
-                                              const Text(
-                                                "\u2022",
-                                                style: TextStyle(fontSize: 15),
-                                              ), //bullet text
-                                              const SizedBox(
-                                                width: 10,
-                                              ), //space between bullet and text
-                                              Expanded(
-                                                child: Text(
-                                                  strone,
-                                                  style: GoogleFonts.poppins(
-                                                      textStyle:
-                                                          const TextStyle(
-                                                              fontSize: 13)),
-                                                ), //text
-                                              )
-                                            ]);
-                                          }).toList(),
-                                        ),
+                                      Text(
+                                        kriteria[0],
+                                        style: GoogleFonts.poppins(
+                                            textStyle:
+                                                const TextStyle(fontSize: 13)),
                                       ),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                      Text(
+                                        "Kategori Pekerjaan",
+                                        style: GoogleFonts.poppins(
+                                            textStyle: const TextStyle(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.bold)),
+                                      ),
+                                      Text(
+                                        MListLoker.isiListLoker[0].kategori,
+                                        style: GoogleFonts.poppins(
+                                            textStyle: TextStyle(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color(int.parse(
+                                                    globals.color_primary)))),
+                                      )
                                     ],
                                   ))
                             ],
@@ -536,71 +587,134 @@ class _BerandaState extends State<Beranda> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0)),
                         elevation: 3,
-                        child: Padding(
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    width: 60,
-                                    height: 60,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(50.0),
-                                      image: const DecorationImage(
-                                          image: AssetImage(
-                                              'assets/images/person-4.jpg'),
-                                          fit: BoxFit.fill),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          MListLoker.isiListLoker[1].kategori,
-                                          style: GoogleFonts.poppins(
-                                              textStyle: const TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold)),
-                                        ),
-                                        Text(
-                                          'Rosa Fiore',
-                                          style: GoogleFonts.poppins(
-                                              textStyle: const TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w500)),
-                                        ),
-                                        Text(
-                                          "${MListLoker.isiListLoker[1].kecamatan}, ${MListLoker.isiListLoker[1].asalkota} | ${MListLoker.isiListLoker[1].jaraklokasi}",
-                                          style: GoogleFonts.poppins(
-                                              textStyle: const TextStyle(
-                                                  fontSize: 13,
-                                                  color: Color.fromARGB(
-                                                      255, 138, 138, 138))),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
+                              Text(
+                                MListLoker.isiListLoker[1].judul,
+                                style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(
+                                            int.parse(globals.color_primary)))),
+                              ),
+                              Text(
+                                "Bapak ${MListLoker.isiListLoker[1].namamajikan}",
+                                style: GoogleFonts.poppins(
+                                    textStyle: const TextStyle(
+                                        fontSize: 15, color: Colors.black)),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                "${MListLoker.isiListLoker[1].kecamatan}, ${MListLoker.isiListLoker[0].asalkota} | ${MListLoker.isiListLoker[0].jaraklokasi}",
+                                style: GoogleFonts.poppins(
+                                    textStyle: const TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black)),
+                              ),
+                              Text(
+                                "${MListLoker.isiListLoker[1].rangegaji} per bulan",
+                                style: GoogleFonts.poppins(
+                                    textStyle: const TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black)),
                               ),
                               const SizedBox(
                                 height: 20,
                               ),
                               Text(
-                                "Post pada ${MListLoker.isiListLoker[1].tglpost}",
+                                "${MListLoker.isiListLoker[1].informasi}",
                                 style: GoogleFonts.poppins(
                                     textStyle: const TextStyle(
-                                        fontSize: 11,
-                                        color: Color.fromARGB(
-                                            255, 138, 138, 138))),
-                              )
+                                  fontSize: 13,
+                                )),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Post pada ${MListLoker.isiListLoker[1].tglpost}",
+                                    style: GoogleFonts.poppins(
+                                        textStyle: const TextStyle(
+                                            fontSize: 11, color: Colors.black)),
+                                  ),
+                                  IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          MListLoker.isiListLoker[1].expand =
+                                              !MListLoker
+                                                  .isiListLoker[1].expand;
+                                        });
+                                      },
+                                      icon: MListLoker.isiListLoker[1].expand ==
+                                              false
+                                          ? Icon(
+                                              Icons.keyboard_arrow_down_rounded,
+                                              color: Color(int.parse(
+                                                  globals.color_primary)),
+                                            )
+                                          : Icon(
+                                              Icons.keyboard_arrow_up_rounded,
+                                              color: Color(int.parse(
+                                                  globals.color_primary)),
+                                            ))
+                                ],
+                              ),
+                              Visibility(
+                                  visible:
+                                      MListLoker.isiListLoker[1].expand == true
+                                          ? true
+                                          : false,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Kriteria",
+                                        style: GoogleFonts.poppins(
+                                            textStyle: const TextStyle(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.bold)),
+                                      ),
+                                      Text(
+                                        kriteria[1],
+                                        style: GoogleFonts.poppins(
+                                            textStyle:
+                                                const TextStyle(fontSize: 13)),
+                                      ),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                      Text(
+                                        "Kategori Pekerjaan",
+                                        style: GoogleFonts.poppins(
+                                            textStyle: const TextStyle(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.bold)),
+                                      ),
+                                      Text(
+                                        MListLoker.isiListLoker[1].kategori,
+                                        style: GoogleFonts.poppins(
+                                            textStyle: TextStyle(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color(int.parse(
+                                                    globals.color_primary)))),
+                                      )
+                                    ],
+                                  ))
                             ],
                           ),
                         ),
@@ -609,7 +723,7 @@ class _BerandaState extends State<Beranda> {
                   ],
                 )),
             const SizedBox(
-              height: 40,
+              height: 20,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

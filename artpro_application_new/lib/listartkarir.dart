@@ -40,7 +40,9 @@ class _ListARTKarirState extends State<ListARTKarir> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const DetailART()));
+                          builder: (context) => DetailART(
+                                index: index,
+                              )));
                 },
                 child: Card(
                   shape: RoundedRectangleBorder(
@@ -109,13 +111,13 @@ class _ListARTKarirState extends State<ListARTKarir> {
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold)),
                               ),
-                              Text(
-                                "${MListART.isiListART[index].umur} | ${MListART.isiListART[index].jarak}",
-                                style: GoogleFonts.poppins(
-                                    textStyle: const TextStyle(
-                                  fontSize: 14,
-                                )),
-                              )
+                              // Text(
+                              //   "${MListART.isiListART[index].umur} | ${MListART.isiListART[index].jarak}",
+                              //   style: GoogleFonts.poppins(
+                              //       textStyle: const TextStyle(
+                              //     fontSize: 14,
+                              //   )),
+                              // )
                             ],
                           ),
                         ),

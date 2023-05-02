@@ -6,7 +6,8 @@ import './global.dart' as globals;
 import './modeltemp/modeltemp.dart';
 
 class DetailART extends StatefulWidget {
-  const DetailART({super.key});
+  int index;
+  DetailART({super.key, required this.index});
 
   @override
   State<DetailART> createState() => _DetailARTState();
@@ -53,8 +54,8 @@ class _DetailARTState extends State<DetailART> {
                         height: 110,
                         decoration: BoxDecoration(
                             image: DecorationImage(
-                                image: AssetImage(
-                                    MListART.isiListART[0].gambarUrl),
+                                image: AssetImage(MListART
+                                    .isiListART[widget.index].gambarUrl),
                                 fit: BoxFit.fill),
                             borderRadius: BorderRadius.circular(50.0)),
                       ),
@@ -68,7 +69,7 @@ class _DetailARTState extends State<DetailART> {
                               color: Color(int.parse(globals.color_primary)),
                               borderRadius: BorderRadius.circular(20.0)),
                           child: Text(
-                            MListART.isiListART[0].rating,
+                            MListART.isiListART[widget.index].rating,
                             style: GoogleFonts.poppins(
                                 textStyle: const TextStyle(
                               fontSize: 15,
@@ -171,6 +172,23 @@ class _DetailARTState extends State<DetailART> {
                         height: 10,
                       ),
                       Text(
+                        "Tempat Lahir",
+                        style: GoogleFonts.poppins(
+                            textStyle: const TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.w600)),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Text(
+                          MListART.isiListART[widget.index].tempatlahir,
+                          style: GoogleFonts.poppins(
+                              textStyle: const TextStyle(fontSize: 15)),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(
                         "Tanggal Lahir",
                         style: GoogleFonts.poppins(
                             textStyle: const TextStyle(
@@ -203,20 +221,6 @@ class _DetailARTState extends State<DetailART> {
                       ),
                       const SizedBox(
                         height: 10,
-                      ),
-                      Text(
-                        "Tempat Tinggal",
-                        style: GoogleFonts.poppins(
-                            textStyle: const TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.w600)),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: Text(
-                          "Kec. Tambaksari, Kota Surabaya | ${MListART.isiListART[0].jarak}",
-                          style: GoogleFonts.poppins(
-                              textStyle: const TextStyle(fontSize: 15)),
-                        ),
                       ),
                     ],
                   ),
@@ -382,6 +386,16 @@ class _DetailARTState extends State<DetailART> {
                             color: Colors.white)),
                   ),
                 ),
+                TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      "Lihat semua >>",
+                      style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                              fontSize: 12,
+                              color:
+                                  Color(int.parse(globals.color_secondary)))),
+                    ))
               ],
             ),
             const SizedBox(

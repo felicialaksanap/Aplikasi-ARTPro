@@ -30,6 +30,28 @@ class _ListLokerState extends State<ListLoker> {
   bool maPerSel = false;
   bool masakSel = false;
 
+  List<String> kriteria = [];
+  String tempkriteria = "";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    for (int i = 0; i < MListLoker.isiListLoker.length; i++) {
+      for (int j = 0; j < MListLoker.isiListLoker[i].kriteria.length; j++) {
+        if (j != MListLoker.isiListLoker[i].kriteria.length - 1) {
+          tempkriteria =
+              tempkriteria + MListLoker.isiListLoker[i].kriteria[j] + ", ";
+        } else {
+          tempkriteria = tempkriteria + MListLoker.isiListLoker[i].kriteria[j];
+        }
+      }
+      kriteria.add(tempkriteria);
+      tempkriteria = "";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -672,142 +694,149 @@ class _ListLokerState extends State<ListLoker> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10.0)),
                               elevation: 3,
-                              child: Padding(
+                              child: Container(
+                                width: MediaQuery.of(context).size.width,
                                 padding: const EdgeInsets.all(8.0),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          width: 60,
-                                          height: 60,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(50.0),
-                                            image: const DecorationImage(
-                                                image: AssetImage(
-                                                    'assets/images/person-4.jpg'),
-                                                fit: BoxFit.fill),
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          width: 10,
-                                        ),
-                                        Expanded(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                MListLoker.isiListLoker[index]
-                                                    .kategori,
-                                                style: GoogleFonts.poppins(
-                                                    textStyle: const TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.bold)),
-                                              ),
-                                              Text(
-                                                'Rosa Fiore',
-                                                style: GoogleFonts.poppins(
-                                                    textStyle: const TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.w500)),
-                                              ),
-                                              Text(
-                                                "${MListLoker.isiListLoker[0].kecamatan}, ${MListLoker.isiListLoker[0].asalkota} | ${MListLoker.isiListLoker[0].jaraklokasi}",
-                                                style: GoogleFonts.poppins(
-                                                    textStyle: const TextStyle(
-                                                        fontSize: 13,
-                                                        color: Color.fromARGB(
-                                                            255,
-                                                            138,
-                                                            138,
-                                                            138))),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Visibility(
-                                          visible:
-                                              globals.status_user == "majikan"
-                                                  ? true
-                                                  : false,
-                                          child: PopupMenuButton(
-                                            icon: Icon(
-                                              Icons.more_vert,
+                                    Text(
+                                      MListLoker.isiListLoker[index].judul,
+                                      style: GoogleFonts.poppins(
+                                          textStyle: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
                                               color: Color(int.parse(
-                                                  globals.color_primary)),
-                                            ),
-                                            itemBuilder: (context) => [
-                                              PopupMenuItem(
-                                                child: Row(
-                                                  children: [
-                                                    Icon(
-                                                      Icons.create,
-                                                      color: Color(int.parse(
-                                                          globals
-                                                              .color_primary)),
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 5,
-                                                    ),
-                                                    Text(
-                                                      "Edit Loker",
-                                                      style: GoogleFonts.poppins(
-                                                          textStyle:
-                                                              const TextStyle(
-                                                                  fontSize:
-                                                                      13)),
-                                                    )
-                                                  ],
-                                                ),
-                                                value: 1,
-                                              ),
-                                              PopupMenuItem(
-                                                child: Row(
-                                                  children: [
-                                                    Icon(
-                                                      Icons.delete,
-                                                      color: Color(int.parse(
-                                                          globals
-                                                              .color_secondary)),
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 5,
-                                                    ),
-                                                    Text(
-                                                      "Hapus Loker",
-                                                      style: GoogleFonts.poppins(
-                                                          textStyle:
-                                                              const TextStyle(
-                                                                  fontSize:
-                                                                      13)),
-                                                    )
-                                                  ],
-                                                ),
-                                                value: 2,
-                                              )
-                                            ],
-                                          ),
-                                        )
-                                      ],
+                                                  globals.color_primary)))),
+                                    ),
+                                    Text(
+                                      index != 1
+                                          ? "Ibu ${MListLoker.isiListLoker[index].namamajikan}"
+                                          : "Bapak ${MListLoker.isiListLoker[index].namamajikan}",
+                                      style: GoogleFonts.poppins(
+                                          textStyle: const TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.black)),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                      "${MListLoker.isiListLoker[index].kecamatan}, ${MListLoker.isiListLoker[0].asalkota} | ${MListLoker.isiListLoker[0].jaraklokasi}",
+                                      style: GoogleFonts.poppins(
+                                          textStyle: const TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black)),
+                                    ),
+                                    Text(
+                                      "${MListLoker.isiListLoker[index].rangegaji} per bulan",
+                                      style: GoogleFonts.poppins(
+                                          textStyle: const TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black)),
                                     ),
                                     const SizedBox(
                                       height: 20,
                                     ),
                                     Text(
-                                      "Post pada ${MListLoker.isiListLoker[index].tglpost}",
+                                      "${MListLoker.isiListLoker[index].informasi}",
                                       style: GoogleFonts.poppins(
                                           textStyle: const TextStyle(
-                                              fontSize: 11,
-                                              color: Color.fromARGB(
-                                                  255, 138, 138, 138))),
-                                    )
+                                        fontSize: 13,
+                                      )),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Post pada ${MListLoker.isiListLoker[index].tglpost}",
+                                          style: GoogleFonts.poppins(
+                                              textStyle: const TextStyle(
+                                                  fontSize: 11,
+                                                  color: Colors.black)),
+                                        ),
+                                        IconButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                MListLoker.isiListLoker[index]
+                                                        .expand =
+                                                    !MListLoker
+                                                        .isiListLoker[index]
+                                                        .expand;
+                                              });
+                                            },
+                                            icon: MListLoker.isiListLoker[index]
+                                                        .expand ==
+                                                    false
+                                                ? Icon(
+                                                    Icons
+                                                        .keyboard_arrow_down_rounded,
+                                                    color: Color(int.parse(
+                                                        globals.color_primary)),
+                                                  )
+                                                : Icon(
+                                                    Icons
+                                                        .keyboard_arrow_up_rounded,
+                                                    color: Color(int.parse(
+                                                        globals.color_primary)),
+                                                  ))
+                                      ],
+                                    ),
+                                    Visibility(
+                                        visible: MListLoker.isiListLoker[index]
+                                                    .expand ==
+                                                true
+                                            ? true
+                                            : false,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "Kriteria",
+                                              style: GoogleFonts.poppins(
+                                                  textStyle: const TextStyle(
+                                                      fontSize: 13,
+                                                      fontWeight:
+                                                          FontWeight.bold)),
+                                            ),
+                                            Text(
+                                              kriteria[index],
+                                              style: GoogleFonts.poppins(
+                                                  textStyle: const TextStyle(
+                                                      fontSize: 13)),
+                                            ),
+                                            const SizedBox(
+                                              height: 20,
+                                            ),
+                                            Text(
+                                              "Kategori Pekerjaan",
+                                              style: GoogleFonts.poppins(
+                                                  textStyle: const TextStyle(
+                                                      fontSize: 13,
+                                                      fontWeight:
+                                                          FontWeight.bold)),
+                                            ),
+                                            Text(
+                                              MListLoker
+                                                  .isiListLoker[index].kategori,
+                                              style: GoogleFonts.poppins(
+                                                  textStyle: TextStyle(
+                                                      fontSize: 13,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Color(int.parse(
+                                                          globals
+                                                              .color_primary)))),
+                                            )
+                                          ],
+                                        ))
                                   ],
                                 ),
                               ),

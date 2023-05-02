@@ -5,7 +5,8 @@ import './modeltemp/modeltemp.dart';
 import './detailart.dart';
 
 class ListART extends StatefulWidget {
-  const ListART({super.key});
+  String konten;
+  ListART({super.key, required this.konten});
 
   @override
   State<ListART> createState() => _ListARTState();
@@ -33,6 +34,28 @@ class _ListARTState extends State<ListART> {
   bool maPerSel = false;
   bool masakSel = false;
   bool pJawaSel = false;
+
+  List<String> kriteria = [];
+  String tempkriteria = "";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    for (int i = 0; i < MListART.isiListART.length; i++) {
+      for (int j = 0; j < MListART.isiListART[i].kriteria.length; j++) {
+        if (j != MListART.isiListART[i].kriteria.length - 1) {
+          tempkriteria =
+              tempkriteria + MListART.isiListART[i].kriteria[j] + ", ";
+        } else {
+          tempkriteria = tempkriteria + MListART.isiListART[i].kriteria[j];
+        }
+      }
+      kriteria.add(tempkriteria);
+      tempkriteria = "";
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -306,7 +329,10 @@ class _ListARTState extends State<ListART> {
                             ),
                             contentPadding: const EdgeInsets.only(top: 2)),
                       ),
-                    )
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
                   ],
                 ),
                 const SizedBox(
@@ -677,7 +703,7 @@ class _ListARTState extends State<ListART> {
                       width: 10,
                     ),
                     Text(
-                      "Lain - Lain",
+                      "Kriteria",
                       style: GoogleFonts.poppins(
                           textStyle: const TextStyle(
                               fontSize: 15, fontWeight: FontWeight.bold)),
@@ -815,33 +841,57 @@ class _ListARTState extends State<ListART> {
                   ),
                 ),
                 const SizedBox(
-                  height: 5,
+                  height: 20,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        pJawaSel = !pJawaSel;
-                      });
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50.0),
-                          border: Border.all(
-                              color: pJawaSel
-                                  ? Color(int.parse(globals.color_primary))
-                                  : const Color.fromARGB(255, 217, 217, 217),
-                              width: pJawaSel ? 2 : 1)),
-                      child: Text("Dari Pulau Jawa",
-                          style: GoogleFonts.poppins(
-                              textStyle: const TextStyle(fontSize: 14))),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width / 3,
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                              elevation: 0,
+                              backgroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              side: BorderSide(
+                                  width: 1,
+                                  color: Color(
+                                      int.parse(globals.color_secondary)))),
+                          child: Text(
+                            "Batal",
+                            style: GoogleFonts.poppins(
+                                textStyle: const TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black)),
+                          )),
                     ),
-                  ),
+                    Container(
+                      width: MediaQuery.of(context).size.width / 3,
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                              elevation: 0,
+                              backgroundColor:
+                                  Color(int.parse(globals.color_secondary)),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20))),
+                          child: Text(
+                            "Terapkan",
+                            style: GoogleFonts.poppins(
+                                textStyle: const TextStyle(
+                                    fontSize: 15, fontWeight: FontWeight.w500)),
+                          )),
+                    ),
+                  ],
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 10,
                 )
               ],
             ),
@@ -849,107 +899,162 @@ class _ListARTState extends State<ListART> {
         ),
         body: Container(
           padding: const EdgeInsets.all(10.0),
-          child: ListView.builder(
-              itemCount: MListART.isiListART.length,
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const DetailART()));
-                  },
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0)),
-                    elevation: 3,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 70,
-                            height: 70,
-                            child: Stack(
-                              children: [
-                                Center(
-                                  child: Container(
-                                    width: 60,
-                                    height: 60,
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(50.0),
-                                        image: DecorationImage(
-                                            image: AssetImage(
-                                              MListART
-                                                  .isiListART[index].gambarUrl,
-                                            ),
-                                            fit: BoxFit.fill)),
-                                  ),
-                                ),
-                                Positioned(
-                                  right: 0,
-                                  bottom: 0,
-                                  child: Container(
-                                    width: 40,
-                                    padding: const EdgeInsets.all(2.0),
-                                    decoration: BoxDecoration(
-                                        color: Color(
-                                            int.parse(globals.color_primary)),
-                                        borderRadius:
-                                            BorderRadius.circular(20.0)),
-                                    child: Text(
-                                      MListART.isiListART[index].rating,
-                                      style: GoogleFonts.poppins(
-                                          textStyle: const TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                      )),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          Expanded(
-                            child: Column(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Kategori: ${widget.konten}",
+                style: GoogleFonts.poppins(
+                    textStyle: const TextStyle(
+                        fontSize: 15, fontWeight: FontWeight.bold)),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Expanded(
+                child: ListView.builder(
+                    itemCount: MListART.isiListART.length,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => DetailART(
+                                        index: index,
+                                      )));
+                        },
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0)),
+                          elevation: 3,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  MListART.isiListART[index].nama,
-                                  style: GoogleFonts.poppins(
-                                      textStyle: const TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold)),
+                                Container(
+                                  width: 70,
+                                  height: 70,
+                                  child: Stack(
+                                    children: [
+                                      Center(
+                                        child: Container(
+                                          width: 60,
+                                          height: 60,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(50.0),
+                                              image: DecorationImage(
+                                                  image: AssetImage(
+                                                    MListART.isiListART[index]
+                                                        .gambarUrl,
+                                                  ),
+                                                  fit: BoxFit.fill)),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        right: 0,
+                                        bottom: 0,
+                                        child: Container(
+                                          width: 40,
+                                          padding: const EdgeInsets.all(2.0),
+                                          decoration: BoxDecoration(
+                                              color: Color(int.parse(
+                                                  globals.color_primary)),
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0)),
+                                          child: Text(
+                                            MListART.isiListART[index].rating,
+                                            style: GoogleFonts.poppins(
+                                                textStyle: const TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white,
+                                            )),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
-                                Text(
-                                  "${MListART.isiListART[index].umur} | ${MListART.isiListART[index].jarak}",
-                                  style: GoogleFonts.poppins(
-                                      textStyle: const TextStyle(
-                                    fontSize: 14,
-                                  )),
-                                )
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        MListART.isiListART[index].nama,
+                                        style: GoogleFonts.poppins(
+                                            textStyle: const TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold)),
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        "Asal: ${MListART.isiListART[index].tempatlahir}",
+                                        style: GoogleFonts.poppins(
+                                            textStyle: const TextStyle(
+                                          fontSize: 14,
+                                        )),
+                                      ),
+                                      Text(
+                                        "Usia: ${MListART.isiListART[index].umur}",
+                                        style: GoogleFonts.poppins(
+                                            textStyle: const TextStyle(
+                                          fontSize: 14,
+                                        )),
+                                      ),
+                                      Text(
+                                        "Agama: ${MListART.isiListART[index].agama}",
+                                        style: GoogleFonts.poppins(
+                                            textStyle: const TextStyle(
+                                          fontSize: 14,
+                                        )),
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        "Kriteria",
+                                        style: GoogleFonts.poppins(
+                                            textStyle: const TextStyle(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.bold)),
+                                      ),
+                                      Text(
+                                        kriteria[index],
+                                        style: GoogleFonts.poppins(
+                                            textStyle: const TextStyle(
+                                          fontSize: 13,
+                                        )),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                IconButton(
+                                    onPressed: () {},
+                                    icon: Icon(
+                                      Icons.call,
+                                      size: 30,
+                                      color: Color(
+                                          int.parse(globals.color_primary)),
+                                    ))
                               ],
                             ),
                           ),
-                          IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.call,
-                                size: 30,
-                                color: Color(int.parse(globals.color_primary)),
-                              ))
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              }),
+                        ),
+                      );
+                    }),
+              ),
+            ],
+          ),
         ));
   }
 }
