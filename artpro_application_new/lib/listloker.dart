@@ -1,10 +1,13 @@
 // ignore_for_file: sort_child_properties_last
 
 import 'package:artpro_application_new/detailloker.dart';
+import 'package:artpro_application_new/mainberanda.dart';
 import 'package:artpro_application_new/modeltemp/modeltemp.dart';
 import 'package:artpro_application_new/tambahloker.dart';
+import 'package:artpro_application_new/services/lokerservices.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 import './global.dart' as globals;
 
 class ListLoker extends StatefulWidget {
@@ -33,23 +36,213 @@ class _ListLokerState extends State<ListLoker> {
   List<String> kriteria = [];
   String tempkriteria = "";
 
+  List<Loker> listLokerUser = [];
+  String kategori = "";
+
+  TextEditingController alasanctr = TextEditingController();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
-    for (int i = 0; i < MListLoker.isiListLoker.length; i++) {
-      for (int j = 0; j < MListLoker.isiListLoker[i].kriteria.length; j++) {
-        if (j != MListLoker.isiListLoker[i].kriteria.length - 1) {
-          tempkriteria =
-              tempkriteria + MListLoker.isiListLoker[i].kriteria[j] + ", ";
+    if (globals.status_user == "majikan") {
+      if (globals.idloker.isEmpty) {
+        Loker.getDataLokerperUser(globals.iduser).then((value) {
+          setState(() {
+            listLokerUser = value;
+            if (listLokerUser.isNotEmpty) {
+              for (int i = 0; i < listLokerUser.length; i++) {
+                globals.idloker.add(listLokerUser[i].idloker);
+                globals.iduserloker.add(listLokerUser[i].iduser);
+                globals.judulloker.add(listLokerUser[i].judulloker);
+                globals.gajiawalloker.add(listLokerUser[i].gajiawal);
+                globals.gajiakhirloker.add(listLokerUser[i].gajiakhir);
+                globals.informasiloker.add(listLokerUser[i].informasi);
+                globals.tugasloker.add(listLokerUser[i].tugas);
+                globals.kriteria.add(listLokerUser[i].kriteria);
+                globals.kprtloker.add(listLokerUser[i].kprt);
+                globals.kbabysitterloker.add(listLokerUser[i].kbabysitter);
+                globals.kseniorcareloker.add(listLokerUser[i].kseniorcare);
+                globals.ksupirloker.add(listLokerUser[i].ksupir);
+                globals.kofficeboyloker.add(listLokerUser[i].kofficeboy);
+                globals.ktukangkebunloker.add(listLokerUser[i].ktukangkebun);
+                globals.tglpost.add(listLokerUser[i].tglpost);
+                globals.namamajikan.add(listLokerUser[i].namalengkap);
+                globals.jeniskelaminloker.add(listLokerUser[i].jeniskelamin);
+                globals.kecamatanloker.add(listLokerUser[i].kecamatan);
+                globals.kotaloker.add(listLokerUser[i].kota);
+                globals.expandloker.add(listLokerUser[i].expand);
+
+                if (listLokerUser[i].kprt == "true") {
+                  kategori = "prt";
+                  if (listLokerUser[i].kbabysitter == "true") {
+                    kategori = kategori + ", babysitter";
+                    if (listLokerUser[i].kseniorcare == "true") {
+                      kategori = kategori + ", seniorcare";
+                    } else if (listLokerUser[i].ksupir == "true") {
+                      kategori = kategori + ", supir";
+                    } else if (listLokerUser[i].kofficeboy == "true") {
+                      kategori = kategori + ", officeboy";
+                    } else if (listLokerUser[i].ktukangkebun == "true") {
+                      kategori = kategori + ", tukangkebun";
+                    }
+                  } else if (listLokerUser[i].kseniorcare == "true") {
+                    kategori = kategori + ", seniorcare";
+                    if (listLokerUser[i].ksupir == "true") {
+                      kategori = kategori + ", supir";
+                    } else if (listLokerUser[i].kofficeboy == "true") {
+                      kategori = kategori + ", officeboy";
+                    } else if (listLokerUser[i].ktukangkebun == "true") {
+                      kategori = kategori + ", tukangkebun";
+                    }
+                  } else if (listLokerUser[i].ksupir == "true") {
+                    kategori = kategori + ", supir";
+                    if (listLokerUser[i].kofficeboy == "true") {
+                      kategori = kategori + ", officeboy";
+                    } else if (listLokerUser[i].ktukangkebun == "true") {
+                      kategori = kategori + ", tukangkebun";
+                    }
+                  } else if (listLokerUser[i].kofficeboy == "true") {
+                    kategori = kategori + ", officeboy";
+                    if (listLokerUser[i].ktukangkebun == "true") {
+                      kategori = kategori + ", tukangkebun";
+                    }
+                  } else if (listLokerUser[i].ktukangkebun == "true") {
+                    kategori = kategori + ", tukangkebun";
+                  }
+                } else if (listLokerUser[i].kbabysitter == "true") {
+                  kategori = "babysitter";
+                } else if (listLokerUser[i].kseniorcare == "true") {
+                  kategori = "seniorcare";
+                } else if (listLokerUser[i].ksupir == "true") {
+                  kategori = "supir";
+                } else if (listLokerUser[i].kofficeboy == "true") {
+                  kategori = "officeboy";
+                } else if (listLokerUser[i].ktukangkebun == "true") {
+                  kategori = "tukangkebun";
+                }
+                globals.kategori.add(kategori);
+                kategori = "";
+              }
+            }
+          });
+        });
+      }
+    } else {
+      for (int i = 0; i < MListLoker.isiListLoker.length; i++) {
+        for (int j = 0; j < MListLoker.isiListLoker[i].kriteria.length; j++) {
+          if (j != MListLoker.isiListLoker[i].kriteria.length - 1) {
+            tempkriteria =
+                tempkriteria + MListLoker.isiListLoker[i].kriteria[j] + ", ";
+          } else {
+            tempkriteria =
+                tempkriteria + MListLoker.isiListLoker[i].kriteria[j];
+          }
+        }
+        kriteria.add(tempkriteria);
+        tempkriteria = "";
+      }
+    }
+  }
+
+  Future<void> addLokerSelesai(int index) async {
+    var url = "${globals.urlapi}addlokerselesai";
+    var response = await http.post(Uri.parse(url), body: {
+      "idloker": globals.idloker[index],
+      "iduser": globals.iduserloker[index],
+      "judulloker": globals.judulloker[index],
+      "gajiawal": globals.gajiawalloker[index],
+      "gajiakhir": globals.gajiakhirloker[index],
+      "informasi": globals.informasiloker[index],
+      "tugas": globals.tugasloker[index],
+      "kriteria": globals.kriteria[index],
+      "kprt": globals.kprtloker[index],
+      "kbabysitter": globals.kbabysitterloker[index],
+      "kseniorcare": globals.kseniorcareloker[index],
+      "ksupir": globals.ksupirloker[index],
+      "kofficeboy": globals.kofficeboyloker[index],
+      "ktukangkebun": globals.ktukangkebunloker[index],
+      "tglpost": globals.tglpost[index],
+      "alasan": alasanctr.text
+    });
+    if (response.statusCode == 200) {
+      var url2 =
+          "${globals.urlapi}deletelowongankerja?idloker=${int.parse(globals.idloker[index])}";
+      var response2 =
+          await http.delete(Uri.parse(url2), headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      });
+
+      if (response2.statusCode == 200) {
+        setState(() {
+          globals.idloker.removeAt(index);
+          globals.iduserloker.removeAt(index);
+          globals.judulloker.removeAt(index);
+          globals.gajiawalloker.removeAt(index);
+          globals.gajiakhirloker.removeAt(index);
+          globals.informasiloker.removeAt(index);
+          globals.tugasloker.removeAt(index);
+          globals.kriteria.removeAt(index);
+          globals.kprtloker.removeAt(index);
+          globals.kbabysitterloker.removeAt(index);
+          globals.kseniorcareloker.removeAt(index);
+          globals.ksupirloker.removeAt(index);
+          globals.kofficeboyloker.removeAt(index);
+          globals.ktukangkebunloker.removeAt(index);
+          globals.tglpost.removeAt(index);
+          globals.namamajikan.removeAt(index);
+          globals.jeniskelaminloker.removeAt(index);
+          globals.kecamatanloker.removeAt(index);
+          globals.kotaloker.removeAt(index);
+          globals.expandloker.removeAt(index);
+          alasanctr.text = "";
+        });
+        Navigator.pop(context);
+      }
+    }
+  }
+
+  void arrangeData(int index) {
+    String tugas = "";
+    String kriteria = "";
+    setState(() {
+      globals.stringtugas.clear();
+      // arrange tugas loker
+      for (int i = 0; i < globals.tugasloker[index].length; i++) {
+        if (globals.tugasloker[index][i] == "." &&
+            globals.tugasloker[index][i + 1] == " ") {
+          globals.stringtugas.add(tugas);
+        } else if (globals.tugasloker[index][i] == " " &&
+            globals.tugasloker[index][i - 1] == ".") {
+          tugas = "";
+        } else if (i == globals.tugasloker[index].length - 1) {
+          tugas = tugas + globals.tugasloker[index][i];
+          globals.stringtugas.add(tugas);
+          tugas = "";
         } else {
-          tempkriteria = tempkriteria + MListLoker.isiListLoker[i].kriteria[j];
+          tugas = tugas + globals.tugasloker[index][i];
         }
       }
-      kriteria.add(tempkriteria);
-      tempkriteria = "";
-    }
+
+      globals.stringkriteria.clear();
+      // arrange kriteria
+      for (int i = 0; i < globals.kriteria[index].length; i++) {
+        if (globals.kriteria[index][i] == "," &&
+            globals.kriteria[index][i + 1] == " ") {
+          globals.stringkriteria.add(kriteria);
+        } else if (globals.kriteria[index][i] == " " &&
+            globals.kriteria[index][i - 1] == ",") {
+          kriteria = "";
+        } else if (i == globals.kriteria[index].length - 1) {
+          kriteria = kriteria + globals.kriteria[index][i];
+          globals.stringkriteria.add(kriteria);
+          kriteria = "";
+        } else {
+          kriteria = kriteria + globals.kriteria[index][i];
+        }
+      }
+    });
   }
 
   @override
@@ -62,7 +255,35 @@ class _ListLokerState extends State<ListLoker> {
               IconThemeData(color: Color(int.parse(globals.color_primary))),
           leading: IconButton(
               onPressed: () {
-                Navigator.pop(context);
+                setState(() {
+                  globals.idloker.clear();
+                  globals.iduserloker.clear();
+                  globals.judulloker.clear();
+                  globals.gajiawalloker.clear();
+                  globals.gajiakhirloker.clear();
+                  globals.informasiloker.clear();
+                  globals.tugasloker.clear();
+                  globals.kriteria.clear();
+                  globals.kprtloker.clear();
+                  globals.kbabysitterloker.clear();
+                  globals.kseniorcareloker.clear();
+                  globals.ksupirloker.clear();
+                  globals.kofficeboyloker.clear();
+                  globals.ktukangkebunloker.clear();
+                  globals.tglpost.clear();
+                  globals.namamajikan.clear();
+                  globals.jeniskelaminloker.clear();
+                  globals.kecamatanloker.clear();
+                  globals.kotaloker.clear();
+                  globals.expandloker.clear();
+                  globals.kategori.clear();
+                  globals.stringtugas.clear();
+                  globals.stringkriteria.clear();
+                });
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const MainBeranda()));
               },
               icon: Icon(
                 Icons.arrow_back_ios,
@@ -669,7 +890,7 @@ class _ListLokerState extends State<ListLoker> {
               Visibility(
                 visible: globals.status_user == "pekerja" ? false : true,
                 child: Text(
-                  "Lowongan Kerja Saat Ini :",
+                  "Lowongan kerja yang anda buka :",
                   style: GoogleFonts.poppins(
                       textStyle: const TextStyle(
                           fontSize: 15, fontWeight: FontWeight.bold)),
@@ -677,12 +898,13 @@ class _ListLokerState extends State<ListLoker> {
               ),
               Expanded(
                 child: ListView.builder(
-                    itemCount: MListLoker.isiListLoker.length,
+                    itemCount: globals.idloker.length,
                     itemBuilder: (context, index) {
                       return Column(
                         children: [
                           GestureDetector(
                             onTap: () {
+                              arrangeData(index);
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -700,19 +922,165 @@ class _ListLokerState extends State<ListLoker> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      MListLoker.isiListLoker[index].judul,
-                                      style: GoogleFonts.poppins(
-                                          textStyle: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold,
-                                              color: Color(int.parse(
-                                                  globals.color_primary)))),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          globals.judulloker[index],
+                                          style: GoogleFonts.poppins(
+                                              textStyle: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Color(int.parse(
+                                                      globals.color_primary)))),
+                                        ),
+                                        Visibility(
+                                            visible:
+                                                globals.status_user == "majikan"
+                                                    ? true
+                                                    : false,
+                                            child: Row(
+                                              children: [
+                                                IconButton(
+                                                  icon: Icon(
+                                                    Icons.create_rounded,
+                                                    color: Color(int.parse(
+                                                        globals.color_primary)),
+                                                  ),
+                                                  onPressed: () {
+                                                    arrangeData(index);
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder:
+                                                                (context) =>
+                                                                    TambahLoker(
+                                                                      konten:
+                                                                          "edit",
+                                                                      index:
+                                                                          index,
+                                                                    )));
+                                                  },
+                                                ),
+                                                IconButton(
+                                                  icon: Icon(
+                                                    Icons.delete,
+                                                    color: Color(int.parse(
+                                                        globals
+                                                            .color_secondary)),
+                                                  ),
+                                                  onPressed: () {
+                                                    showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                            context) {
+                                                          return AlertDialog(
+                                                            title: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceBetween,
+                                                              children: [
+                                                                Expanded(
+                                                                  child: Text(
+                                                                    "Berikan alasan kenapa menghapus lowongan kerja ini?",
+                                                                    style: GoogleFonts.poppins(
+                                                                        textStyle: const TextStyle(
+                                                                            fontSize:
+                                                                                15,
+                                                                            fontWeight:
+                                                                                FontWeight.w500)),
+                                                                  ),
+                                                                ),
+                                                                IconButton(
+                                                                  onPressed:
+                                                                      () {
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                  icon: Icon(
+                                                                    Icons
+                                                                        .cancel_outlined,
+                                                                    color: Color(
+                                                                        int.parse(
+                                                                            globals.color_secondary)),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            content: Container(
+                                                              child: TextField(
+                                                                controller:
+                                                                    alasanctr,
+                                                                cursorColor: Color(
+                                                                    int.parse(
+                                                                        globals
+                                                                            .color_primary)),
+                                                                style: GoogleFonts.poppins(
+                                                                    textStyle: const TextStyle(
+                                                                        fontSize:
+                                                                            15,
+                                                                        color: Colors
+                                                                            .black)),
+                                                                decoration:
+                                                                    const InputDecoration(
+                                                                        enabledBorder:
+                                                                            OutlineInputBorder(
+                                                                          borderSide: BorderSide(
+                                                                              color: Color.fromARGB(255, 138, 138, 138),
+                                                                              width: 1.0),
+                                                                        ),
+                                                                        focusedBorder:
+                                                                            OutlineInputBorder(
+                                                                          borderSide: BorderSide(
+                                                                              color: Color.fromARGB(255, 138, 138, 138),
+                                                                              width: 1.0),
+                                                                        ),
+                                                                        hintText:
+                                                                            "alasan ...",
+                                                                        contentPadding: EdgeInsets.fromLTRB(
+                                                                            8,
+                                                                            4,
+                                                                            8,
+                                                                            4)),
+                                                                maxLines: 5,
+                                                              ),
+                                                            ),
+                                                            actions: [
+                                                              Center(
+                                                                child:
+                                                                    TextButton(
+                                                                  onPressed:
+                                                                      () {
+                                                                    addLokerSelesai(
+                                                                        index);
+                                                                  },
+                                                                  child: Text(
+                                                                    "Hapus Lowongan Kerja",
+                                                                    style: GoogleFonts.poppins(
+                                                                        textStyle: TextStyle(
+                                                                            fontSize:
+                                                                                15,
+                                                                            fontWeight:
+                                                                                FontWeight.bold,
+                                                                            color: Color(int.parse(globals.color_secondary)))),
+                                                                  ),
+                                                                ),
+                                                              )
+                                                            ],
+                                                          );
+                                                        });
+                                                    // addLokerSelesai(index);
+                                                  },
+                                                ),
+                                              ],
+                                            ))
+                                      ],
                                     ),
                                     Text(
-                                      index != 1
-                                          ? "Ibu ${MListLoker.isiListLoker[index].namamajikan}"
-                                          : "Bapak ${MListLoker.isiListLoker[index].namamajikan}",
+                                      globals.jeniskelaminloker[index] == "P"
+                                          ? "Ibu ${globals.namamajikan[index]}"
+                                          : "Bapak ${globals.namamajikan[index]}",
                                       style: GoogleFonts.poppins(
                                           textStyle: const TextStyle(
                                               fontSize: 15,
@@ -722,7 +1090,7 @@ class _ListLokerState extends State<ListLoker> {
                                       height: 10,
                                     ),
                                     Text(
-                                      "${MListLoker.isiListLoker[index].kecamatan}, ${MListLoker.isiListLoker[0].asalkota} | ${MListLoker.isiListLoker[0].jaraklokasi}",
+                                      "${globals.kecamatanloker[index]}, ${globals.kotaloker[index]} | 5,3 km",
                                       style: GoogleFonts.poppins(
                                           textStyle: const TextStyle(
                                               fontSize: 13,
@@ -730,7 +1098,7 @@ class _ListLokerState extends State<ListLoker> {
                                               color: Colors.black)),
                                     ),
                                     Text(
-                                      "${MListLoker.isiListLoker[index].rangegaji} per bulan",
+                                      "Rp ${globals.gajiawalloker[index]} - ${globals.gajiakhirloker[index]} per bulan",
                                       style: GoogleFonts.poppins(
                                           textStyle: const TextStyle(
                                               fontSize: 13,
@@ -741,7 +1109,7 @@ class _ListLokerState extends State<ListLoker> {
                                       height: 20,
                                     ),
                                     Text(
-                                      "${MListLoker.isiListLoker[index].informasi}",
+                                      "${globals.informasiloker[index]}",
                                       style: GoogleFonts.poppins(
                                           textStyle: const TextStyle(
                                         fontSize: 13,
@@ -755,7 +1123,7 @@ class _ListLokerState extends State<ListLoker> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          "Post pada ${MListLoker.isiListLoker[index].tglpost}",
+                                          "Post pada ${globals.tglpost[index]}",
                                           style: GoogleFonts.poppins(
                                               textStyle: const TextStyle(
                                                   fontSize: 11,
@@ -764,15 +1132,11 @@ class _ListLokerState extends State<ListLoker> {
                                         IconButton(
                                             onPressed: () {
                                               setState(() {
-                                                MListLoker.isiListLoker[index]
-                                                        .expand =
-                                                    !MListLoker
-                                                        .isiListLoker[index]
-                                                        .expand;
+                                                globals.expandloker[index] =
+                                                    !globals.expandloker[index];
                                               });
                                             },
-                                            icon: MListLoker.isiListLoker[index]
-                                                        .expand ==
+                                            icon: globals.expandloker[index] ==
                                                     false
                                                 ? Icon(
                                                     Icons
@@ -789,11 +1153,10 @@ class _ListLokerState extends State<ListLoker> {
                                       ],
                                     ),
                                     Visibility(
-                                        visible: MListLoker.isiListLoker[index]
-                                                    .expand ==
-                                                true
-                                            ? true
-                                            : false,
+                                        visible:
+                                            globals.expandloker[index] == true
+                                                ? true
+                                                : false,
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -807,7 +1170,7 @@ class _ListLokerState extends State<ListLoker> {
                                                           FontWeight.bold)),
                                             ),
                                             Text(
-                                              kriteria[index],
+                                              globals.kriteria[index],
                                               style: GoogleFonts.poppins(
                                                   textStyle: const TextStyle(
                                                       fontSize: 13)),
@@ -824,8 +1187,7 @@ class _ListLokerState extends State<ListLoker> {
                                                           FontWeight.bold)),
                                             ),
                                             Text(
-                                              MListLoker
-                                                  .isiListLoker[index].kategori,
+                                              globals.kategori[index],
                                               style: GoogleFonts.poppins(
                                                   textStyle: TextStyle(
                                                       fontSize: 13,
@@ -856,8 +1218,13 @@ class _ListLokerState extends State<ListLoker> {
           visible: globals.status_user == "pekerja" ? false : true,
           child: FloatingActionButton(
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const TambahLoker()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => TambahLoker(
+                            konten: "tambah",
+                            index: 0,
+                          )));
             },
             backgroundColor: Color(int.parse(globals.color_primary)),
             child: const Icon(

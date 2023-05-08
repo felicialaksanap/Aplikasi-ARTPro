@@ -1,3 +1,5 @@
+import 'package:artpro_application_new/listloker.dart';
+import 'package:artpro_application_new/tambahloker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import './global.dart' as globals;
@@ -12,13 +14,11 @@ class DetailLoker extends StatefulWidget {
 }
 
 class _DetailLokerState extends State<DetailLoker> {
-  // List<String> ketlain = [
-  //   "Tidak takut hewan",
-  //   "Mabuk perjalanan",
-  //   "Sepeda Motor",
-  //   "Memasak",
-  //   "Warnen"
-  // ];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,16 +32,50 @@ class _DetailLokerState extends State<DetailLoker> {
             color: Color(int.parse(globals.color_primary)),
           ),
           onPressed: () {
-            Navigator.pop(context);
+            setState(() {
+              globals.stringkriteria.clear();
+              globals.stringtugas.clear();
+            });
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const ListLoker()));
           },
         ),
-        // title: Text(
-        //   "Detail Loker",
-        //   style: GoogleFonts.poppins(
-        //       textStyle: TextStyle(
-        //           color: Color(int.parse(globals.color_primary)),
-        //           fontWeight: FontWeight.w500)),
-        // ),
+        actions: [
+          globals.status_user == "majikan"
+              ? GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => TambahLoker(
+                                  konten: "edit",
+                                  index: widget.index,
+                                  pagefrom: "detailloker",
+                                )));
+                  },
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.create_rounded,
+                        color: Color(int.parse(globals.color_secondary)),
+                      ),
+                      Text(
+                        "Ubah Data",
+                        style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                                color:
+                                    Color(int.parse(globals.color_secondary)))),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      )
+                    ],
+                  ),
+                )
+              : Container()
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(10.0),
@@ -49,7 +83,7 @@ class _DetailLokerState extends State<DetailLoker> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              MListLoker.isiListLoker[widget.index].judul,
+              globals.judulloker[widget.index],
               style: GoogleFonts.poppins(
                   textStyle: TextStyle(
                       fontSize: 15,
@@ -57,9 +91,9 @@ class _DetailLokerState extends State<DetailLoker> {
                       color: Color(int.parse(globals.color_primary)))),
             ),
             Text(
-              widget.index != 1
-                  ? "Ibu ${MListLoker.isiListLoker[widget.index].namamajikan}"
-                  : "Bapak ${MListLoker.isiListLoker[widget.index].namamajikan}",
+              globals.jeniskelaminloker[widget.index] == "P"
+                  ? "Ibu ${globals.namamajikan[widget.index]}"
+                  : "Bapak ${globals.namamajikan[widget.index]}",
               style: GoogleFonts.poppins(
                   textStyle:
                       const TextStyle(fontSize: 15, color: Colors.black)),
@@ -68,7 +102,7 @@ class _DetailLokerState extends State<DetailLoker> {
               height: 10,
             ),
             Text(
-              "${MListLoker.isiListLoker[1].kecamatan}, ${MListLoker.isiListLoker[0].asalkota} | ${MListLoker.isiListLoker[0].jaraklokasi}",
+              "${globals.kecamatanloker[widget.index]}, ${globals.kotaloker[widget.index]} | 5.3 km",
               style: GoogleFonts.poppins(
                   textStyle: const TextStyle(
                       fontSize: 14,
@@ -76,7 +110,7 @@ class _DetailLokerState extends State<DetailLoker> {
                       color: Colors.black)),
             ),
             Text(
-              "${MListLoker.isiListLoker[widget.index].rangegaji} per bulan",
+              "Rp ${globals.gajiawalloker[widget.index]} - ${globals.gajiakhirloker[widget.index]} per bulan",
               style: GoogleFonts.poppins(
                   textStyle: const TextStyle(
                       fontSize: 14,
@@ -87,7 +121,7 @@ class _DetailLokerState extends State<DetailLoker> {
               height: 20,
             ),
             Text(
-              "Post pada ${MListLoker.isiListLoker[widget.index].tglpost}",
+              "Post pada ${globals.tglpost[widget.index]}",
               style: GoogleFonts.poppins(
                   textStyle:
                       const TextStyle(fontSize: 13, color: Colors.black)),
@@ -115,7 +149,7 @@ class _DetailLokerState extends State<DetailLoker> {
               height: 10,
             ),
             Text(
-              "${MListLoker.isiListLoker[1].informasi}",
+              globals.informasiloker[widget.index],
               style: GoogleFonts.poppins(
                   textStyle: const TextStyle(
                 fontSize: 13,
@@ -145,8 +179,7 @@ class _DetailLokerState extends State<DetailLoker> {
             ),
             Container(
               child: Column(
-                children:
-                    MListLoker.isiListLoker[widget.index].jobdesc.map((strone) {
+                children: globals.stringtugas.map((strone) {
                   return Row(children: [
                     const Text(
                       "\u2022",
@@ -192,8 +225,7 @@ class _DetailLokerState extends State<DetailLoker> {
               child: GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount:
-                    MListLoker.isiListLoker[widget.index].kriteria.length,
+                itemCount: globals.stringkriteria.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     childAspectRatio: 3,
@@ -209,7 +241,7 @@ class _DetailLokerState extends State<DetailLoker> {
                             width: 1)),
                     child: Center(
                       child: Text(
-                        MListLoker.isiListLoker[widget.index].kriteria[index],
+                        globals.stringkriteria[index],
                         style: GoogleFonts.poppins(
                             textStyle: const TextStyle(fontSize: 14)),
                         textAlign: TextAlign.center,
@@ -242,33 +274,39 @@ class _DetailLokerState extends State<DetailLoker> {
               height: 10,
             ),
             Text(
-              MListLoker.isiListLoker[widget.index].kategori,
+              globals.kategori[widget.index],
               style: GoogleFonts.poppins(
                   textStyle: const TextStyle(
                       fontSize: 15,
                       color: Colors.black,
                       fontWeight: FontWeight.bold)),
             ),
-            const SizedBox(
-              height: 40,
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 40,
-              child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                          Color(int.parse(globals.color_secondary)),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30))),
-                  child: Text(
-                    "Lamar Sekarang",
-                    style: GoogleFonts.poppins(
-                        textStyle: const TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.w500)),
-                  )),
-            ),
+            Visibility(
+                visible: globals.status_user == "pekerja" ? true : false,
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 40,
+                      child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  Color(int.parse(globals.color_secondary)),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30))),
+                          child: Text(
+                            "Lamar Sekarang",
+                            style: GoogleFonts.poppins(
+                                textStyle: const TextStyle(
+                                    fontSize: 15, fontWeight: FontWeight.w500)),
+                          )),
+                    ),
+                  ],
+                )),
             const SizedBox(
               height: 10,
             )

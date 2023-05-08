@@ -25,6 +25,7 @@ class _BerandaState extends State<Beranda> {
     // TODO: implement initState
     super.initState();
 
+    if (globals.status_user == "pekerja") {}
     for (int i = 0; i < MListLoker.isiListLoker.length; i++) {
       for (int j = 0; j < MListLoker.isiListLoker[i].kriteria.length; j++) {
         if (j != MListLoker.isiListLoker[i].kriteria.length - 1) {

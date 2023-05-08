@@ -26,8 +26,6 @@ class _SignUpInputTState extends State<SignUpInputT> {
   int count = 0;
 
   TextEditingController expctr = TextEditingController();
-  // MoneyMaskedTextController mingajictr =
-  //     MoneyMaskedTextController(decimalSeparator: ',', thousandSeparator: '.');
   TextEditingController mingajictr = TextEditingController();
   TextEditingController maxgajictr = TextEditingController();
 
@@ -520,7 +518,7 @@ class _SignUpInputTState extends State<SignUpInputT> {
                                     color: Color.fromARGB(255, 138, 138, 138),
                                     width: 1.0),
                               ),
-                              hintText: "5500000",
+                              hintText: "5,500,000",
                               contentPadding: EdgeInsets.fromLTRB(8, 4, 8, 4)),
                           maxLines: 1,
                         ),
