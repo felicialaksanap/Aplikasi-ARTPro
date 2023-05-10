@@ -315,6 +315,13 @@ class _ProfileMenuState extends State<ProfileMenu> {
               GestureDetector(
                 onTap: () {
                   globals.select_index = 0;
+                  if (globals.status_user == "pekerja") {
+                    setState(() {
+                      globals.listLokerAktif.clear();
+                      globals.kategori.clear();
+                      globals.kriteria.clear();
+                    });
+                  }
                   sharedprefAkunUser();
                 },
                 child: Container(

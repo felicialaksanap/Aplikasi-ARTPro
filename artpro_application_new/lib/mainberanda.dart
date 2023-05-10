@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_final_fields
 
 import 'package:artpro_application_new/beranda.dart';
+import 'package:artpro_application_new/berandaart.dart';
 import 'package:artpro_application_new/karir.dart';
 import 'package:artpro_application_new/profilemenu.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class _MainBerandaState extends State<MainBeranda> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   List<Widget> _widgetOptions = <Widget>[
-    const Beranda(),
+    globals.status_user == "majikan" ? const Beranda() : const BerandaART(),
     const Karir(),
     const ProfileMenu()
   ];
@@ -27,6 +28,12 @@ class _MainBerandaState extends State<MainBeranda> {
     setState(() {
       globals.select_index = index;
     });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
   }
 
   @override

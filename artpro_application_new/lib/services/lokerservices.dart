@@ -9,15 +9,22 @@ class Loker {
   String gajiawal;
   String gajiakhir;
   String informasi;
-  String tugas;
-  String kriteria;
+  String tugas; // string pakai '.'
   String kprt;
   String kbabysitter;
   String kseniorcare;
   String ksupir;
   String kofficeboy;
   String ktukangkebun;
+  String hewan;
+  String masak;
+  String mabukjalan;
+  String sepedamotor;
+  String mobil;
+  String tkmenginap;
+  String tkwarnen;
   String tglpost;
+  String statusloker;
   String namalengkap;
   String jeniskelamin;
   String kecamatan;
@@ -32,14 +39,21 @@ class Loker {
       required this.gajiakhir,
       required this.informasi,
       required this.tugas,
-      required this.kriteria,
       required this.kprt,
       required this.kbabysitter,
       required this.kseniorcare,
       required this.ksupir,
       required this.kofficeboy,
       required this.ktukangkebun,
+      required this.hewan,
+      required this.masak,
+      required this.mabukjalan,
+      required this.sepedamotor,
+      required this.mobil,
+      required this.tkmenginap,
+      required this.tkwarnen,
       required this.tglpost,
+      required this.statusloker,
       required this.namalengkap,
       required this.jeniskelamin,
       required this.kecamatan,
@@ -55,14 +69,21 @@ class Loker {
         gajiakhir: object['gajiakhir'],
         informasi: object['informasi'],
         tugas: object['tugas'],
-        kriteria: object['kriteria'],
         kprt: object['kprt'],
         kbabysitter: object['kbabysitter'],
         kseniorcare: object['kseniorcare'],
         ksupir: object['ksupir'],
         kofficeboy: object['kofficeboy'],
         ktukangkebun: object['ktukangkebun'],
+        hewan: object['hewan'],
+        masak: object['masak'],
+        mabukjalan: object['mabukjalan'],
+        sepedamotor: object['sepedamotor'],
+        mobil: object['mobil'],
+        tkmenginap: object['tkmenginap'],
+        tkwarnen: object['tkwarnen'],
         tglpost: object['tglpost'],
+        statusloker: object['statusloker'],
         namalengkap: object['namalengkap'],
         jeniskelamin: object['jeniskelamin'],
         kecamatan: object['kecamatan'],
@@ -72,6 +93,25 @@ class Loker {
 
   static Future<List<Loker>> getDataLokerperUser(String iduser) async {
     var url = "${globals.urlapi}datalokerperuser?iduser=${int.parse(iduser)}";
+    var apiResult = await http.get(Uri.parse(url), headers: {
+      "Accept": "application/json",
+      "Access-Control-Allow-Origin": "*"
+    });
+    var jsonObject = json.decode(apiResult.body);
+    var data = (jsonObject as Map<String, dynamic>)['data'];
+    List<Loker> listData = [];
+    if (data.toString() == "null") {
+      return listData;
+    } else {
+      for (int i = 0; i < data.length; i++) {
+        listData.add(Loker.createData(data[i]));
+      }
+      return listData;
+    }
+  }
+
+  static Future<List<Loker>> getDataLokerperIdLoker(String idloker) async {
+    var url = "${globals.urlapi}datalokerperid?idloker=${int.parse(idloker)}";
     var apiResult = await http.get(Uri.parse(url), headers: {
       "Accept": "application/json",
       "Access-Control-Allow-Origin": "*"

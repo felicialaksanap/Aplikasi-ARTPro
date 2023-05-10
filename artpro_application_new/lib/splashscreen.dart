@@ -1,6 +1,7 @@
 // ignore_for_file: sized_box_for_whitespace, use_build_context_synchronously
 
 import 'package:artpro_application_new/mainberanda.dart';
+import 'package:artpro_application_new/services/lokerservices.dart';
 import 'package:artpro_application_new/services/userservices.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -21,6 +22,9 @@ class _SplashScreenState extends State<SplashScreen> {
   List<DomisiliUser> listDomisiliUser = [];
   List<DetailProfileART> listDetailProfART = [];
   List<DetailKerjaART> listDetailKerjaART = [];
+
+  List<Loker> listLoker = [];
+  String kategori = "";
 
   @override
   void initState() {

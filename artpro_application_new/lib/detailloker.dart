@@ -33,8 +33,8 @@ class _DetailLokerState extends State<DetailLoker> {
           ),
           onPressed: () {
             setState(() {
-              globals.stringkriteria.clear();
-              globals.stringtugas.clear();
+              globals.listTugas.clear();
+              globals.listKriteria.clear();
             });
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const ListLoker()));
@@ -83,7 +83,7 @@ class _DetailLokerState extends State<DetailLoker> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              globals.judulloker[widget.index],
+              globals.listLokerAktif[widget.index].judulloker,
               style: GoogleFonts.poppins(
                   textStyle: TextStyle(
                       fontSize: 15,
@@ -91,9 +91,9 @@ class _DetailLokerState extends State<DetailLoker> {
                       color: Color(int.parse(globals.color_primary)))),
             ),
             Text(
-              globals.jeniskelaminloker[widget.index] == "P"
-                  ? "Ibu ${globals.namamajikan[widget.index]}"
-                  : "Bapak ${globals.namamajikan[widget.index]}",
+              globals.listLokerAktif[widget.index].jeniskelamin == "P"
+                  ? "Ibu ${globals.listLokerAktif[widget.index].namalengkap}"
+                  : "Bapak ${globals.listLokerAktif[widget.index].namalengkap}",
               style: GoogleFonts.poppins(
                   textStyle:
                       const TextStyle(fontSize: 15, color: Colors.black)),
@@ -102,7 +102,7 @@ class _DetailLokerState extends State<DetailLoker> {
               height: 10,
             ),
             Text(
-              "${globals.kecamatanloker[widget.index]}, ${globals.kotaloker[widget.index]} | 5.3 km",
+              "${globals.listLokerAktif[widget.index].kecamatan}, ${globals.listLokerAktif[widget.index].kota} | 5.3 km",
               style: GoogleFonts.poppins(
                   textStyle: const TextStyle(
                       fontSize: 14,
@@ -110,7 +110,7 @@ class _DetailLokerState extends State<DetailLoker> {
                       color: Colors.black)),
             ),
             Text(
-              "Rp ${globals.gajiawalloker[widget.index]} - ${globals.gajiakhirloker[widget.index]} per bulan",
+              "Rp ${globals.listLokerAktif[widget.index].gajiawal} - ${globals.listLokerAktif[widget.index].gajiakhir} per bulan",
               style: GoogleFonts.poppins(
                   textStyle: const TextStyle(
                       fontSize: 14,
@@ -121,7 +121,7 @@ class _DetailLokerState extends State<DetailLoker> {
               height: 20,
             ),
             Text(
-              "Post pada ${globals.tglpost[widget.index]}",
+              "Post pada ${globals.listLokerAktif[widget.index].tglpost}",
               style: GoogleFonts.poppins(
                   textStyle:
                       const TextStyle(fontSize: 13, color: Colors.black)),
@@ -149,7 +149,7 @@ class _DetailLokerState extends State<DetailLoker> {
               height: 10,
             ),
             Text(
-              globals.informasiloker[widget.index],
+              globals.listLokerAktif[widget.index].informasi,
               style: GoogleFonts.poppins(
                   textStyle: const TextStyle(
                 fontSize: 13,
@@ -179,7 +179,7 @@ class _DetailLokerState extends State<DetailLoker> {
             ),
             Container(
               child: Column(
-                children: globals.stringtugas.map((strone) {
+                children: globals.listTugas.map((strone) {
                   return Row(children: [
                     const Text(
                       "\u2022",
@@ -225,7 +225,7 @@ class _DetailLokerState extends State<DetailLoker> {
               child: GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: globals.stringkriteria.length,
+                itemCount: globals.listKriteria.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     childAspectRatio: 3,
@@ -241,7 +241,7 @@ class _DetailLokerState extends State<DetailLoker> {
                             width: 1)),
                     child: Center(
                       child: Text(
-                        globals.stringkriteria[index],
+                        globals.listKriteria[index],
                         style: GoogleFonts.poppins(
                             textStyle: const TextStyle(fontSize: 14)),
                         textAlign: TextAlign.center,

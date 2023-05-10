@@ -1,6 +1,8 @@
 // ignore_for_file: sort_child_properties_last
 
+import 'package:artpro_application_new/beranda.dart';
 import 'package:artpro_application_new/detailloker.dart';
+import 'package:artpro_application_new/listlokernaktif.dart';
 import 'package:artpro_application_new/mainberanda.dart';
 import 'package:artpro_application_new/modeltemp/modeltemp.dart';
 import 'package:artpro_application_new/tambahloker.dart';
@@ -8,6 +10,7 @@ import 'package:artpro_application_new/services/lokerservices.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import './global.dart' as globals;
 
 class ListLoker extends StatefulWidget {
@@ -33,13 +36,13 @@ class _ListLokerState extends State<ListLoker> {
   bool maPerSel = false;
   bool masakSel = false;
 
-  List<String> kriteria = [];
-  String tempkriteria = "";
-
-  List<Loker> listLokerUser = [];
+  String tugas = "";
   String kategori = "";
+  String kriteria = "";
 
   TextEditingController alasanctr = TextEditingController();
+  DateTime date = DateTime.now();
+  String tglmodif = "";
 
   @override
   void initState() {
@@ -47,156 +50,178 @@ class _ListLokerState extends State<ListLoker> {
     super.initState();
 
     if (globals.status_user == "majikan") {
-      if (globals.idloker.isEmpty) {
-        Loker.getDataLokerperUser(globals.iduser).then((value) {
-          setState(() {
-            listLokerUser = value;
-            if (listLokerUser.isNotEmpty) {
-              for (int i = 0; i < listLokerUser.length; i++) {
-                globals.idloker.add(listLokerUser[i].idloker);
-                globals.iduserloker.add(listLokerUser[i].iduser);
-                globals.judulloker.add(listLokerUser[i].judulloker);
-                globals.gajiawalloker.add(listLokerUser[i].gajiawal);
-                globals.gajiakhirloker.add(listLokerUser[i].gajiakhir);
-                globals.informasiloker.add(listLokerUser[i].informasi);
-                globals.tugasloker.add(listLokerUser[i].tugas);
-                globals.kriteria.add(listLokerUser[i].kriteria);
-                globals.kprtloker.add(listLokerUser[i].kprt);
-                globals.kbabysitterloker.add(listLokerUser[i].kbabysitter);
-                globals.kseniorcareloker.add(listLokerUser[i].kseniorcare);
-                globals.ksupirloker.add(listLokerUser[i].ksupir);
-                globals.kofficeboyloker.add(listLokerUser[i].kofficeboy);
-                globals.ktukangkebunloker.add(listLokerUser[i].ktukangkebun);
-                globals.tglpost.add(listLokerUser[i].tglpost);
-                globals.namamajikan.add(listLokerUser[i].namalengkap);
-                globals.jeniskelaminloker.add(listLokerUser[i].jeniskelamin);
-                globals.kecamatanloker.add(listLokerUser[i].kecamatan);
-                globals.kotaloker.add(listLokerUser[i].kota);
-                globals.expandloker.add(listLokerUser[i].expand);
+      Loker.getDataLokerperUser(globals.iduser).then((value) {
+        setState(() {
+          globals.listLokerAktif.clear();
+          globals.listLokerTidakAktif.clear();
 
-                if (listLokerUser[i].kprt == "true") {
-                  kategori = "prt";
-                  if (listLokerUser[i].kbabysitter == "true") {
-                    kategori = kategori + ", babysitter";
-                    if (listLokerUser[i].kseniorcare == "true") {
-                      kategori = kategori + ", seniorcare";
-                    } else if (listLokerUser[i].ksupir == "true") {
-                      kategori = kategori + ", supir";
-                    } else if (listLokerUser[i].kofficeboy == "true") {
-                      kategori = kategori + ", officeboy";
-                    } else if (listLokerUser[i].ktukangkebun == "true") {
-                      kategori = kategori + ", tukangkebun";
-                    }
-                  } else if (listLokerUser[i].kseniorcare == "true") {
-                    kategori = kategori + ", seniorcare";
-                    if (listLokerUser[i].ksupir == "true") {
-                      kategori = kategori + ", supir";
-                    } else if (listLokerUser[i].kofficeboy == "true") {
-                      kategori = kategori + ", officeboy";
-                    } else if (listLokerUser[i].ktukangkebun == "true") {
-                      kategori = kategori + ", tukangkebun";
-                    }
-                  } else if (listLokerUser[i].ksupir == "true") {
-                    kategori = kategori + ", supir";
-                    if (listLokerUser[i].kofficeboy == "true") {
-                      kategori = kategori + ", officeboy";
-                    } else if (listLokerUser[i].ktukangkebun == "true") {
-                      kategori = kategori + ", tukangkebun";
-                    }
-                  } else if (listLokerUser[i].kofficeboy == "true") {
-                    kategori = kategori + ", officeboy";
-                    if (listLokerUser[i].ktukangkebun == "true") {
-                      kategori = kategori + ", tukangkebun";
-                    }
-                  } else if (listLokerUser[i].ktukangkebun == "true") {
-                    kategori = kategori + ", tukangkebun";
-                  }
-                } else if (listLokerUser[i].kbabysitter == "true") {
-                  kategori = "babysitter";
-                } else if (listLokerUser[i].kseniorcare == "true") {
-                  kategori = "seniorcare";
-                } else if (listLokerUser[i].ksupir == "true") {
-                  kategori = "supir";
-                } else if (listLokerUser[i].kofficeboy == "true") {
-                  kategori = "officeboy";
-                } else if (listLokerUser[i].ktukangkebun == "true") {
-                  kategori = "tukangkebun";
-                }
-                globals.kategori.add(kategori);
-                kategori = "";
-              }
+          for (int i = 0; i < value.length; i++) {
+            if (value[i].statusloker == "aktif") {
+              globals.listLokerAktif.add(value[i]);
+            } else {
+              globals.listLokerTidakAktif.add(value[i]);
             }
-          });
-        });
-      }
-    } else {
-      for (int i = 0; i < MListLoker.isiListLoker.length; i++) {
-        for (int j = 0; j < MListLoker.isiListLoker[i].kriteria.length; j++) {
-          if (j != MListLoker.isiListLoker[i].kriteria.length - 1) {
-            tempkriteria =
-                tempkriteria + MListLoker.isiListLoker[i].kriteria[j] + ", ";
-          } else {
-            tempkriteria =
-                tempkriteria + MListLoker.isiListLoker[i].kriteria[j];
           }
-        }
-        kriteria.add(tempkriteria);
-        tempkriteria = "";
-      }
+
+          // arrange data in list loker aktif
+          for (int i = 0; i < globals.listLokerAktif.length; i++) {
+            // arrange kategori to string
+            if (globals.listLokerAktif[i].kprt == "true") {
+              kategori = kategori + "Pembantu, ";
+            }
+            if (globals.listLokerAktif[i].kbabysitter == "true") {
+              kategori = kategori + "Babysitter, ";
+            }
+            if (globals.listLokerAktif[i].kseniorcare == "true") {
+              kategori = kategori + "Pendamping Lansia, ";
+            }
+            if (globals.listLokerAktif[i].ksupir == "true") {
+              kategori = kategori + "Supir, ";
+            }
+            if (globals.listLokerAktif[i].kofficeboy == "true") {
+              kategori = kategori + "Office Boy / Girl, ";
+            }
+            if (globals.listLokerAktif[i].ktukangkebun == "true") {
+              kategori = kategori + "Tukang Kebun, ";
+            }
+            kategori = kategori.substring(0, kategori.length - 2);
+            globals.kategori.add(kategori);
+            kategori = "";
+
+            // arrange kriteria to string
+            if (globals.listLokerAktif[i].hewan == "true") {
+              kriteria = kriteria + "Tidak takut hewan, ";
+            }
+            if (globals.listLokerAktif[i].masak == "true") {
+              kriteria = kriteria + "Memasak, ";
+            }
+            if (globals.listLokerAktif[i].mabukjalan == "true") {
+              kriteria = kriteria + "Tidak mabuk perjalanan, ";
+            }
+            if (globals.listLokerAktif[i].sepedamotor == "true") {
+              kriteria = kriteria + "Menyetir sepeda motor, ";
+            }
+            if (globals.listLokerAktif[i].mobil == "true") {
+              kriteria = kriteria + "Menyetir mobil, ";
+            }
+            if (globals.listLokerAktif[i].tkmenginap == "true") {
+              kriteria = kriteria + "Menginap, ";
+            }
+            if (globals.listLokerAktif[i].tkwarnen == "true") {
+              kriteria = kriteria + "Warnen, ";
+            }
+            kriteria = kriteria.substring(0, kriteria.length - 2);
+            globals.kriteria.add(kriteria);
+            kriteria = "";
+          }
+        });
+      });
     }
   }
 
-  Future<void> addLokerSelesai(int index) async {
-    var url = "${globals.urlapi}addlokerselesai";
+  Future<void> addLokerDetail(int index) async {
+    var url = "${globals.urlapi}addlokerdetail";
     var response = await http.post(Uri.parse(url), body: {
-      "idloker": globals.idloker[index],
-      "iduser": globals.iduserloker[index],
-      "judulloker": globals.judulloker[index],
-      "gajiawal": globals.gajiawalloker[index],
-      "gajiakhir": globals.gajiakhirloker[index],
-      "informasi": globals.informasiloker[index],
-      "tugas": globals.tugasloker[index],
-      "kriteria": globals.kriteria[index],
-      "kprt": globals.kprtloker[index],
-      "kbabysitter": globals.kbabysitterloker[index],
-      "kseniorcare": globals.kseniorcareloker[index],
-      "ksupir": globals.ksupirloker[index],
-      "kofficeboy": globals.kofficeboyloker[index],
-      "ktukangkebun": globals.ktukangkebunloker[index],
-      "tglpost": globals.tglpost[index],
+      "idloker": globals.listLokerAktif[index].idloker,
+      "iduser": globals.listLokerAktif[index].iduser,
+      "judulloker": globals.listLokerAktif[index].judulloker,
+      "gajiawal": globals.listLokerAktif[index].gajiawal,
+      "gajiakhir": globals.listLokerAktif[index].gajiakhir,
+      "informasi": globals.listLokerAktif[index].informasi,
+      "tugas": globals.listLokerAktif[index].tugas,
+      "kprt": globals.listLokerAktif[index].kprt,
+      "kbabysitter": globals.listLokerAktif[index].kbabysitter,
+      "kseniorcare": globals.listLokerAktif[index].kseniorcare,
+      "ksupir": globals.listLokerAktif[index].ksupir,
+      "kofficeboy": globals.listLokerAktif[index].kofficeboy,
+      "ktukangkebun": globals.listLokerAktif[index].ktukangkebun,
+      "hewan": globals.listLokerAktif[index].hewan,
+      "masak": globals.listLokerAktif[index].masak,
+      "mabukjalan": globals.listLokerAktif[index].mabukjalan,
+      "sepedamotor": globals.listLokerAktif[index].sepedamotor,
+      "mobil": globals.listLokerAktif[index].mobil,
+      "tkmenginap": globals.listLokerAktif[index].tkmenginap,
+      "tkwarnen": globals.listLokerAktif[index].tkwarnen,
+      "tglpost": globals.listLokerAktif[index].tglpost,
+      "statusloker": "tidak aktif",
       "alasan": alasanctr.text
     });
     if (response.statusCode == 200) {
       var url2 =
-          "${globals.urlapi}deletelowongankerja?idloker=${int.parse(globals.idloker[index])}";
-      var response2 =
-          await http.delete(Uri.parse(url2), headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      });
+          "${globals.urlapi}editstatusloker?idloker=${int.parse(globals.listLokerAktif[index].idloker)}";
+      var response2 = await http.put(Uri.parse(url2),
+          body: {"statusloker": "tidak aktif", "tglpost": tglmodif});
 
       if (response2.statusCode == 200) {
         setState(() {
-          globals.idloker.removeAt(index);
-          globals.iduserloker.removeAt(index);
-          globals.judulloker.removeAt(index);
-          globals.gajiawalloker.removeAt(index);
-          globals.gajiakhirloker.removeAt(index);
-          globals.informasiloker.removeAt(index);
-          globals.tugasloker.removeAt(index);
-          globals.kriteria.removeAt(index);
-          globals.kprtloker.removeAt(index);
-          globals.kbabysitterloker.removeAt(index);
-          globals.kseniorcareloker.removeAt(index);
-          globals.ksupirloker.removeAt(index);
-          globals.kofficeboyloker.removeAt(index);
-          globals.ktukangkebunloker.removeAt(index);
-          globals.tglpost.removeAt(index);
-          globals.namamajikan.removeAt(index);
-          globals.jeniskelaminloker.removeAt(index);
-          globals.kecamatanloker.removeAt(index);
-          globals.kotaloker.removeAt(index);
-          globals.expandloker.removeAt(index);
-          alasanctr.text = "";
+          if (globals.status_user == "majikan") {
+            Loker.getDataLokerperUser(globals.iduser).then((value) {
+              setState(() {
+                globals.listLokerAktif.clear();
+                globals.listLokerTidakAktif.clear();
+
+                for (int i = 0; i < value.length; i++) {
+                  if (value[i].statusloker == "aktif") {
+                    globals.listLokerAktif.add(value[i]);
+                  } else {
+                    globals.listLokerTidakAktif.add(value[i]);
+                  }
+                }
+
+                // arrange data in list loker aktif
+                for (int i = 0; i < globals.listLokerAktif.length; i++) {
+                  // arrange kategori to string
+                  if (globals.listLokerAktif[i].kprt == "true") {
+                    kategori = kategori + "Pembantu, ";
+                  }
+                  if (globals.listLokerAktif[i].kbabysitter == "true") {
+                    kategori = kategori + "Babysitter, ";
+                  }
+                  if (globals.listLokerAktif[i].kseniorcare == "true") {
+                    kategori = kategori + "Pendamping Lansia, ";
+                  }
+                  if (globals.listLokerAktif[i].ksupir == "true") {
+                    kategori = kategori + "Supir, ";
+                  }
+                  if (globals.listLokerAktif[i].kofficeboy == "true") {
+                    kategori = kategori + "Office Boy / Girl, ";
+                  }
+                  if (globals.listLokerAktif[i].ktukangkebun == "true") {
+                    kategori = kategori + "Tukang Kebun, ";
+                  }
+                  kategori = kategori.substring(0, kategori.length - 2);
+                  globals.kategori.add(kategori);
+                  kategori = "";
+
+                  // arrange kriteria to string
+                  if (globals.listLokerAktif[i].hewan == "true") {
+                    kriteria = kriteria + "Tidak takut hewan, ";
+                  }
+                  if (globals.listLokerAktif[i].masak == "true") {
+                    kriteria = kriteria + "Memasak, ";
+                  }
+                  if (globals.listLokerAktif[i].mabukjalan == "true") {
+                    kriteria = kriteria + "Tidak mabuk perjalanan, ";
+                  }
+                  if (globals.listLokerAktif[i].sepedamotor == "true") {
+                    kriteria = kriteria + "Menyetir sepeda motor, ";
+                  }
+                  if (globals.listLokerAktif[i].mobil == "true") {
+                    kriteria = kriteria + "Menyetir mobil, ";
+                  }
+                  if (globals.listLokerAktif[i].tkmenginap == "true") {
+                    kriteria = kriteria + "Menginap, ";
+                  }
+                  if (globals.listLokerAktif[i].tkwarnen == "true") {
+                    kriteria = kriteria + "Warnen, ";
+                  }
+                  kriteria = kriteria.substring(0, kriteria.length - 2);
+                  globals.kriteria.add(kriteria);
+                  kriteria = "";
+                }
+              });
+            });
+          }
         });
         Navigator.pop(context);
       }
@@ -204,43 +229,47 @@ class _ListLokerState extends State<ListLoker> {
   }
 
   void arrangeData(int index) {
-    String tugas = "";
-    String kriteria = "";
     setState(() {
-      globals.stringtugas.clear();
+      globals.listTugas.clear();
       // arrange tugas loker
-      for (int i = 0; i < globals.tugasloker[index].length; i++) {
-        if (globals.tugasloker[index][i] == "." &&
-            globals.tugasloker[index][i + 1] == " ") {
-          globals.stringtugas.add(tugas);
-        } else if (globals.tugasloker[index][i] == " " &&
-            globals.tugasloker[index][i - 1] == ".") {
+      for (int i = 0; i < globals.listLokerAktif[index].tugas.length; i++) {
+        if (globals.listLokerAktif[index].tugas[i] == "." &&
+            globals.listLokerAktif[index].tugas[i + 1] == " ") {
+          globals.listTugas.add(tugas);
+        } else if (globals.listLokerAktif[index].tugas[i] == " " &&
+            globals.listLokerAktif[index].tugas[i - 1] == ".") {
           tugas = "";
-        } else if (i == globals.tugasloker[index].length - 1) {
-          tugas = tugas + globals.tugasloker[index][i];
-          globals.stringtugas.add(tugas);
+        } else if (i == globals.listLokerAktif[index].tugas.length - 1) {
+          tugas = tugas + globals.listLokerAktif[index].tugas[i];
+          globals.listTugas.add(tugas);
           tugas = "";
         } else {
-          tugas = tugas + globals.tugasloker[index][i];
+          tugas = tugas + globals.listLokerAktif[index].tugas[i];
         }
       }
 
-      globals.stringkriteria.clear();
+      globals.listKriteria.clear();
       // arrange kriteria
-      for (int i = 0; i < globals.kriteria[index].length; i++) {
-        if (globals.kriteria[index][i] == "," &&
-            globals.kriteria[index][i + 1] == " ") {
-          globals.stringkriteria.add(kriteria);
-        } else if (globals.kriteria[index][i] == " " &&
-            globals.kriteria[index][i - 1] == ",") {
-          kriteria = "";
-        } else if (i == globals.kriteria[index].length - 1) {
-          kriteria = kriteria + globals.kriteria[index][i];
-          globals.stringkriteria.add(kriteria);
-          kriteria = "";
-        } else {
-          kriteria = kriteria + globals.kriteria[index][i];
-        }
+      if (globals.listLokerAktif[index].hewan == "true") {
+        globals.listKriteria.add("Tidak takut hewan");
+      }
+      if (globals.listLokerAktif[index].masak == "true") {
+        globals.listKriteria.add("Memasak");
+      }
+      if (globals.listLokerAktif[index].mabukjalan == "true") {
+        globals.listKriteria.add("Tidak mabuk perjalanan");
+      }
+      if (globals.listLokerAktif[index].sepedamotor == "true") {
+        globals.listKriteria.add("Menyetir sepeda motor");
+      }
+      if (globals.listLokerAktif[index].mobil == "true") {
+        globals.listKriteria.add("Menyetir mobil");
+      }
+      if (globals.listLokerAktif[index].tkmenginap == "true") {
+        globals.listKriteria.add("Menginap");
+      }
+      if (globals.listLokerAktif[index].tkwarnen == "true") {
+        globals.listKriteria.add("Warnen");
       }
     });
   }
@@ -255,31 +284,14 @@ class _ListLokerState extends State<ListLoker> {
               IconThemeData(color: Color(int.parse(globals.color_primary))),
           leading: IconButton(
               onPressed: () {
-                setState(() {
-                  globals.idloker.clear();
-                  globals.iduserloker.clear();
-                  globals.judulloker.clear();
-                  globals.gajiawalloker.clear();
-                  globals.gajiakhirloker.clear();
-                  globals.informasiloker.clear();
-                  globals.tugasloker.clear();
-                  globals.kriteria.clear();
-                  globals.kprtloker.clear();
-                  globals.kbabysitterloker.clear();
-                  globals.kseniorcareloker.clear();
-                  globals.ksupirloker.clear();
-                  globals.kofficeboyloker.clear();
-                  globals.ktukangkebunloker.clear();
-                  globals.tglpost.clear();
-                  globals.namamajikan.clear();
-                  globals.jeniskelaminloker.clear();
-                  globals.kecamatanloker.clear();
-                  globals.kotaloker.clear();
-                  globals.expandloker.clear();
-                  globals.kategori.clear();
-                  globals.stringtugas.clear();
-                  globals.stringkriteria.clear();
-                });
+                if (globals.status_user == "majikan") {
+                  setState(() {
+                    globals.listLokerAktif.clear();
+                    globals.listLokerTidakAktif.clear();
+                    globals.kategori.clear();
+                    globals.kriteria.clear();
+                  });
+                }
                 Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -290,14 +302,34 @@ class _ListLokerState extends State<ListLoker> {
                 color: Color(int.parse(globals.color_primary)),
               )),
           title: globals.status_user == "majikan"
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Image.asset(
-                      'assets/images/logo_theme.png',
-                      width: 100,
-                    ),
-                  ],
+              ? GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LokerTidakAktif()));
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Icon(
+                        Icons.manage_history_outlined,
+                        color: Color(int.parse(globals.color_primary)),
+                        size: 30,
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        'Sejarah Loker',
+                        style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                                fontSize: 15,
+                                color:
+                                    Color(int.parse(globals.color_primary)))),
+                      )
+                    ],
+                  ),
                 )
               : Container(),
           actions: [
@@ -882,338 +914,382 @@ class _ListLokerState extends State<ListLoker> {
             ),
           ),
         ),
-        body: Container(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Visibility(
-                visible: globals.status_user == "pekerja" ? false : true,
-                child: Text(
-                  "Lowongan kerja yang anda buka :",
-                  style: GoogleFonts.poppins(
-                      textStyle: const TextStyle(
-                          fontSize: 15, fontWeight: FontWeight.bold)),
+        body: globals.listLokerAktif.isEmpty
+            ? Container(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Lowongan kerja yang anda buka :",
+                      style: GoogleFonts.poppins(
+                          textStyle: const TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.bold)),
+                    ),
+                    Expanded(
+                      child: Center(
+                        child: Text(
+                          "Tidak ada data \n Silahkan buka lowongan",
+                          style: GoogleFonts.poppins(
+                              textStyle: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color:
+                                      Color(int.parse(globals.color_primary)))),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            : Container(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Visibility(
+                      visible: globals.status_user == "pekerja" ? false : true,
+                      child: Text(
+                        "Lowongan kerja yang anda buka :",
+                        style: GoogleFonts.poppins(
+                            textStyle: const TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                          itemCount: globals.listLokerAktif.length,
+                          itemBuilder: (context, index) {
+                            return Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    arrangeData(index);
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => DetailLoker(
+                                                  index: index,
+                                                )));
+                                  },
+                                  child: Card(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
+                                    elevation: 3,
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                globals.listLokerAktif[index]
+                                                    .judulloker,
+                                                style: GoogleFonts.poppins(
+                                                    textStyle: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Color(int.parse(
+                                                            globals
+                                                                .color_primary)))),
+                                              ),
+                                              Visibility(
+                                                  visible:
+                                                      globals.status_user ==
+                                                              "majikan"
+                                                          ? true
+                                                          : false,
+                                                  child: Row(
+                                                    children: [
+                                                      IconButton(
+                                                        icon: Icon(
+                                                          Icons.create_rounded,
+                                                          color: Color(
+                                                              int.parse(globals
+                                                                  .color_primary)),
+                                                        ),
+                                                        onPressed: () {
+                                                          arrangeData(index);
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          TambahLoker(
+                                                                            konten:
+                                                                                "edit",
+                                                                            index:
+                                                                                index,
+                                                                          )));
+                                                        },
+                                                      ),
+                                                      IconButton(
+                                                        icon: Icon(
+                                                          Icons.delete,
+                                                          color: Color(
+                                                              int.parse(globals
+                                                                  .color_secondary)),
+                                                        ),
+                                                        onPressed: () {
+                                                          showDialog(
+                                                              context: context,
+                                                              builder:
+                                                                  (BuildContext
+                                                                      context) {
+                                                                return AlertDialog(
+                                                                  title: Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceBetween,
+                                                                    children: [
+                                                                      Expanded(
+                                                                        child:
+                                                                            Text(
+                                                                          "Berikan alasan menyelesaikan lowongan kerja ini?",
+                                                                          style:
+                                                                              GoogleFonts.poppins(textStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
+                                                                        ),
+                                                                      ),
+                                                                      IconButton(
+                                                                        onPressed:
+                                                                            () {
+                                                                          Navigator.pop(
+                                                                              context);
+                                                                        },
+                                                                        icon:
+                                                                            Icon(
+                                                                          Icons
+                                                                              .cancel_outlined,
+                                                                          color:
+                                                                              Color(int.parse(globals.color_secondary)),
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                  content:
+                                                                      Container(
+                                                                    child:
+                                                                        TextField(
+                                                                      controller:
+                                                                          alasanctr,
+                                                                      cursorColor:
+                                                                          Color(
+                                                                              int.parse(globals.color_primary)),
+                                                                      style: GoogleFonts.poppins(
+                                                                          textStyle: const TextStyle(
+                                                                              fontSize: 15,
+                                                                              color: Colors.black)),
+                                                                      decoration: const InputDecoration(
+                                                                          enabledBorder: OutlineInputBorder(
+                                                                            borderSide:
+                                                                                BorderSide(color: Color.fromARGB(255, 138, 138, 138), width: 1.0),
+                                                                          ),
+                                                                          focusedBorder: OutlineInputBorder(
+                                                                            borderSide:
+                                                                                BorderSide(color: Color.fromARGB(255, 138, 138, 138), width: 1.0),
+                                                                          ),
+                                                                          hintText: "alasan ...",
+                                                                          contentPadding: EdgeInsets.fromLTRB(8, 4, 8, 4)),
+                                                                      maxLines:
+                                                                          5,
+                                                                    ),
+                                                                  ),
+                                                                  actions: [
+                                                                    Center(
+                                                                      child:
+                                                                          TextButton(
+                                                                        onPressed:
+                                                                            () {
+                                                                          setState(
+                                                                              () {
+                                                                            tglmodif =
+                                                                                DateFormat('dd-MM-yyyy').format(date);
+                                                                          });
+                                                                          addLokerDetail(
+                                                                              index);
+                                                                        },
+                                                                        child:
+                                                                            Text(
+                                                                          "Hapus Lowongan Kerja",
+                                                                          style:
+                                                                              GoogleFonts.poppins(textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(int.parse(globals.color_secondary)))),
+                                                                        ),
+                                                                      ),
+                                                                    )
+                                                                  ],
+                                                                );
+                                                              });
+                                                        },
+                                                      ),
+                                                    ],
+                                                  ))
+                                            ],
+                                          ),
+                                          Text(
+                                            globals.listLokerAktif[index]
+                                                        .jeniskelamin ==
+                                                    "P"
+                                                ? "Ibu ${globals.listLokerAktif[index].namalengkap}"
+                                                : "Bapak ${globals.listLokerAktif[index].namalengkap}",
+                                            style: GoogleFonts.poppins(
+                                                textStyle: const TextStyle(
+                                                    fontSize: 15,
+                                                    color: Colors.black)),
+                                          ),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(
+                                            "${globals.listLokerAktif[index].kecamatan}, ${globals.listLokerAktif[index].kota} | 5,3 km",
+                                            style: GoogleFonts.poppins(
+                                                textStyle: const TextStyle(
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black)),
+                                          ),
+                                          Text(
+                                            "Rp ${globals.listLokerAktif[index].gajiawal} - ${globals.listLokerAktif[index].gajiakhir} per bulan",
+                                            style: GoogleFonts.poppins(
+                                                textStyle: const TextStyle(
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black)),
+                                          ),
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
+                                          Text(
+                                            globals.listLokerAktif[index]
+                                                .informasi,
+                                            style: GoogleFonts.poppins(
+                                                textStyle: const TextStyle(
+                                              fontSize: 13,
+                                            )),
+                                          ),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                "Post pada ${globals.listLokerAktif[index].tglpost}",
+                                                style: GoogleFonts.poppins(
+                                                    textStyle: const TextStyle(
+                                                        fontSize: 11,
+                                                        color: Colors.black)),
+                                              ),
+                                              IconButton(
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      globals
+                                                              .listLokerAktif[index]
+                                                              .expand =
+                                                          !globals
+                                                              .listLokerAktif[
+                                                                  index]
+                                                              .expand;
+                                                    });
+                                                  },
+                                                  icon: globals
+                                                              .listLokerAktif[
+                                                                  index]
+                                                              .expand ==
+                                                          false
+                                                      ? Icon(
+                                                          Icons
+                                                              .keyboard_arrow_down_rounded,
+                                                          color: Color(
+                                                              int.parse(globals
+                                                                  .color_primary)),
+                                                        )
+                                                      : Icon(
+                                                          Icons
+                                                              .keyboard_arrow_up_rounded,
+                                                          color: Color(
+                                                              int.parse(globals
+                                                                  .color_primary)),
+                                                        ))
+                                            ],
+                                          ),
+                                          Visibility(
+                                              visible: globals
+                                                          .listLokerAktif[index]
+                                                          .expand ==
+                                                      true
+                                                  ? true
+                                                  : false,
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    "Kriteria",
+                                                    style: GoogleFonts.poppins(
+                                                        textStyle:
+                                                            const TextStyle(
+                                                                fontSize: 13,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
+                                                  ),
+                                                  Text(
+                                                    globals.kriteria[index],
+                                                    style: GoogleFonts.poppins(
+                                                        textStyle:
+                                                            const TextStyle(
+                                                                fontSize: 13)),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 20,
+                                                  ),
+                                                  Text(
+                                                    "Kategori Pekerjaan",
+                                                    style: GoogleFonts.poppins(
+                                                        textStyle:
+                                                            const TextStyle(
+                                                                fontSize: 13,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
+                                                  ),
+                                                  Text(
+                                                    globals.kategori[index],
+                                                    style: GoogleFonts.poppins(
+                                                        textStyle: TextStyle(
+                                                            fontSize: 13,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: Color(int
+                                                                .parse(globals
+                                                                    .color_primary)))),
+                                                  )
+                                                ],
+                                              ))
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                )
+                              ],
+                            );
+                          }),
+                    )
+                  ],
                 ),
               ),
-              Expanded(
-                child: ListView.builder(
-                    itemCount: globals.idloker.length,
-                    itemBuilder: (context, index) {
-                      return Column(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              arrangeData(index);
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => DetailLoker(
-                                            index: index,
-                                          )));
-                            },
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0)),
-                              elevation: 3,
-                              child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          globals.judulloker[index],
-                                          style: GoogleFonts.poppins(
-                                              textStyle: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Color(int.parse(
-                                                      globals.color_primary)))),
-                                        ),
-                                        Visibility(
-                                            visible:
-                                                globals.status_user == "majikan"
-                                                    ? true
-                                                    : false,
-                                            child: Row(
-                                              children: [
-                                                IconButton(
-                                                  icon: Icon(
-                                                    Icons.create_rounded,
-                                                    color: Color(int.parse(
-                                                        globals.color_primary)),
-                                                  ),
-                                                  onPressed: () {
-                                                    arrangeData(index);
-                                                    Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder:
-                                                                (context) =>
-                                                                    TambahLoker(
-                                                                      konten:
-                                                                          "edit",
-                                                                      index:
-                                                                          index,
-                                                                    )));
-                                                  },
-                                                ),
-                                                IconButton(
-                                                  icon: Icon(
-                                                    Icons.delete,
-                                                    color: Color(int.parse(
-                                                        globals
-                                                            .color_secondary)),
-                                                  ),
-                                                  onPressed: () {
-                                                    showDialog(
-                                                        context: context,
-                                                        builder: (BuildContext
-                                                            context) {
-                                                          return AlertDialog(
-                                                            title: Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceBetween,
-                                                              children: [
-                                                                Expanded(
-                                                                  child: Text(
-                                                                    "Berikan alasan kenapa menghapus lowongan kerja ini?",
-                                                                    style: GoogleFonts.poppins(
-                                                                        textStyle: const TextStyle(
-                                                                            fontSize:
-                                                                                15,
-                                                                            fontWeight:
-                                                                                FontWeight.w500)),
-                                                                  ),
-                                                                ),
-                                                                IconButton(
-                                                                  onPressed:
-                                                                      () {
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                  },
-                                                                  icon: Icon(
-                                                                    Icons
-                                                                        .cancel_outlined,
-                                                                    color: Color(
-                                                                        int.parse(
-                                                                            globals.color_secondary)),
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                            content: Container(
-                                                              child: TextField(
-                                                                controller:
-                                                                    alasanctr,
-                                                                cursorColor: Color(
-                                                                    int.parse(
-                                                                        globals
-                                                                            .color_primary)),
-                                                                style: GoogleFonts.poppins(
-                                                                    textStyle: const TextStyle(
-                                                                        fontSize:
-                                                                            15,
-                                                                        color: Colors
-                                                                            .black)),
-                                                                decoration:
-                                                                    const InputDecoration(
-                                                                        enabledBorder:
-                                                                            OutlineInputBorder(
-                                                                          borderSide: BorderSide(
-                                                                              color: Color.fromARGB(255, 138, 138, 138),
-                                                                              width: 1.0),
-                                                                        ),
-                                                                        focusedBorder:
-                                                                            OutlineInputBorder(
-                                                                          borderSide: BorderSide(
-                                                                              color: Color.fromARGB(255, 138, 138, 138),
-                                                                              width: 1.0),
-                                                                        ),
-                                                                        hintText:
-                                                                            "alasan ...",
-                                                                        contentPadding: EdgeInsets.fromLTRB(
-                                                                            8,
-                                                                            4,
-                                                                            8,
-                                                                            4)),
-                                                                maxLines: 5,
-                                                              ),
-                                                            ),
-                                                            actions: [
-                                                              Center(
-                                                                child:
-                                                                    TextButton(
-                                                                  onPressed:
-                                                                      () {
-                                                                    addLokerSelesai(
-                                                                        index);
-                                                                  },
-                                                                  child: Text(
-                                                                    "Hapus Lowongan Kerja",
-                                                                    style: GoogleFonts.poppins(
-                                                                        textStyle: TextStyle(
-                                                                            fontSize:
-                                                                                15,
-                                                                            fontWeight:
-                                                                                FontWeight.bold,
-                                                                            color: Color(int.parse(globals.color_secondary)))),
-                                                                  ),
-                                                                ),
-                                                              )
-                                                            ],
-                                                          );
-                                                        });
-                                                    // addLokerSelesai(index);
-                                                  },
-                                                ),
-                                              ],
-                                            ))
-                                      ],
-                                    ),
-                                    Text(
-                                      globals.jeniskelaminloker[index] == "P"
-                                          ? "Ibu ${globals.namamajikan[index]}"
-                                          : "Bapak ${globals.namamajikan[index]}",
-                                      style: GoogleFonts.poppins(
-                                          textStyle: const TextStyle(
-                                              fontSize: 15,
-                                              color: Colors.black)),
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(
-                                      "${globals.kecamatanloker[index]}, ${globals.kotaloker[index]} | 5,3 km",
-                                      style: GoogleFonts.poppins(
-                                          textStyle: const TextStyle(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black)),
-                                    ),
-                                    Text(
-                                      "Rp ${globals.gajiawalloker[index]} - ${globals.gajiakhirloker[index]} per bulan",
-                                      style: GoogleFonts.poppins(
-                                          textStyle: const TextStyle(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black)),
-                                    ),
-                                    const SizedBox(
-                                      height: 20,
-                                    ),
-                                    Text(
-                                      "${globals.informasiloker[index]}",
-                                      style: GoogleFonts.poppins(
-                                          textStyle: const TextStyle(
-                                        fontSize: 13,
-                                      )),
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          "Post pada ${globals.tglpost[index]}",
-                                          style: GoogleFonts.poppins(
-                                              textStyle: const TextStyle(
-                                                  fontSize: 11,
-                                                  color: Colors.black)),
-                                        ),
-                                        IconButton(
-                                            onPressed: () {
-                                              setState(() {
-                                                globals.expandloker[index] =
-                                                    !globals.expandloker[index];
-                                              });
-                                            },
-                                            icon: globals.expandloker[index] ==
-                                                    false
-                                                ? Icon(
-                                                    Icons
-                                                        .keyboard_arrow_down_rounded,
-                                                    color: Color(int.parse(
-                                                        globals.color_primary)),
-                                                  )
-                                                : Icon(
-                                                    Icons
-                                                        .keyboard_arrow_up_rounded,
-                                                    color: Color(int.parse(
-                                                        globals.color_primary)),
-                                                  ))
-                                      ],
-                                    ),
-                                    Visibility(
-                                        visible:
-                                            globals.expandloker[index] == true
-                                                ? true
-                                                : false,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "Kriteria",
-                                              style: GoogleFonts.poppins(
-                                                  textStyle: const TextStyle(
-                                                      fontSize: 13,
-                                                      fontWeight:
-                                                          FontWeight.bold)),
-                                            ),
-                                            Text(
-                                              globals.kriteria[index],
-                                              style: GoogleFonts.poppins(
-                                                  textStyle: const TextStyle(
-                                                      fontSize: 13)),
-                                            ),
-                                            const SizedBox(
-                                              height: 20,
-                                            ),
-                                            Text(
-                                              "Kategori Pekerjaan",
-                                              style: GoogleFonts.poppins(
-                                                  textStyle: const TextStyle(
-                                                      fontSize: 13,
-                                                      fontWeight:
-                                                          FontWeight.bold)),
-                                            ),
-                                            Text(
-                                              globals.kategori[index],
-                                              style: GoogleFonts.poppins(
-                                                  textStyle: TextStyle(
-                                                      fontSize: 13,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Color(int.parse(
-                                                          globals
-                                                              .color_primary)))),
-                                            )
-                                          ],
-                                        ))
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          )
-                        ],
-                      );
-                    }),
-              )
-            ],
-          ),
-        ),
         floatingActionButton: Visibility(
           visible: globals.status_user == "pekerja" ? false : true,
           child: FloatingActionButton(

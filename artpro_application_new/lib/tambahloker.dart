@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:artpro_application_new/detailloker.dart';
 import 'package:artpro_application_new/listloker.dart';
+import 'package:artpro_application_new/services/lokerservices.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -101,84 +102,111 @@ class _TambahLokerState extends State<TambahLoker> {
     super.initState();
 
     if (widget.konten == "edit") {
-      tglpost = globals.tglpost[widget.index];
-      judulctr.text = globals.judulloker[widget.index];
-      mingajictr.text = globals.gajiawalloker[widget.index];
-      maxgajictr.text = globals.gajiakhirloker[widget.index];
-      infoctr.text = globals.informasiloker[widget.index];
-      k_prt = globals.kprtloker[widget.index] == "true" ? true : false;
-      k_bs = globals.kbabysitterloker[widget.index] == "true" ? true : false;
-      k_sc = globals.kseniorcareloker[widget.index] == "true" ? true : false;
-      k_supir = globals.ksupirloker[widget.index] == "true" ? true : false;
-      k_obog = globals.kofficeboyloker[widget.index] == "true" ? true : false;
-      k_tk = globals.ktukangkebunloker[widget.index] == "true" ? true : false;
+      judulctr.text = globals.listLokerAktif[widget.index].judulloker;
+      mingajictr.text = globals.listLokerAktif[widget.index].gajiawal;
+      maxgajictr.text = globals.listLokerAktif[widget.index].gajiakhir;
+      infoctr.text = globals.listLokerAktif[widget.index].informasi;
+      k_prt =
+          globals.listLokerAktif[widget.index].kprt == "true" ? true : false;
+      k_bs = globals.listLokerAktif[widget.index].kbabysitter == "true"
+          ? true
+          : false;
+      k_sc = globals.listLokerAktif[widget.index].kseniorcare == "true"
+          ? true
+          : false;
+      k_supir =
+          globals.listLokerAktif[widget.index].ksupir == "true" ? true : false;
+      k_obog = globals.listLokerAktif[widget.index].kofficeboy == "true"
+          ? true
+          : false;
+      k_tk = globals.listLokerAktif[widget.index].ktukangkebun == "true"
+          ? true
+          : false;
+      tthewan =
+          globals.listLokerAktif[widget.index].hewan == "true" ? true : false;
+      masak =
+          globals.listLokerAktif[widget.index].masak == "true" ? true : false;
+      tmperj = globals.listLokerAktif[widget.index].mabukjalan == "true"
+          ? true
+          : false;
+      mspdmtr = globals.listLokerAktif[widget.index].sepedamotor == "true"
+          ? true
+          : false;
+      mmobil =
+          globals.listLokerAktif[widget.index].mobil == "true" ? true : false;
+      menginap = globals.listLokerAktif[widget.index].tkmenginap == "true"
+          ? true
+          : false;
+      warnen = globals.listLokerAktif[widget.index].tkwarnen == "true"
+          ? true
+          : false;
 
-      for (int i = 0; i < globals.stringkriteria.length; i++) {
-        if (globals.stringkriteria[i] == "Tidak takut hewan") {
-          tthewan = true;
-        } else if (globals.stringkriteria[i] == "Memasak") {
-          masak = true;
-        } else if (globals.stringkriteria[i] == "Tidak mabuk perjalanan") {
-          tmperj = true;
-        } else if (globals.stringkriteria[i] == "Menyetir sepeda motor") {
-          mspdmtr = true;
-        } else if (globals.stringkriteria[i] == "Menyetir mobil") {
-          mmobil = true;
-        } else if (globals.stringkriteria[i] == "Menginap") {
-          menginap = true;
-        } else if (globals.stringkriteria[i] == "Warnen") {
-          warnen = true;
-        }
+      // set count for max 3 choice kategori
+      if (k_prt == true) {
+        count++;
+      }
+      if (k_bs == true) {
+        count++;
+      }
+      if (k_sc == true) {
+        count++;
+      }
+      if (k_supir == true) {
+        count++;
+      }
+      if (k_obog == true) {
+        count++;
+      }
+      if (k_tk == true) {
+        count++;
       }
 
-      for (int i = 0; i < globals.stringtugas.length; i++) {
-        if (globals.stringtugas[i] == "Membersihkan debu, menyapu, mengepel") {
+      for (int i = 0; i < globals.listTugas.length; i++) {
+        if (globals.listTugas[i] == "Membersihkan debu, menyapu, mengepel") {
           tgsprt1 = true;
-        } else if (globals.stringtugas[i] ==
+        } else if (globals.listTugas[i] ==
             "Mencuci, melipat, dan menyetrika pakaian") {
           tgsprt2 = true;
-        } else if (globals.stringtugas[i] ==
-            "Membersihkan dan membuang sampah") {
+        } else if (globals.listTugas[i] == "Membersihkan dan membuang sampah") {
           tgsprt3 = true;
-        } else if (globals.stringtugas[i] == "Mencuci pakaian bayi") {
+        } else if (globals.listTugas[i] == "Mencuci pakaian bayi") {
           tgsbs1 = true;
-        } else if (globals.stringtugas[i] == "Membersihkan kamar") {
+        } else if (globals.listTugas[i] == "Membersihkan kamar") {
           tgsbs2 = true;
-        } else if (globals.stringtugas[i] ==
+        } else if (globals.listTugas[i] ==
             "Mengurus keperluan pribadi bayi / anak") {
           tgsbs3 = true;
-        } else if (globals.stringtugas[i] == "Menyiapkan obat-obatan") {
+        } else if (globals.listTugas[i] == "Menyiapkan obat-obatan") {
           tgssc1 = true;
-        } else if (globals.stringtugas[i] ==
+        } else if (globals.listTugas[i] ==
             "Memandikan / menyiapkan keperluan mandi") {
           tgssc2 = true;
-        } else if (globals.stringtugas[i] ==
-            "Menolong buang air besar / kecil") {
+        } else if (globals.listTugas[i] == "Menolong buang air besar / kecil") {
           tgssc3 = true;
-        } else if (globals.stringtugas[i] == "Menjaga kebersihan mobil") {
+        } else if (globals.listTugas[i] == "Menjaga kebersihan mobil") {
           tgssupir1 = true;
-        } else if (globals.stringtugas[i] ==
+        } else if (globals.listTugas[i] ==
             "Melakukan pengecekan terhadap kendaraan") {
           tgssupir2 = true;
-        } else if (globals.stringtugas[i] ==
+        } else if (globals.listTugas[i] ==
             "Bertanggungjawab atas keselamatan penumpang dan mobil") {
-          tgsprt3 = true;
-        } else if (globals.stringtugas[i] ==
+          tgssupir3 = true;
+        } else if (globals.listTugas[i] ==
             "Menyiapkan minum untuk para karyawan") {
           tgsobog1 = true;
-        } else if (globals.stringtugas[i] ==
+        } else if (globals.listTugas[i] ==
             "Membereskan gelas dan perlengkapan lain setelah karyawan pulang") {
           tgsobog2 = true;
-        } else if (globals.stringtugas[i] ==
+        } else if (globals.listTugas[i] ==
             "Mempersiapkan ruang rapat / pertemuan") {
           tgsobog3 = true;
-        } else if (globals.stringtugas[i] ==
+        } else if (globals.listTugas[i] ==
             "Perawatan dan pemeliharaan berbagai tanaman, dari bunga hingga pohon dan semak") {
           tgstk1 = true;
-        } else if (globals.stringtugas[i] ==
+        } else if (globals.listTugas[i] ==
             "Pengolahan tanah, pemupukan dan nutrisi tanaman") {
           tgstk2 = true;
-        } else if (globals.stringtugas[i] ==
+        } else if (globals.listTugas[i] ==
             "Bersihkan area hijau daun, potong rumput, dan puing-puing") {
           tgstk3 = true;
         } else {
@@ -204,15 +232,12 @@ class _TambahLokerState extends State<TambahLoker> {
           );
           tugasctr.add(controller);
           tugasfield.add(field);
-          tugasctr[countctr].text = globals.stringtugas[i];
+          tugasctr[countctr].text = globals.listTugas[i];
           countctr++;
         }
       }
-
-      tglpost = globals.tglpost[widget.index];
-    } else {
-      tglpost = DateFormat('dd-MM-yyyy').format(date);
     }
+    tglpost = DateFormat('dd-MM-yyyy').format(date);
   }
 
   Widget addTugas() {
@@ -325,132 +350,142 @@ class _TambahLokerState extends State<TambahLoker> {
 
   void prepareData() {
     setState(() {
-      globals.stringkriteria.clear();
-      // SET KRITERIA
-      kriteria = "";
-      if (tthewan == true) {
-        kriteria = kriteria + "Tidak takut hewan, ";
-        globals.stringkriteria.add("Tidak takut hewan");
-      }
-      if (masak == true) {
-        kriteria = kriteria + "Memasak, ";
-        globals.stringkriteria.add("Memasak");
-      }
-      if (tmperj == true) {
-        kriteria = kriteria + "Tidak mabuk perjalanan, ";
-        globals.stringkriteria.add("Tidak mabuk perjalanan");
-      }
-      if (mspdmtr == true) {
-        kriteria = kriteria + "Menyetir sepeda motor, ";
-        globals.stringkriteria.add("Menyetir sepeda motor");
-      }
-      if (mmobil == true) {
-        kriteria = kriteria + "Menyetir mobil, ";
-        globals.stringkriteria.add("Menyetir mobil");
-      }
-      if (menginap == true) {
-        kriteria = kriteria + "Menginap, ";
-        globals.stringkriteria.add("Menginap");
-      }
-      if (warnen == true) {
-        kriteria = kriteria + "Warnen, ";
-        globals.stringkriteria.add("Warnen");
-      }
-      kriteria = kriteria.substring(0, kriteria.length - 2);
-      globals.kriteria[widget.index] = kriteria;
-
-      globals.stringtugas.clear();
-      // SET TUGAS
+      globals.listTugas.clear();
+      // Set Tugas dan String Tugas untuk detail
       tugas = "";
       if (tgsprt1 == true) {
         tugas = tugas + "Membersihkan debu, menyapu, mengepel. ";
-        globals.stringtugas.add("Membersihkan debu, menyapu, mengepel");
+        globals.listTugas.add("Membersihkan debu, menyapu, mengepel");
       }
       if (tgsprt2 == true) {
         tugas = tugas + "Mencuci, melipat, dan menyetrika pakaian. ";
-        globals.stringtugas.add("Mencuci, melipat, dan menyetrika pakaian");
+        globals.listTugas.add("Mencuci, melipat, dan menyetrika pakaian");
       }
       if (tgsprt3 == true) {
         tugas = tugas + "Membersihkan dan membuang sampah. ";
-        globals.stringtugas.add("Membersihkan dan membuang sampah");
+        globals.listTugas.add("Membersihkan dan membuang sampah");
       }
       if (tgsbs1 == true) {
         tugas = tugas + "Mencuci pakaian bayi. ";
-        globals.stringtugas.add("Mencuci pakaian bayi");
+        globals.listTugas.add("Mencuci pakaian bayi");
       }
       if (tgsbs2 == true) {
         tugas = tugas + "Membersihkan kamar. ";
-        globals.stringtugas.add("Membersihkan kamar");
+        globals.listTugas.add("Membersihkan kamar");
       }
       if (tgsbs3 == true) {
         tugas = tugas + "Mengurus keperluan pribadi bayi / anak. ";
-        globals.stringtugas.add("Mengurus keperluan pribadi bayi / anak");
+        globals.listTugas.add("Mengurus keperluan pribadi bayi / anak");
       }
       if (tgssc1 == true) {
         tugas = tugas + "Menyiapkan obat-obatan. ";
-        globals.stringtugas.add("Menyiapkan obat-obatan");
+        globals.listTugas.add("Menyiapkan obat-obatan");
       }
       if (tgssc2 == true) {
         tugas = tugas + "Memandikan / menyiapkan keperluan mandi. ";
-        globals.stringtugas.add("Memandikan / menyiapkan keperluan mandi");
+        globals.listTugas.add("Memandikan / menyiapkan keperluan mandi");
       }
       if (tgssc3 == true) {
         tugas = tugas + "Menolong buang air besar / kecil. ";
-        globals.stringtugas.add("Menolong buang air besar / kecil");
+        globals.listTugas.add("Menolong buang air besar / kecil");
       }
       if (tgssupir1 == true) {
         tugas = tugas + "Menjaga kebersihan mobil. ";
-        globals.stringtugas.add("Menjaga kebersihan mobil");
+        globals.listTugas.add("Menjaga kebersihan mobil");
       }
       if (tgssupir2 == true) {
         tugas = tugas + "Melakukan pengecekan terhadap kendaraan. ";
-        globals.stringtugas.add("Melakukan pengecekan terhadap kendaraan");
+        globals.listTugas.add("Melakukan pengecekan terhadap kendaraan");
       }
       if (tgssupir3 == true) {
         tugas =
             tugas + "Bertanggungjawab atas keselamatan penumpang dan mobil. ";
-        globals.stringtugas
+        globals.listTugas
             .add("Bertanggungjawab atas keselamatan penumpang dan mobil");
       }
       if (tgsobog1 == true) {
         tugas = tugas + "Menyiapkan minum untuk para karyawan. ";
-        globals.stringtugas.add("Menyiapkan minum untuk para karyawan");
+        globals.listTugas.add("Menyiapkan minum untuk para karyawan");
       }
       if (tgsobog2 == true) {
         tugas = tugas +
             "Membereskan gelas dan perlengkapan lain setelah karyawan pulang. ";
-        globals.stringtugas.add(
+        globals.listTugas.add(
             "Membereskan gelas dan perlengkapan lain setelah karyawan pulang");
       }
       if (tgsobog3 == true) {
         tugas = tugas + "Mempersiapkan ruang rapat / pertemuan. ";
-        globals.stringtugas.add("Mempersipakan ruang rapat / pertemuan");
+        globals.listTugas.add("Mempersipakan ruang rapat / pertemuan");
       }
       if (tgstk1 == true) {
         tugas = tugas +
             "Perawatan dan pemeliharaan berbagai tanaman, dari bunga hingga pohon dan semak. ";
-        globals.stringtugas.add(
+        globals.listTugas.add(
             "Perawatan dan pemeliharaan berbagai tanaman, dari bungan hingga pohon dan semak");
       }
       if (tgstk2 == true) {
         tugas = tugas + "Pengolahan tanah, pemupukan dan nutrisi tanaman. ";
-        globals.stringtugas
+        globals.listTugas
             .add("Pengolahan tanah, pemupukan dan nutrisi tanaman");
       }
       if (tgstk3 == true) {
         tugas = tugas +
             "Bersihkan area hijau daun, potong rumput, dan puing-puing. ";
-        globals.stringtugas
+        globals.listTugas
             .add("Bersihkan area hijau daun, potong rambut, dan puing-puing");
       }
       if (tugasctr.isNotEmpty) {
         for (int i = 0; i < tugasctr.length; i++) {
           tugas = tugas + tugasctr[i].text + ". ";
-          globals.stringtugas.add(tugasctr[i].text);
+          globals.listTugas.add(tugasctr[i].text);
         }
       }
       tugas = tugas.substring(0, tugas.length - 2);
-      globals.tugasloker[widget.index] = tugas;
+      globals.listTugas[widget.index] = tugas;
+
+      // Set Kriteria
+      if (tthewan == true) {
+        kriteria = kriteria + "Tidak takut hewan, ";
+      }
+      if (masak == true) {
+        kriteria = kriteria + "Memasak, ";
+      }
+      if (tmperj == true) {
+        kriteria = kriteria + "Tidak mabuk perjalanan, ";
+      }
+      if (mspdmtr == true) {
+        kriteria = kriteria + "Menyetir sepeda motor, ";
+      }
+      if (mmobil == true) {
+        kriteria = kriteria + "Menyetir mobil, ";
+      }
+      if (menginap == true) {
+        kriteria = kriteria + "Menginap, ";
+      }
+      if (warnen == true) {
+        kriteria = kriteria + "Warnen, ";
+      }
+      kriteria = kriteria.substring(0, kriteria.length - 2);
+
+      if (k_prt == true) {
+        kategori = kategori + "Pembantu, ";
+      }
+      if (k_bs == true) {
+        kategori = kategori + "Babysitter, ";
+      }
+      if (k_sc == true) {
+        kategori = kategori + "Pendamping Lansia, ";
+      }
+      if (k_supir == true) {
+        kategori = kategori + "Supir, ";
+      }
+      if (k_obog == true) {
+        kategori = kategori + "Office Boy / Girl, ";
+      }
+      if (k_tk == true) {
+        kategori = kategori + "Tukang Kebun, ";
+      }
+      kategori = kategori.substring(0, kategori.length - 2);
     });
 
     if (widget.konten == "edit") {
@@ -470,40 +505,32 @@ class _TambahLokerState extends State<TambahLoker> {
       "gajiakhir": maxgajictr.text,
       "informasi": infoctr.text,
       "tugas": tugas,
-      "kriteria": kriteria,
       "kprt": k_prt.toString(),
       "kbabysitter": k_bs.toString(),
       "kseniorcare": k_sc.toString(),
       "ksupir": k_supir.toString(),
       "kofficeboy": k_obog.toString(),
       "ktukangkebun": k_tk.toString(),
-      "tglpost": tglpost
+      "hewan": tthewan.toString(),
+      "masak": masak.toString(),
+      "mabukjalan": tmperj.toString(),
+      "sepedamotor": mspdmtr.toString(),
+      "mobil": mmobil.toString(),
+      "tkmenginap": menginap.toString(),
+      "tkwarnen": warnen.toString(),
+      "tglpost": tglpost,
+      "statusloker": "aktif"
     });
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       var lastId = data['data']['getIdLast'];
 
-      setState(() {
-        globals.idloker.add(lastId.toString());
-        globals.iduserloker.add(globals.iduser);
-        globals.judulloker.add(judulctr.text);
-        globals.gajiawalloker.add(mingajictr.text);
-        globals.gajiakhirloker.add(maxgajictr.text);
-        globals.informasiloker.add(infoctr.text);
-        globals.tugasloker.add(tugas);
-        globals.kriteria.add(kriteria);
-        globals.kprtloker.add(k_prt.toString());
-        globals.kbabysitterloker.add(k_bs.toString());
-        globals.kseniorcareloker.add(k_sc.toString());
-        globals.ksupirloker.add(k_supir.toString());
-        globals.kofficeboyloker.add(k_obog.toString());
-        globals.ktukangkebunloker.add(k_tk.toString());
-        globals.tglpost.add(tglpost);
-        globals.namamajikan.add(globals.namalengkap);
-        globals.jeniskelaminloker.add(globals.jeniskelamin);
-        globals.kecamatanloker.add(globals.kecdom);
-        globals.kotaloker.add(globals.kotadom);
-        globals.expandloker.add(false);
+      Loker.getDataLokerperIdLoker(lastId.toString()).then((value) {
+        setState(() {
+          globals.listLokerAktif.add(value[0]);
+          globals.kategori.add(kategori);
+          globals.kriteria.add(kriteria);
+        });
       });
     }
     messagetoBack();
@@ -512,35 +539,49 @@ class _TambahLokerState extends State<TambahLoker> {
   Future<void> updateDatabase() async {
     // Edit Lowongan Kerja
     var url =
-        "${globals.urlapi}editlowongankerja?idloker=${int.parse(globals.idloker[widget.index])}";
+        "${globals.urlapi}editlowongankerja?idloker=${int.parse(globals.listLokerAktif[widget.index].idloker)}";
     var response = await http.put(Uri.parse(url), body: {
-      "idloker": globals.idloker[widget.index],
+      "idloker": globals.listLokerAktif[widget.index].idloker,
       "judulloker": judulctr.text,
       "gajiawal": mingajictr.text,
       "gajiakhir": maxgajictr.text,
       "informasi": infoctr.text,
       "tugas": tugas,
-      "kriteria": kriteria,
       "kprt": k_prt.toString(),
       "kbabysitter": k_bs.toString(),
       "kseniorcare": k_sc.toString(),
       "ksupir": k_supir.toString(),
       "kofficeboy": k_obog.toString(),
       "ktukangkebun": k_tk.toString(),
+      "hewan": tthewan.toString(),
+      "masak": masak.toString(),
+      "mabukjalan": tmperj.toString(),
+      "sepedamotor": mspdmtr.toString(),
+      "mobil": mmobil.toString(),
+      "tkmenginap": menginap.toString(),
+      "tkwarnen": warnen.toString(),
       "tglpost": tglpost
     });
 
     setState(() {
-      globals.judulloker[widget.index] = judulctr.text;
-      globals.gajiawalloker[widget.index] = mingajictr.text;
-      globals.gajiakhirloker[widget.index] = maxgajictr.text;
-      globals.informasiloker[widget.index] = infoctr.text;
-      globals.kprtloker[widget.index] = k_prt.toString();
-      globals.kbabysitterloker[widget.index] = k_bs.toString();
-      globals.kseniorcareloker[widget.index] = k_sc.toString();
-      globals.ksupirloker[widget.index] = k_supir.toString();
-      globals.kofficeboyloker[widget.index] = k_obog.toString();
-      globals.ktukangkebunloker[widget.index] = k_tk.toString();
+      globals.listLokerAktif[widget.index].judulloker = judulctr.text;
+      globals.listLokerAktif[widget.index].gajiawal = mingajictr.text;
+      globals.listLokerAktif[widget.index].gajiakhir = maxgajictr.text;
+      globals.listLokerAktif[widget.index].informasi = infoctr.text;
+      globals.listLokerAktif[widget.index].kprt = k_prt.toString();
+      globals.listLokerAktif[widget.index].kbabysitter = k_bs.toString();
+      globals.listLokerAktif[widget.index].kseniorcare = k_sc.toString();
+      globals.listLokerAktif[widget.index].ksupir = k_supir.toString();
+      globals.listLokerAktif[widget.index].kofficeboy = k_obog.toString();
+      globals.listLokerAktif[widget.index].ktukangkebun = k_tk.toString();
+      globals.listLokerAktif[widget.index].hewan = tthewan.toString();
+      globals.listLokerAktif[widget.index].masak = masak.toString();
+      globals.listLokerAktif[widget.index].mabukjalan = tmperj.toString();
+      globals.listLokerAktif[widget.index].sepedamotor = mspdmtr.toString();
+      globals.listLokerAktif[widget.index].mobil = mmobil.toString();
+      globals.listLokerAktif[widget.index].tkmenginap = menginap.toString();
+      globals.listLokerAktif[widget.index].tkwarnen = warnen.toString();
+      globals.listLokerAktif[widget.index].tglpost = tglpost;
     });
 
     messagetoBack();
@@ -601,8 +642,8 @@ class _TambahLokerState extends State<TambahLoker> {
         leading: IconButton(
           onPressed: () {
             if (widget.konten == "edit" && widget.pagefrom != "detailloker") {
-              globals.stringkriteria.clear();
-              globals.stringtugas.clear();
+              globals.listTugas.clear();
+              globals.listKriteria.clear();
             }
             Navigator.pop(context);
           },

@@ -1,5 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'package:artpro_application_new/services/lokerservices.dart';
 import 'package:image_picker/image_picker.dart';
 
 String color_primary = '0xFF246A73';
@@ -7,7 +8,7 @@ String color_secondary = '0xFFFF4D00';
 
 int select_index = 0; // navigasi beranda
 
-String urlapi = "http://192.168.170.219:1234/";
+String urlapi = "http://192.168.1.13:1234/";
 
 // Akun User //
 String email = "";
@@ -80,27 +81,13 @@ String gajiakhir = "";
 
 // Lowongan Kerja //
 // --- store data from database to see loker at specific iduser ---
-List<String> idloker = [];
-List<String> iduserloker = [];
-List<String> judulloker = [];
-List<String> gajiawalloker = [];
-List<String> gajiakhirloker = [];
-List<String> informasiloker = [];
-List<String> tugasloker = [];
-List<String> kriteria = [];
-List<String> kprtloker = [];
-List<String> kbabysitterloker = [];
-List<String> kseniorcareloker = [];
-List<String> ksupirloker = [];
-List<String> kofficeboyloker = [];
-List<String> ktukangkebunloker = [];
-List<String> tglpost = [];
-List<String> namamajikan = [];
-List<String> jeniskelaminloker = [];
-List<String> kecamatanloker = [];
-List<String> kotaloker = [];
-List<bool> expandloker = [];
+List<Loker> listLokerAktif = [];
+List<Loker> listLokerTidakAktif = [];
 
-List<String> stringtugas = [];
-List<String> stringkriteria = [];
+List<String> listTugas = [];
 List<String> kategori = [];
+List<String> kriteria = [];
+List<String> listKriteria = [];
+
+List<String> kategorina = [];
+List<String> kriteriana = [];
