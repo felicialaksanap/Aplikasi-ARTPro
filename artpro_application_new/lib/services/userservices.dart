@@ -149,13 +149,15 @@ class DetailProfileART {
   String beratbadan = "";
   String tinggibadan = "";
   String agama = "";
-  String tkmenginap = "";
-  String tkwarnen = "";
-  String hewan = "";
-  String mabukjalan = "";
-  String sepedamotor = "";
-  String mobil = "";
-  String masak = "";
+  int tkmenginap = 0;
+  int tkwarnen = 0;
+  int hewan = 0;
+  int mabukjalan = 0;
+  int sepedamotor = 0;
+  int mobil = 0;
+  int masak = 0;
+  int single = 0;
+  int married = 0;
 
   DetailProfileART(
       {required this.iduser,
@@ -169,7 +171,9 @@ class DetailProfileART {
       required this.mabukjalan,
       required this.sepedamotor,
       required this.mobil,
-      required this.masak});
+      required this.masak,
+      required this.single,
+      required this.married});
 
   factory DetailProfileART.createData(Map<String, dynamic> object) {
     return DetailProfileART(
@@ -184,7 +188,9 @@ class DetailProfileART {
         mabukjalan: object['mabukjalan'],
         sepedamotor: object['sepedamotor'],
         mobil: object['mobil'],
-        masak: object['masak']);
+        masak: object['masak'],
+        single: object['ssingle'],
+        married: object['smarried']);
   }
 
   static Future<List<DetailProfileART>> getData(String iduser) async {
@@ -210,12 +216,12 @@ class DetailProfileART {
 
 class DetailKerjaART {
   String iduser = "";
-  String kprt = "";
-  String kbabysitter = "";
-  String kseniorcare = "";
-  String ksupir = "";
-  String kofficeboy = "";
-  String ktukangkebun = "";
+  int kprt = 0;
+  int kbabysitter = 0;
+  int kseniorcare = 0;
+  int ksupir = 0;
+  int kofficeboy = 0;
+  int ktukangkebun = 0;
   String pengalaman = "";
   String gajiawal = "";
   String gajiakhir = "";

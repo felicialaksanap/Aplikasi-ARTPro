@@ -35,6 +35,8 @@ class _ListLokerState extends State<ListLoker> {
   bool mobilSel = false;
   bool maPerSel = false;
   bool masakSel = false;
+  bool singleSel = false;
+  bool marriedSel = false;
 
   String tugas = "";
   String kategori = "";
@@ -56,7 +58,7 @@ class _ListLokerState extends State<ListLoker> {
           globals.listLokerTidakAktif.clear();
 
           for (int i = 0; i < value.length; i++) {
-            if (value[i].statusloker == "aktif") {
+            if (value[i].statusloker == 1) {
               globals.listLokerAktif.add(value[i]);
             } else {
               globals.listLokerTidakAktif.add(value[i]);
@@ -66,22 +68,22 @@ class _ListLokerState extends State<ListLoker> {
           // arrange data in list loker aktif
           for (int i = 0; i < globals.listLokerAktif.length; i++) {
             // arrange kategori to string
-            if (globals.listLokerAktif[i].kprt == "true") {
+            if (globals.listLokerAktif[i].kprt == 1) {
               kategori = kategori + "Pembantu, ";
             }
-            if (globals.listLokerAktif[i].kbabysitter == "true") {
+            if (globals.listLokerAktif[i].kbabysitter == 1) {
               kategori = kategori + "Babysitter, ";
             }
-            if (globals.listLokerAktif[i].kseniorcare == "true") {
+            if (globals.listLokerAktif[i].kseniorcare == 1) {
               kategori = kategori + "Pendamping Lansia, ";
             }
-            if (globals.listLokerAktif[i].ksupir == "true") {
+            if (globals.listLokerAktif[i].ksupir == 1) {
               kategori = kategori + "Supir, ";
             }
-            if (globals.listLokerAktif[i].kofficeboy == "true") {
+            if (globals.listLokerAktif[i].kofficeboy == 1) {
               kategori = kategori + "Office Boy / Girl, ";
             }
-            if (globals.listLokerAktif[i].ktukangkebun == "true") {
+            if (globals.listLokerAktif[i].ktukangkebun == 1) {
               kategori = kategori + "Tukang Kebun, ";
             }
             kategori = kategori.substring(0, kategori.length - 2);
@@ -89,26 +91,32 @@ class _ListLokerState extends State<ListLoker> {
             kategori = "";
 
             // arrange kriteria to string
-            if (globals.listLokerAktif[i].hewan == "true") {
+            if (globals.listLokerAktif[i].hewan == 1) {
               kriteria = kriteria + "Tidak takut hewan, ";
             }
-            if (globals.listLokerAktif[i].masak == "true") {
+            if (globals.listLokerAktif[i].masak == 1) {
               kriteria = kriteria + "Memasak, ";
             }
-            if (globals.listLokerAktif[i].mabukjalan == "true") {
+            if (globals.listLokerAktif[i].mabukjalan == 1) {
               kriteria = kriteria + "Tidak mabuk perjalanan, ";
             }
-            if (globals.listLokerAktif[i].sepedamotor == "true") {
+            if (globals.listLokerAktif[i].sepedamotor == 1) {
               kriteria = kriteria + "Menyetir sepeda motor, ";
             }
-            if (globals.listLokerAktif[i].mobil == "true") {
+            if (globals.listLokerAktif[i].mobil == 1) {
               kriteria = kriteria + "Menyetir mobil, ";
             }
-            if (globals.listLokerAktif[i].tkmenginap == "true") {
+            if (globals.listLokerAktif[i].tkmenginap == 1) {
               kriteria = kriteria + "Menginap, ";
             }
-            if (globals.listLokerAktif[i].tkwarnen == "true") {
+            if (globals.listLokerAktif[i].tkwarnen == 1) {
               kriteria = kriteria + "Warnen, ";
+            }
+            if (globals.listLokerAktif[i].ssingle == 1) {
+              kriteria = kriteria + "Belum menikah, ";
+            }
+            if (globals.listLokerAktif[i].smarried == 1) {
+              kriteria = kriteria + "Sudah menikah, ";
             }
             kriteria = kriteria.substring(0, kriteria.length - 2);
             globals.kriteria.add(kriteria);
@@ -161,7 +169,7 @@ class _ListLokerState extends State<ListLoker> {
                 globals.listLokerTidakAktif.clear();
 
                 for (int i = 0; i < value.length; i++) {
-                  if (value[i].statusloker == "aktif") {
+                  if (value[i].statusloker == 1) {
                     globals.listLokerAktif.add(value[i]);
                   } else {
                     globals.listLokerTidakAktif.add(value[i]);
@@ -171,22 +179,22 @@ class _ListLokerState extends State<ListLoker> {
                 // arrange data in list loker aktif
                 for (int i = 0; i < globals.listLokerAktif.length; i++) {
                   // arrange kategori to string
-                  if (globals.listLokerAktif[i].kprt == "true") {
+                  if (globals.listLokerAktif[i].kprt == 1) {
                     kategori = kategori + "Pembantu, ";
                   }
-                  if (globals.listLokerAktif[i].kbabysitter == "true") {
+                  if (globals.listLokerAktif[i].kbabysitter == 1) {
                     kategori = kategori + "Babysitter, ";
                   }
-                  if (globals.listLokerAktif[i].kseniorcare == "true") {
+                  if (globals.listLokerAktif[i].kseniorcare == 1) {
                     kategori = kategori + "Pendamping Lansia, ";
                   }
-                  if (globals.listLokerAktif[i].ksupir == "true") {
+                  if (globals.listLokerAktif[i].ksupir == 1) {
                     kategori = kategori + "Supir, ";
                   }
-                  if (globals.listLokerAktif[i].kofficeboy == "true") {
+                  if (globals.listLokerAktif[i].kofficeboy == 1) {
                     kategori = kategori + "Office Boy / Girl, ";
                   }
-                  if (globals.listLokerAktif[i].ktukangkebun == "true") {
+                  if (globals.listLokerAktif[i].ktukangkebun == 1) {
                     kategori = kategori + "Tukang Kebun, ";
                   }
                   kategori = kategori.substring(0, kategori.length - 2);
@@ -194,26 +202,32 @@ class _ListLokerState extends State<ListLoker> {
                   kategori = "";
 
                   // arrange kriteria to string
-                  if (globals.listLokerAktif[i].hewan == "true") {
+                  if (globals.listLokerAktif[i].hewan == 1) {
                     kriteria = kriteria + "Tidak takut hewan, ";
                   }
-                  if (globals.listLokerAktif[i].masak == "true") {
+                  if (globals.listLokerAktif[i].masak == 1) {
                     kriteria = kriteria + "Memasak, ";
                   }
-                  if (globals.listLokerAktif[i].mabukjalan == "true") {
+                  if (globals.listLokerAktif[i].mabukjalan == 1) {
                     kriteria = kriteria + "Tidak mabuk perjalanan, ";
                   }
-                  if (globals.listLokerAktif[i].sepedamotor == "true") {
+                  if (globals.listLokerAktif[i].sepedamotor == 1) {
                     kriteria = kriteria + "Menyetir sepeda motor, ";
                   }
-                  if (globals.listLokerAktif[i].mobil == "true") {
+                  if (globals.listLokerAktif[i].mobil == 1) {
                     kriteria = kriteria + "Menyetir mobil, ";
                   }
-                  if (globals.listLokerAktif[i].tkmenginap == "true") {
+                  if (globals.listLokerAktif[i].tkmenginap == 1) {
                     kriteria = kriteria + "Menginap, ";
                   }
-                  if (globals.listLokerAktif[i].tkwarnen == "true") {
+                  if (globals.listLokerAktif[i].tkwarnen == 1) {
                     kriteria = kriteria + "Warnen, ";
+                  }
+                  if (globals.listLokerAktif[i].ssingle == 1) {
+                    kriteria = kriteria + "Belum menikah, ";
+                  }
+                  if (globals.listLokerAktif[i].smarried == 1) {
+                    kriteria = kriteria + "Sudah menikah, ";
                   }
                   kriteria = kriteria.substring(0, kriteria.length - 2);
                   globals.kriteria.add(kriteria);
@@ -250,26 +264,32 @@ class _ListLokerState extends State<ListLoker> {
 
       globals.listKriteria.clear();
       // arrange kriteria
-      if (globals.listLokerAktif[index].hewan == "true") {
+      if (globals.listLokerAktif[index].hewan == 1) {
         globals.listKriteria.add("Tidak takut hewan");
       }
-      if (globals.listLokerAktif[index].masak == "true") {
+      if (globals.listLokerAktif[index].masak == 1) {
         globals.listKriteria.add("Memasak");
       }
-      if (globals.listLokerAktif[index].mabukjalan == "true") {
+      if (globals.listLokerAktif[index].mabukjalan == 1) {
         globals.listKriteria.add("Tidak mabuk perjalanan");
       }
-      if (globals.listLokerAktif[index].sepedamotor == "true") {
+      if (globals.listLokerAktif[index].sepedamotor == 1) {
         globals.listKriteria.add("Menyetir sepeda motor");
       }
-      if (globals.listLokerAktif[index].mobil == "true") {
+      if (globals.listLokerAktif[index].mobil == 1) {
         globals.listKriteria.add("Menyetir mobil");
       }
-      if (globals.listLokerAktif[index].tkmenginap == "true") {
+      if (globals.listLokerAktif[index].tkmenginap == 1) {
         globals.listKriteria.add("Menginap");
       }
-      if (globals.listLokerAktif[index].tkwarnen == "true") {
+      if (globals.listLokerAktif[index].tkwarnen == 1) {
         globals.listKriteria.add("Warnen");
+      }
+      if (globals.listLokerAktif[index].ssingle == 1) {
+        globals.listKriteria.add("Belum menikah");
+      }
+      if (globals.listLokerAktif[index].smarried == 1) {
+        globals.listKriteria.add("Sudah menikah");
       }
     });
   }
@@ -770,7 +790,7 @@ class _ListLokerState extends State<ListLoker> {
                       width: 10,
                     ),
                     Text(
-                      "Lain - Lain",
+                      "Kriteria",
                       style: GoogleFonts.poppins(
                           textStyle: const TextStyle(
                               fontSize: 15, fontWeight: FontWeight.bold)),
@@ -909,6 +929,127 @@ class _ListLokerState extends State<ListLoker> {
                 ),
                 const SizedBox(
                   height: 20,
+                ),
+                Row(
+                  children: [
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      "Status Pernikahan",
+                      style: GoogleFonts.poppins(
+                          textStyle: const TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.bold)),
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            singleSel = !singleSel;
+                          });
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50.0),
+                              border: Border.all(
+                                  color: singleSel
+                                      ? Color(int.parse(globals.color_primary))
+                                      : const Color.fromARGB(
+                                          255, 217, 217, 217),
+                                  width: prtSel ? 2 : 1)),
+                          child: Text("Belum Menikah",
+                              style: GoogleFonts.poppins(
+                                  textStyle: const TextStyle(fontSize: 14))),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            marriedSel = !marriedSel;
+                          });
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50.0),
+                              border: Border.all(
+                                  color: marriedSel
+                                      ? Color(int.parse(globals.color_primary))
+                                      : const Color.fromARGB(
+                                          255, 217, 217, 217),
+                                  width: prtSel ? 2 : 1)),
+                          child: Text("Sudah Menikah",
+                              style: GoogleFonts.poppins(
+                                  textStyle: const TextStyle(fontSize: 14))),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width / 3,
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          style: ElevatedButton.styleFrom(
+                              elevation: 0,
+                              backgroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              side: BorderSide(
+                                  width: 1,
+                                  color: Color(
+                                      int.parse(globals.color_secondary)))),
+                          child: Text(
+                            "Batal",
+                            style: GoogleFonts.poppins(
+                                textStyle: const TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black)),
+                          )),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width / 3,
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                              elevation: 0,
+                              backgroundColor:
+                                  Color(int.parse(globals.color_secondary)),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20))),
+                          child: Text(
+                            "Terapkan",
+                            style: GoogleFonts.poppins(
+                                textStyle: const TextStyle(
+                                    fontSize: 15, fontWeight: FontWeight.w500)),
+                          )),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
                 )
               ],
             ),

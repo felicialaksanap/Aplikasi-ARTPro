@@ -39,22 +39,22 @@ class _BerandaARTState extends State<BerandaART> {
         // arrange data in list loker aktif
         for (int i = 0; i < globals.listLokerAktif.length; i++) {
           // arrange kategori to string
-          if (globals.listLokerAktif[i].kprt == "true") {
+          if (globals.listLokerAktif[i].kprt == 1) {
             kategori = kategori + "Pembantu, ";
           }
-          if (globals.listLokerAktif[i].kbabysitter == "true") {
+          if (globals.listLokerAktif[i].kbabysitter == 1) {
             kategori = kategori + "Babysitter, ";
           }
-          if (globals.listLokerAktif[i].kseniorcare == "true") {
+          if (globals.listLokerAktif[i].kseniorcare == 1) {
             kategori = kategori + "Pendamping Lansia, ";
           }
-          if (globals.listLokerAktif[i].ksupir == "true") {
+          if (globals.listLokerAktif[i].ksupir == 1) {
             kategori = kategori + "Supir, ";
           }
-          if (globals.listLokerAktif[i].kofficeboy == "true") {
+          if (globals.listLokerAktif[i].kofficeboy == 1) {
             kategori = kategori + "Office Boy / Girl, ";
           }
-          if (globals.listLokerAktif[i].ktukangkebun == "true") {
+          if (globals.listLokerAktif[i].ktukangkebun == 1) {
             kategori = kategori + "Tukang Kebun, ";
           }
           kategori = kategori.substring(0, kategori.length - 2);
@@ -62,25 +62,25 @@ class _BerandaARTState extends State<BerandaART> {
           kategori = "";
 
           // arrange kriteria to string
-          if (globals.listLokerAktif[i].hewan == "true") {
+          if (globals.listLokerAktif[i].hewan == 1) {
             kriteria = kriteria + "Tidak takut hewan, ";
           }
-          if (globals.listLokerAktif[i].masak == "true") {
+          if (globals.listLokerAktif[i].masak == 1) {
             kriteria = kriteria + "Memasak, ";
           }
-          if (globals.listLokerAktif[i].mabukjalan == "true") {
+          if (globals.listLokerAktif[i].mabukjalan == 1) {
             kriteria = kriteria + "Tidak mabuk perjalanan, ";
           }
-          if (globals.listLokerAktif[i].sepedamotor == "true") {
+          if (globals.listLokerAktif[i].sepedamotor == 1) {
             kriteria = kriteria + "Menyetir sepeda motor, ";
           }
-          if (globals.listLokerAktif[i].mobil == "true") {
+          if (globals.listLokerAktif[i].mobil == 1) {
             kriteria = kriteria + "Menyetir mobil, ";
           }
-          if (globals.listLokerAktif[i].tkmenginap == "true") {
+          if (globals.listLokerAktif[i].tkmenginap == 1) {
             kriteria = kriteria + "Menginap, ";
           }
-          if (globals.listLokerAktif[i].tkwarnen == "true") {
+          if (globals.listLokerAktif[i].tkwarnen == 1) {
             kriteria = kriteria + "Warnen, ";
           }
           kriteria = kriteria.substring(0, kriteria.length - 2);
@@ -90,6 +90,52 @@ class _BerandaARTState extends State<BerandaART> {
 
         finishgetdata = true;
       });
+    });
+  }
+
+  void arrangeData(int index) {
+    setState(() {
+      globals.listTugas.clear();
+      // arrange tugas loker
+      for (int i = 0; i < globals.listLokerAktif[index].tugas.length; i++) {
+        if (globals.listLokerAktif[index].tugas[i] == "." &&
+            globals.listLokerAktif[index].tugas[i + 1] == " ") {
+          globals.listTugas.add(tugas);
+        } else if (globals.listLokerAktif[index].tugas[i] == " " &&
+            globals.listLokerAktif[index].tugas[i - 1] == ".") {
+          tugas = "";
+        } else if (i == globals.listLokerAktif[index].tugas.length - 1) {
+          tugas = tugas + globals.listLokerAktif[index].tugas[i];
+          globals.listTugas.add(tugas);
+          tugas = "";
+        } else {
+          tugas = tugas + globals.listLokerAktif[index].tugas[i];
+        }
+      }
+
+      globals.listKriteria.clear();
+      // arrange kriteria
+      if (globals.listLokerAktif[index].hewan == 1) {
+        globals.listKriteria.add("Tidak takut hewan");
+      }
+      if (globals.listLokerAktif[index].masak == 1) {
+        globals.listKriteria.add("Memasak");
+      }
+      if (globals.listLokerAktif[index].mabukjalan == 1) {
+        globals.listKriteria.add("Tidak mabuk perjalanan");
+      }
+      if (globals.listLokerAktif[index].sepedamotor == 1) {
+        globals.listKriteria.add("Menyetir sepeda motor");
+      }
+      if (globals.listLokerAktif[index].mobil == 1) {
+        globals.listKriteria.add("Menyetir mobil");
+      }
+      if (globals.listLokerAktif[index].tkmenginap == 1) {
+        globals.listKriteria.add("Menginap");
+      }
+      if (globals.listLokerAktif[index].tkwarnen == 1) {
+        globals.listKriteria.add("Warnen");
+      }
     });
   }
 
@@ -181,11 +227,13 @@ class _BerandaARTState extends State<BerandaART> {
                   ),
                   GestureDetector(
                     onTap: () {
+                      arrangeData(0);
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => DetailLoker(
                                     index: 0,
+                                    pagefrom: "berandaart",
                                   )));
                     },
                     child: Card(

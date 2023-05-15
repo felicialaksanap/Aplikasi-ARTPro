@@ -108,6 +108,8 @@ class _SplashScreenState extends State<SplashScreen> {
                   globals.spdmotor = listDetailProfART[0].sepedamotor;
                   globals.mobil = listDetailProfART[0].mobil;
                   globals.masak = listDetailProfART[0].masak;
+                  globals.ssingle = listDetailProfART[0].single;
+                  globals.smarried = listDetailProfART[0].married;
                 }
               });
 

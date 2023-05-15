@@ -42,6 +42,8 @@ class _TambahLokerState extends State<TambahLoker> {
   bool mmobil = false;
   bool menginap = false;
   bool warnen = false;
+  bool ssingle = false;
+  bool smarried = false;
 
   TextEditingController judulctr = TextEditingController();
   TextEditingController mingajictr = TextEditingController();
@@ -106,40 +108,31 @@ class _TambahLokerState extends State<TambahLoker> {
       mingajictr.text = globals.listLokerAktif[widget.index].gajiawal;
       maxgajictr.text = globals.listLokerAktif[widget.index].gajiakhir;
       infoctr.text = globals.listLokerAktif[widget.index].informasi;
-      k_prt =
-          globals.listLokerAktif[widget.index].kprt == "true" ? true : false;
-      k_bs = globals.listLokerAktif[widget.index].kbabysitter == "true"
-          ? true
-          : false;
-      k_sc = globals.listLokerAktif[widget.index].kseniorcare == "true"
-          ? true
-          : false;
-      k_supir =
-          globals.listLokerAktif[widget.index].ksupir == "true" ? true : false;
-      k_obog = globals.listLokerAktif[widget.index].kofficeboy == "true"
-          ? true
-          : false;
-      k_tk = globals.listLokerAktif[widget.index].ktukangkebun == "true"
-          ? true
-          : false;
-      tthewan =
-          globals.listLokerAktif[widget.index].hewan == "true" ? true : false;
-      masak =
-          globals.listLokerAktif[widget.index].masak == "true" ? true : false;
-      tmperj = globals.listLokerAktif[widget.index].mabukjalan == "true"
-          ? true
-          : false;
-      mspdmtr = globals.listLokerAktif[widget.index].sepedamotor == "true"
-          ? true
-          : false;
-      mmobil =
-          globals.listLokerAktif[widget.index].mobil == "true" ? true : false;
-      menginap = globals.listLokerAktif[widget.index].tkmenginap == "true"
-          ? true
-          : false;
-      warnen = globals.listLokerAktif[widget.index].tkwarnen == "true"
-          ? true
-          : false;
+      k_prt = globals.listLokerAktif[widget.index].kprt == 1 ? true : false;
+      k_bs =
+          globals.listLokerAktif[widget.index].kbabysitter == 1 ? true : false;
+      k_sc =
+          globals.listLokerAktif[widget.index].kseniorcare == 1 ? true : false;
+      k_supir = globals.listLokerAktif[widget.index].ksupir == 1 ? true : false;
+      k_obog =
+          globals.listLokerAktif[widget.index].kofficeboy == 1 ? true : false;
+      k_tk =
+          globals.listLokerAktif[widget.index].ktukangkebun == 1 ? true : false;
+      tthewan = globals.listLokerAktif[widget.index].hewan == 1 ? true : false;
+      masak = globals.listLokerAktif[widget.index].masak == 1 ? true : false;
+      tmperj =
+          globals.listLokerAktif[widget.index].mabukjalan == 1 ? true : false;
+      mspdmtr =
+          globals.listLokerAktif[widget.index].sepedamotor == 1 ? true : false;
+      mmobil = globals.listLokerAktif[widget.index].mobil == 1 ? true : false;
+      menginap =
+          globals.listLokerAktif[widget.index].tkmenginap == 1 ? true : false;
+      warnen =
+          globals.listLokerAktif[widget.index].tkwarnen == 1 ? true : false;
+      ssingle =
+          globals.listLokerAktif[widget.index].ssingle == 1 ? true : false;
+      smarried =
+          globals.listLokerAktif[widget.index].smarried == 1 ? true : false;
 
       // set count for max 3 choice kategori
       if (k_prt == true) {
@@ -443,27 +436,43 @@ class _TambahLokerState extends State<TambahLoker> {
       tugas = tugas.substring(0, tugas.length - 2);
       globals.listTugas[widget.index] = tugas;
 
+      globals.listKriteria.clear();
       // Set Kriteria
       if (tthewan == true) {
         kriteria = kriteria + "Tidak takut hewan, ";
+        globals.listKriteria.add("Tidak takut hewan");
       }
       if (masak == true) {
         kriteria = kriteria + "Memasak, ";
+        globals.listKriteria.add("Memasak");
       }
       if (tmperj == true) {
         kriteria = kriteria + "Tidak mabuk perjalanan, ";
+        globals.listKriteria.add("Tidak mabuk perjalanan");
       }
       if (mspdmtr == true) {
         kriteria = kriteria + "Menyetir sepeda motor, ";
+        globals.listKriteria.add("Menyetir sepeda motor");
       }
       if (mmobil == true) {
         kriteria = kriteria + "Menyetir mobil, ";
+        globals.listKriteria.add("Menyetir mobil");
       }
       if (menginap == true) {
         kriteria = kriteria + "Menginap, ";
+        globals.listKriteria.add("Menginap");
       }
       if (warnen == true) {
         kriteria = kriteria + "Warnen, ";
+        globals.listKriteria.add("Warnen");
+      }
+      if (ssingle == true) {
+        kriteria = kriteria + "Belum menikah, ";
+        globals.listKriteria.add("Belum menikah");
+      }
+      if (smarried == true) {
+        kriteria = kriteria + "Sudah menikah, ";
+        globals.listKriteria.add("Sudah menikah");
       }
       kriteria = kriteria.substring(0, kriteria.length - 2);
 
@@ -505,19 +514,21 @@ class _TambahLokerState extends State<TambahLoker> {
       "gajiakhir": maxgajictr.text,
       "informasi": infoctr.text,
       "tugas": tugas,
-      "kprt": k_prt.toString(),
-      "kbabysitter": k_bs.toString(),
-      "kseniorcare": k_sc.toString(),
-      "ksupir": k_supir.toString(),
-      "kofficeboy": k_obog.toString(),
-      "ktukangkebun": k_tk.toString(),
-      "hewan": tthewan.toString(),
-      "masak": masak.toString(),
-      "mabukjalan": tmperj.toString(),
-      "sepedamotor": mspdmtr.toString(),
-      "mobil": mmobil.toString(),
-      "tkmenginap": menginap.toString(),
-      "tkwarnen": warnen.toString(),
+      "kprt": k_prt == true ? "1" : "0",
+      "kbabysitter": k_bs == true ? "1" : "0",
+      "kseniorcare": k_sc == true ? "1" : "0",
+      "ksupir": k_supir == true ? "1" : "0",
+      "kofficeboy": k_obog == true ? "1" : "0",
+      "ktukangkebun": k_tk == true ? "1" : "0",
+      "hewan": tthewan == true ? "1" : "0",
+      "masak": masak == true ? "1" : "0",
+      "mabukjalan": tmperj == true ? "1" : "0",
+      "sepedamotor": mspdmtr == true ? "1" : "0",
+      "mobil": mmobil == true ? "1" : "0",
+      "tkmenginap": menginap == true ? "1" : "0",
+      "tkwarnen": warnen == true ? "1" : "0",
+      "ssingle": ssingle == true ? "1" : "0",
+      "smarried": smarried == true ? "1" : "0",
       "tglpost": tglpost,
       "statusloker": "aktif"
     });
@@ -547,19 +558,21 @@ class _TambahLokerState extends State<TambahLoker> {
       "gajiakhir": maxgajictr.text,
       "informasi": infoctr.text,
       "tugas": tugas,
-      "kprt": k_prt.toString(),
-      "kbabysitter": k_bs.toString(),
-      "kseniorcare": k_sc.toString(),
-      "ksupir": k_supir.toString(),
-      "kofficeboy": k_obog.toString(),
-      "ktukangkebun": k_tk.toString(),
-      "hewan": tthewan.toString(),
-      "masak": masak.toString(),
-      "mabukjalan": tmperj.toString(),
-      "sepedamotor": mspdmtr.toString(),
-      "mobil": mmobil.toString(),
-      "tkmenginap": menginap.toString(),
-      "tkwarnen": warnen.toString(),
+      "kprt": k_prt == true ? "1" : "0",
+      "kbabysitter": k_bs == true ? "1" : "0",
+      "kseniorcare": k_sc == true ? "1" : "0",
+      "ksupir": k_supir == true ? "1" : "0",
+      "kofficeboy": k_obog == true ? "1" : "0",
+      "ktukangkebun": k_tk == true ? "1" : "0",
+      "hewan": tthewan == true ? "1" : "0",
+      "masak": masak == true ? "1" : "0",
+      "mabukjalan": tmperj == true ? "1" : "0",
+      "sepedamotor": mspdmtr == true ? "1" : "0",
+      "mobil": mmobil == true ? "1" : "0",
+      "tkmenginap": menginap == true ? "1" : "0",
+      "tkwarnen": warnen == true ? "1" : "0",
+      "ssingle": ssingle == true ? "1" : "0",
+      "smarried": smarried == true ? "1" : "0",
       "tglpost": tglpost
     });
 
@@ -568,20 +581,27 @@ class _TambahLokerState extends State<TambahLoker> {
       globals.listLokerAktif[widget.index].gajiawal = mingajictr.text;
       globals.listLokerAktif[widget.index].gajiakhir = maxgajictr.text;
       globals.listLokerAktif[widget.index].informasi = infoctr.text;
-      globals.listLokerAktif[widget.index].kprt = k_prt.toString();
-      globals.listLokerAktif[widget.index].kbabysitter = k_bs.toString();
-      globals.listLokerAktif[widget.index].kseniorcare = k_sc.toString();
-      globals.listLokerAktif[widget.index].ksupir = k_supir.toString();
-      globals.listLokerAktif[widget.index].kofficeboy = k_obog.toString();
-      globals.listLokerAktif[widget.index].ktukangkebun = k_tk.toString();
-      globals.listLokerAktif[widget.index].hewan = tthewan.toString();
-      globals.listLokerAktif[widget.index].masak = masak.toString();
-      globals.listLokerAktif[widget.index].mabukjalan = tmperj.toString();
-      globals.listLokerAktif[widget.index].sepedamotor = mspdmtr.toString();
-      globals.listLokerAktif[widget.index].mobil = mmobil.toString();
-      globals.listLokerAktif[widget.index].tkmenginap = menginap.toString();
-      globals.listLokerAktif[widget.index].tkwarnen = warnen.toString();
+      globals.listLokerAktif[widget.index].kprt = k_prt == true ? 1 : 0;
+      globals.listLokerAktif[widget.index].kbabysitter = k_bs == true ? 1 : 0;
+      globals.listLokerAktif[widget.index].kseniorcare = k_sc == true ? 1 : 0;
+      globals.listLokerAktif[widget.index].ksupir = k_supir == true ? 1 : 0;
+      globals.listLokerAktif[widget.index].kofficeboy = k_obog == true ? 1 : 0;
+      globals.listLokerAktif[widget.index].ktukangkebun = k_tk == true ? 1 : 0;
+      globals.listLokerAktif[widget.index].hewan = tthewan == true ? 1 : 0;
+      globals.listLokerAktif[widget.index].masak = masak == true ? 1 : 0;
+      globals.listLokerAktif[widget.index].mabukjalan = tmperj == true ? 1 : 0;
+      globals.listLokerAktif[widget.index].sepedamotor =
+          mspdmtr == true ? 1 : 0;
+      globals.listLokerAktif[widget.index].mobil = mmobil == true ? 1 : 0;
+      globals.listLokerAktif[widget.index].tkmenginap =
+          menginap == true ? 1 : 0;
+      globals.listLokerAktif[widget.index].tkwarnen = warnen == true ? 1 : 0;
+      globals.listLokerAktif[widget.index].ssingle = ssingle == true ? 1 : 0;
+      globals.listLokerAktif[widget.index].smarried = smarried == true ? 1 : 0;
       globals.listLokerAktif[widget.index].tglpost = tglpost;
+
+      globals.kategori[widget.index] = kategori;
+      globals.kriteria[widget.index] = kriteria;
     });
 
     messagetoBack();
@@ -1747,6 +1767,74 @@ class _TambahLokerState extends State<TambahLoker> {
               ],
             ),
             const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      ssingle = !ssingle;
+                    });
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50.0),
+                        border: Border.all(
+                            color: ssingle == true
+                                ? Color(int.parse(globals.color_primary))
+                                : const Color.fromARGB(255, 138, 138, 138),
+                            width: ssingle == true ? 2 : 1)),
+                    child: Text(
+                      "Belum Menikah",
+                      style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                              fontSize: 14,
+                              fontWeight: ssingle == true
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                              color: ssingle == true
+                                  ? Color(int.parse(globals.color_primary))
+                                  : Colors.black)),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      smarried = !smarried;
+                    });
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50.0),
+                        border: Border.all(
+                            color: smarried == true
+                                ? Color(int.parse(globals.color_primary))
+                                : const Color.fromARGB(255, 138, 138, 138),
+                            width: smarried == true ? 2 : 1)),
+                    child: Text(
+                      "Sudah Menikah",
+                      style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                              fontSize: 14,
+                              fontWeight: smarried == true
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                              color: smarried == true
+                                  ? Color(int.parse(globals.color_primary))
+                                  : Colors.black)),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
               height: 40,
             ),
             Row(
@@ -1771,7 +1859,9 @@ class _TambahLokerState extends State<TambahLoker> {
                             mspdmtr == true ||
                             mmobil == true ||
                             menginap == true ||
-                            warnen == true) {
+                            warnen == true ||
+                            ssingle == true ||
+                            smarried == true) {
                           if (tgsprt1 == true ||
                               tgsprt2 == true ||
                               tgsprt3 == true ||

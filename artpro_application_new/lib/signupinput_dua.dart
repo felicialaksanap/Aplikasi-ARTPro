@@ -22,6 +22,7 @@ class _SignUpInputDState extends State<SignUpInputD> {
   bool l_spdmotor = false;
   bool l_mobil = false;
   bool l_masak = false;
+  String statuspernikahan = "";
 
   TextEditingController beratctr = TextEditingController();
   TextEditingController tinggictr = TextEditingController();
@@ -45,13 +46,14 @@ class _SignUpInputDState extends State<SignUpInputD> {
       tinggictr.text = globals.tinggi;
       pendidikanctr.text = globals.pendidikanterakhir;
       agama = globals.agama;
-      t_menginap = globals.tkmenginap == "false" ? false : true;
-      t_warnen = globals.tkwarnen == "false" ? false : true;
-      l_hewan = globals.hewan == "false" ? false : true;
-      l_mperj = globals.mabukJalan == "false" ? false : true;
-      l_spdmotor = globals.spdmotor == "false" ? false : true;
-      l_mobil = globals.mobil == "false" ? false : true;
-      l_masak = globals.masak == "false" ? false : true;
+      t_menginap = globals.tkmenginap == 0 ? false : true;
+      t_warnen = globals.tkwarnen == 0 ? false : true;
+      l_hewan = globals.hewan == 0 ? false : true;
+      l_mperj = globals.mabukJalan == 0 ? false : true;
+      l_spdmotor = globals.spdmotor == 0 ? false : true;
+      l_mobil = globals.mobil == 0 ? false : true;
+      l_masak = globals.masak == 0 ? false : true;
+      statuspernikahan = globals.ssingle == 1 ? "single" : "married";
     }
   }
 
@@ -61,13 +63,15 @@ class _SignUpInputDState extends State<SignUpInputD> {
       globals.tinggi = tinggictr.text;
       globals.pendidikanterakhir = pendidikanctr.text;
       globals.agama = agama;
-      globals.tkmenginap = t_menginap.toString();
-      globals.tkwarnen = t_warnen.toString();
-      globals.hewan = l_hewan.toString();
-      globals.mabukJalan = l_mperj.toString();
-      globals.spdmotor = l_spdmotor.toString();
-      globals.mobil = l_mobil.toString();
-      globals.masak = l_masak.toString();
+      globals.tkmenginap = t_menginap == true ? 1 : 0;
+      globals.tkwarnen = t_warnen == true ? 1 : 0;
+      globals.hewan = l_hewan == true ? 1 : 0;
+      globals.mabukJalan = l_mperj == true ? 1 : 0;
+      globals.spdmotor = l_spdmotor == true ? 1 : 0;
+      globals.mobil = l_mobil == true ? 1 : 0;
+      globals.masak = l_masak == true ? 1 : 0;
+      globals.ssingle = statuspernikahan == "single" ? 1 : 0;
+      globals.smarried = statuspernikahan == "married" ? 1 : 0;
     });
 
     if (widget.konten == "daftar") {
@@ -85,13 +89,15 @@ class _SignUpInputDState extends State<SignUpInputD> {
         "beratbadan": globals.berat,
         "tinggibadan": globals.tinggi,
         "agama": globals.agama,
-        "tkmenginap": globals.tkmenginap,
-        "tkwarnen": globals.tkwarnen,
-        "hewan": globals.hewan,
-        "mabukjalan": globals.mabukJalan,
-        "sepedamotor": globals.spdmotor,
-        "mobil": globals.mobil,
-        "masak": globals.masak
+        "tkmenginap": globals.tkmenginap.toString(),
+        "tkwarnen": globals.tkwarnen.toString(),
+        "hewan": globals.hewan.toString(),
+        "mabukjalan": globals.mabukJalan.toString(),
+        "sepedamotor": globals.spdmotor.toString(),
+        "mobil": globals.mobil.toString(),
+        "masak": globals.masak.toString(),
+        "ssingle": globals.ssingle.toString(),
+        "smarried": globals.smarried.toString()
       });
 
       messagetoBack();
@@ -475,13 +481,24 @@ class _SignUpInputDState extends State<SignUpInputD> {
             const SizedBox(
               height: 10,
             ),
-            Text(
-              'Keterangan Lain',
-              style: GoogleFonts.poppins(
-                  textStyle: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black)),
+            Row(
+              children: [
+                Text(
+                  'Kriteria',
+                  style: GoogleFonts.poppins(
+                      textStyle: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black)),
+                ),
+                Text(
+                  " *",
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          fontSize: 15,
+                          color: Color(int.parse(globals.color_secondary)))),
+                )
+              ],
             ),
             Text(
               '(bisa memilih lebih dari 1)',
@@ -579,6 +596,65 @@ class _SignUpInputDState extends State<SignUpInputD> {
               ],
             ),
             const SizedBox(
+              height: 10,
+            ),
+            Text("Status Pernikahan",
+                style: GoogleFonts.poppins(
+                    textStyle: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black))),
+            Text(
+              '(bisa memilih lebih dari 1)',
+              style: GoogleFonts.poppins(
+                  textStyle: const TextStyle(
+                color: Color.fromARGB(255, 22, 15, 41),
+                fontSize: 12,
+              )),
+            ),
+            Row(
+              children: <Widget>[
+                Row(
+                  children: [
+                    Radio(
+                        value: "single",
+                        groupValue: statuspernikahan,
+                        fillColor: MaterialStateColor.resolveWith((states) =>
+                            Color(int.parse(globals.color_primary))),
+                        onChanged: (value) {
+                          setState(() {
+                            statuspernikahan = value.toString();
+                          });
+                        }),
+                    Text(
+                      "Belum Menikah",
+                      style: GoogleFonts.poppins(
+                          textStyle: const TextStyle(fontSize: 15)),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Radio(
+                        value: "married",
+                        groupValue: statuspernikahan,
+                        fillColor: MaterialStateColor.resolveWith((states) =>
+                            Color(int.parse(globals.color_primary))),
+                        onChanged: (value) {
+                          setState(() {
+                            statuspernikahan = value.toString();
+                          });
+                        }),
+                    Text(
+                      "Sudah Menikah",
+                      style: GoogleFonts.poppins(
+                          textStyle: const TextStyle(fontSize: 15)),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(
               height: 30,
             ),
             Row(
@@ -593,9 +669,49 @@ class _SignUpInputDState extends State<SignUpInputD> {
                               tinggictr.text != "" &&
                               pendidikanctr.text != "" &&
                               agama != "" &&
+                              statuspernikahan != "" &&
                               t_menginap == true ||
                           t_warnen == true) {
-                        addToGlobal();
+                        if (l_hewan == true ||
+                            l_mperj == true ||
+                            l_masak == true ||
+                            l_spdmotor == true ||
+                            l_mobil == true) {
+                          addToGlobal();
+                        } else {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  content: Text(
+                                    'Silahkan mengisi bagian yang diberi tanda *',
+                                    style: GoogleFonts.poppins(
+                                        textStyle: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600)),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  actions: [
+                                    Center(
+                                      child: TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text(
+                                            "OK",
+                                            style: GoogleFonts.poppins(
+                                                textStyle: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Color(int.parse(
+                                                        globals
+                                                            .color_secondary)))),
+                                          )),
+                                    )
+                                  ],
+                                );
+                              });
+                        }
                       } else {
                         showDialog(
                             context: context,

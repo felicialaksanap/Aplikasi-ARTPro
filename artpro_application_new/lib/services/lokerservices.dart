@@ -10,21 +10,23 @@ class Loker {
   String gajiakhir;
   String informasi;
   String tugas; // string pakai '.'
-  String kprt;
-  String kbabysitter;
-  String kseniorcare;
-  String ksupir;
-  String kofficeboy;
-  String ktukangkebun;
-  String hewan;
-  String masak;
-  String mabukjalan;
-  String sepedamotor;
-  String mobil;
-  String tkmenginap;
-  String tkwarnen;
+  int kprt;
+  int kbabysitter;
+  int kseniorcare;
+  int ksupir;
+  int kofficeboy;
+  int ktukangkebun;
+  int hewan;
+  int masak;
+  int mabukjalan;
+  int sepedamotor;
+  int mobil;
+  int tkmenginap;
+  int tkwarnen;
+  int ssingle;
+  int smarried;
   String tglpost;
-  String statusloker;
+  int statusloker;
   String namalengkap;
   String jeniskelamin;
   String kecamatan;
@@ -52,6 +54,8 @@ class Loker {
       required this.mobil,
       required this.tkmenginap,
       required this.tkwarnen,
+      required this.ssingle,
+      required this.smarried,
       required this.tglpost,
       required this.statusloker,
       required this.namalengkap,
@@ -82,6 +86,8 @@ class Loker {
         mobil: object['mobil'],
         tkmenginap: object['tkmenginap'],
         tkwarnen: object['tkwarnen'],
+        ssingle: object['ssingle'],
+        smarried: object['smarried'],
         tglpost: object['tglpost'],
         statusloker: object['statusloker'],
         namalengkap: object['namalengkap'],

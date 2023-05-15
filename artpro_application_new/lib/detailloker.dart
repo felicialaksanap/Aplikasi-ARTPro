@@ -1,4 +1,6 @@
+import 'package:artpro_application_new/berandaart.dart';
 import 'package:artpro_application_new/listloker.dart';
+import 'package:artpro_application_new/mainberanda.dart';
 import 'package:artpro_application_new/tambahloker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,7 +9,8 @@ import './modeltemp/modeltemp.dart';
 
 class DetailLoker extends StatefulWidget {
   int index;
-  DetailLoker({super.key, required this.index});
+  String? pagefrom;
+  DetailLoker({super.key, required this.index, this.pagefrom});
 
   @override
   State<DetailLoker> createState() => _DetailLokerState();
@@ -36,8 +39,13 @@ class _DetailLokerState extends State<DetailLoker> {
               globals.listTugas.clear();
               globals.listKriteria.clear();
             });
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const ListLoker()));
+            if (widget.pagefrom == "berandaart") {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const MainBeranda()));
+            } else {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const ListLoker()));
+            }
           },
         ),
         actions: [

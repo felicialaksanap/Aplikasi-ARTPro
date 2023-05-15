@@ -16,10 +16,6 @@ class _ListARTState extends State<ListART> {
   bool inapSelect = false;
   bool warnenSelect = false;
   double curLokasiVal = 0.0;
-  bool lessOneYearSel = false;
-  bool oneYearSel = false;
-  bool twoYearSel = false;
-  bool moreThreeYearSel = false;
   bool islamSel = false;
   bool katolikSel = false;
   bool kristenSel = false;
@@ -349,112 +345,6 @@ class _ListARTState extends State<ListART> {
                           textStyle: const TextStyle(
                               fontSize: 15, fontWeight: FontWeight.bold)),
                     ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Row(
-                  children: [
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          lessOneYearSel = !lessOneYearSel;
-                        });
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50.0),
-                            border: Border.all(
-                                color: lessOneYearSel
-                                    ? Color(int.parse(globals.color_primary))
-                                    : const Color.fromARGB(255, 217, 217, 217),
-                                width: lessOneYearSel ? 2 : 1)),
-                        child: Text("<1 Tahun",
-                            style: GoogleFonts.poppins(
-                                textStyle: const TextStyle(fontSize: 14))),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          oneYearSel = !oneYearSel;
-                        });
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50.0),
-                            border: Border.all(
-                                color: oneYearSel
-                                    ? Color(int.parse(globals.color_primary))
-                                    : const Color.fromARGB(255, 217, 217, 217),
-                                width: oneYearSel ? 2 : 1)),
-                        child: Text("1 Tahun",
-                            style: GoogleFonts.poppins(
-                                textStyle: const TextStyle(fontSize: 14))),
-                      ),
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Row(
-                  children: [
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          twoYearSel = !twoYearSel;
-                        });
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50.0),
-                            border: Border.all(
-                                color: twoYearSel
-                                    ? Color(int.parse(globals.color_primary))
-                                    : const Color.fromARGB(255, 217, 217, 217),
-                                width: twoYearSel ? 2 : 1)),
-                        child: Text("2 Tahun",
-                            style: GoogleFonts.poppins(
-                                textStyle: const TextStyle(fontSize: 14))),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          moreThreeYearSel = !moreThreeYearSel;
-                        });
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50.0),
-                            border: Border.all(
-                                color: moreThreeYearSel
-                                    ? Color(int.parse(globals.color_primary))
-                                    : const Color.fromARGB(255, 217, 217, 217),
-                                width: moreThreeYearSel ? 2 : 1)),
-                        child: Text(">3 Tahun",
-                            style: GoogleFonts.poppins(
-                                textStyle: const TextStyle(fontSize: 14))),
-                      ),
-                    )
                   ],
                 ),
                 const SizedBox(
@@ -850,7 +740,9 @@ class _ListARTState extends State<ListART> {
                       width: MediaQuery.of(context).size.width / 3,
                       padding: const EdgeInsets.only(left: 10.0),
                       child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
                           style: ElevatedButton.styleFrom(
                               elevation: 0,
                               backgroundColor: Colors.white,

@@ -1,3 +1,4 @@
+import 'package:artpro_application_new/customize/custom_slider_thumb_circle.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'global.dart' as globals;
@@ -19,6 +20,7 @@ class _PenilaianState extends State<Penilaian> {
   double kebval = 0.0;
   double kecval = 0.0;
   double kerval = 0.0;
+  double average = 0.0;
 
   TextEditingController komenctr = TextEditingController();
 
@@ -27,6 +29,13 @@ class _PenilaianState extends State<Penilaian> {
     // TODO: implement dispose
     super.dispose();
     komenctr.dispose();
+  }
+
+  void calAverage() {
+    setState(() {
+      average = (estval + etval + kebval + kecval + kerval) / 5;
+      print("average: $average");
+    });
   }
 
   @override
@@ -41,7 +50,7 @@ class _PenilaianState extends State<Penilaian> {
             color: Color(int.parse(globals.color_primary)),
           ),
           onPressed: () {
-            Navigator.pop(context);
+            // Navigator.pop(context);
           },
         ),
         title: Text(
@@ -93,126 +102,6 @@ class _PenilaianState extends State<Penilaian> {
             const SizedBox(
               height: 20,
             ),
-            // Text(
-            //   "Nilai Keseluruhan",
-            //   style: GoogleFonts.poppins(
-            //       textStyle: const TextStyle(
-            //           fontSize: 15, fontWeight: FontWeight.w500)),
-            // ),
-            // const SizedBox(
-            //   height: 20,
-            // ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-            //   children: [
-            //     GestureDetector(
-            //       onTap: () {
-            //         setState(() {
-            //           if (pathsmilealt != "assets/icons/smile-alt-orange.png" &&
-            //               pathdis != "assets/icons/dis-orange.png") {
-            //             if (pathsmile == "assets/icons/smile-green.png") {
-            //               pathsmile = "assets/icons/smile-orange.png";
-            //             } else {
-            //               pathsmile = "assets/icons/smile-green.png";
-            //             }
-            //           }
-            //         });
-            //       },
-            //       child: Column(
-            //         children: [
-            //           Image.asset(
-            //             pathsmile,
-            //             width: 60,
-            //           ),
-            //           const SizedBox(
-            //             height: 10,
-            //           ),
-            //           Text(
-            //             "baik",
-            //             style: GoogleFonts.poppins(
-            //                 textStyle: const TextStyle(fontSize: 15)),
-            //           )
-            //         ],
-            //       ),
-            //     ),
-            //     GestureDetector(
-            //       onTap: () {
-            //         setState(() {
-            //           if (pathsmile != "assets/icons/smile-orange.png" &&
-            //               pathdis != "assets/icons/dis-orange.png") {
-            //             if (pathsmilealt ==
-            //                 "assets/icons/smile-alt-green.png") {
-            //               pathsmilealt = "assets/icons/smile-alt-orange.png";
-            //             } else {
-            //               pathsmilealt = "assets/icons/smile-alt-green.png";
-            //             }
-            //           }
-            //         });
-            //       },
-            //       child: Column(
-            //         children: [
-            //           Image.asset(
-            //             pathsmilealt,
-            //             width: 60,
-            //           ),
-            //           const SizedBox(
-            //             height: 10,
-            //           ),
-            //           Text(
-            //             "cukup",
-            //             style: GoogleFonts.poppins(
-            //                 textStyle: const TextStyle(fontSize: 15)),
-            //           )
-            //         ],
-            //       ),
-            //     ),
-            //     GestureDetector(
-            //       onTap: () {
-            //         setState(() {
-            //           if (pathsmile != "assets/icons/smile-orange.png" &&
-            //               pathsmilealt != "assets/icons/smile-alt-orange.png") {
-            //             if (pathdis == "assets/icons/dis-green.png") {
-            //               pathdis = "assets/icons/dis-orange.png";
-            //             } else {
-            //               pathdis = "assets/icons/dis-green.png";
-            //             }
-            //           }
-            //           // if (pathdis == "assets/icons/dis-green.png") {
-            //           //   pathdis = "assets/icons/dis-orange.png";
-            //           // } else {
-            //           //   pathdis = "assets/icons/dis-green.png";
-            //           // }
-            //         });
-            //       },
-            //       child: Column(
-            //         children: [
-            //           Image.asset(
-            //             pathdis,
-            //             width: 60,
-            //           ),
-            //           const SizedBox(
-            //             height: 10,
-            //           ),
-            //           Text(
-            //             "buruk",
-            //             style: GoogleFonts.poppins(
-            //                 textStyle: const TextStyle(fontSize: 15)),
-            //           )
-            //         ],
-            //       ),
-            //     ),
-            //   ],
-            // ),
-            // const SizedBox(
-            //   height: 20,
-            // ),
-            // Container(
-            //   height: 1,
-            //   color: const Color.fromARGB(255, 138, 138, 138),
-            // ),
-            // const SizedBox(
-            //   height: 20,
-            // ),
             Text(
               "Nilai per Indikator",
               style: GoogleFonts.poppins(
@@ -240,6 +129,24 @@ class _PenilaianState extends State<Penilaian> {
                 Expanded(
                   child: Column(
                     children: [
+                      // Padding(
+                      //   padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //     children: [
+                      //       Text(
+                      //         "1",
+                      //         style: GoogleFonts.poppins(
+                      //             textStyle: const TextStyle(fontSize: 15)),
+                      //       ),
+                      //       Text(
+                      //         "5",
+                      //         style: GoogleFonts.poppins(
+                      //             textStyle: const TextStyle(fontSize: 15)),
+                      //       )
+                      //     ],
+                      //   ),
+                      // ),
                       SliderTheme(
                         data: SliderTheme.of(context).copyWith(
                             valueIndicatorColor:
@@ -249,8 +156,8 @@ class _PenilaianState extends State<Penilaian> {
                                     const TextStyle(color: Colors.white))),
                         child: Slider(
                             value: estval,
-                            max: 10,
-                            divisions: 10,
+                            max: 5,
+                            divisions: 5,
                             activeColor:
                                 Color(int.parse(globals.color_primary)),
                             thumbColor: Color(int.parse(globals.color_primary)),
@@ -294,8 +201,8 @@ class _PenilaianState extends State<Penilaian> {
                                     const TextStyle(color: Colors.white))),
                         child: Slider(
                             value: etval,
-                            max: 10,
-                            divisions: 10,
+                            max: 5,
+                            divisions: 5,
                             activeColor:
                                 Color(int.parse(globals.color_primary)),
                             thumbColor: Color(int.parse(globals.color_primary)),
@@ -339,8 +246,8 @@ class _PenilaianState extends State<Penilaian> {
                                     const TextStyle(color: Colors.white))),
                         child: Slider(
                             value: kebval,
-                            max: 10,
-                            divisions: 10,
+                            max: 5,
+                            divisions: 5,
                             activeColor:
                                 Color(int.parse(globals.color_primary)),
                             thumbColor: Color(int.parse(globals.color_primary)),
@@ -384,8 +291,8 @@ class _PenilaianState extends State<Penilaian> {
                                     const TextStyle(color: Colors.white))),
                         child: Slider(
                             value: kecval,
-                            max: 10,
-                            divisions: 10,
+                            max: 5,
+                            divisions: 5,
                             activeColor:
                                 Color(int.parse(globals.color_primary)),
                             thumbColor: Color(int.parse(globals.color_primary)),
@@ -422,20 +329,32 @@ class _PenilaianState extends State<Penilaian> {
                     children: [
                       SliderTheme(
                         data: SliderTheme.of(context).copyWith(
-                            valueIndicatorColor:
-                                Color(int.parse(globals.color_secondary)),
-                            valueIndicatorTextStyle: GoogleFonts.poppins(
-                                textStyle:
-                                    const TextStyle(color: Colors.white))),
+                          activeTrackColor:
+                              Color(int.parse(globals.color_primary)),
+                          inactiveTrackColor: const Color(0x1A246A73),
+                          trackHeight: 4,
+                          // valueIndicatorColor:
+                          //     Color(int.parse(globals.color_secondary)),
+                          // valueIndicatorTextStyle: GoogleFonts.poppins(
+                          //     textStyle:
+                          //         const TextStyle(color: Colors.white)),
+                          thumbShape: const CustomSliderThumbCircle(
+                              thumbRadius: 48 * .3, min: 0, max: 5),
+                          thumbColor: Colors.white,
+                          overlayColor: const Color.fromARGB(50, 36, 106, 115),
+                          activeTickMarkColor:
+                              Color(int.parse(globals.color_primary)),
+                          inactiveTickMarkColor: Colors.red.withOpacity(.7),
+                        ),
                         child: Slider(
                             value: kerval,
-                            max: 10,
-                            divisions: 10,
-                            activeColor:
-                                Color(int.parse(globals.color_primary)),
-                            thumbColor: Color(int.parse(globals.color_primary)),
-                            inactiveColor: const Color(0x1A246A73),
-                            label: kerval.round().toString(),
+                            // max: 5,
+                            // divisions: 5,
+                            // activeColor:
+                            //     Color(int.parse(globals.color_primary)),
+                            // thumbColor: Color(int.parse(globals.color_primary)),
+                            // inactiveColor: const Color(0x1A246A73),
+                            // label: kerval.round().toString(),
                             onChanged: (value) {
                               setState(() {
                                 kerval = value;
@@ -504,7 +423,7 @@ class _PenilaianState extends State<Penilaian> {
                   height: 50,
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.pop(context);
+                      calAverage();
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor:

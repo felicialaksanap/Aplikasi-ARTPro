@@ -50,12 +50,12 @@ class _SignUpInputTState extends State<SignUpInputT> {
     super.initState();
 
     if (widget.konten == "edit") {
-      k_prt = globals.kprt == "false" ? false : true;
-      k_bs = globals.kbabysitter == "false" ? false : true;
-      k_sc = globals.kseniorcare == "false" ? false : true;
-      k_supir = globals.ksupir == "false" ? false : true;
-      k_obog = globals.kofficeboy == "false" ? false : true;
-      k_tk = globals.ktukangkebun == "false" ? false : true;
+      k_prt = globals.kprt == 0 ? false : true;
+      k_bs = globals.kbabysitter == 0 ? false : true;
+      k_sc = globals.kseniorcare == 0 ? false : true;
+      k_supir = globals.ksupir == 0 ? false : true;
+      k_obog = globals.kofficeboy == 0 ? false : true;
+      k_tk = globals.ktukangkebun == 0 ? false : true;
       expctr.text = globals.pengalaman;
       mingajictr.text = globals.gajiawal;
       maxgajictr.text = globals.gajiakhir;
@@ -83,12 +83,12 @@ class _SignUpInputTState extends State<SignUpInputT> {
 
   void addToGlobal() async {
     setState(() {
-      globals.kprt = k_prt.toString();
-      globals.kbabysitter = k_bs.toString();
-      globals.kseniorcare = k_sc.toString();
-      globals.ksupir = k_supir.toString();
-      globals.kofficeboy = k_obog.toString();
-      globals.ktukangkebun = k_tk.toString();
+      globals.kprt = k_prt == true ? 1 : 0;
+      globals.kbabysitter = k_bs == true ? 1 : 0;
+      globals.kseniorcare = k_sc == true ? 1 : 0;
+      globals.ksupir = k_supir == true ? 1 : 0;
+      globals.kofficeboy = k_obog == true ? 1 : 0;
+      globals.ktukangkebun = k_tk == true ? 1 : 0;
       globals.pengalaman = expctr.text;
       globals.gajiawal = mingajictr.text;
       globals.gajiakhir = maxgajictr.text;
@@ -101,12 +101,12 @@ class _SignUpInputTState extends State<SignUpInputT> {
       var url = "${globals.urlapi}edituserdetailkerjaart";
       var response = await http.put(Uri.parse(url), body: {
         "iduser": globals.iduser,
-        "kprt": globals.kprt,
-        "kbabysitter": globals.kbabysitter,
-        "kseniorcare": globals.kseniorcare,
-        "ksupir": globals.ksupir,
-        "kofficeboy": globals.kofficeboy,
-        "ktukangkebun": globals.ktukangkebun,
+        "kprt": globals.kprt.toString(),
+        "kbabysitter": globals.kbabysitter.toString(),
+        "kseniorcare": globals.kseniorcare.toString(),
+        "ksupir": globals.ksupir.toString(),
+        "kofficeboy": globals.kofficeboy.toString(),
+        "ktukangkebun": globals.ktukangkebun.toString(),
         "pengalaman": globals.pengalaman,
         "gajiawal": globals.gajiawal,
         "gajiakhir": globals.gajiakhir
