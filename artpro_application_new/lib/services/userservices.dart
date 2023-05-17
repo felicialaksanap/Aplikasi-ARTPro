@@ -272,3 +272,33 @@ class DetailKerjaART {
     }
   }
 }
+
+class Rating {
+  int idart;
+  String rating;
+
+  Rating({required this.idart, required this.rating});
+
+  factory Rating.createData(Map<String, dynamic> object) {
+    return Rating(idart: object['idart'], rating: object['rating'].toString());
+  }
+
+  static Future<List<Rating>> getData(String idart) async {
+    var url = "${globals.urlapi}getratingart?idart=${int.parse(idart)}";
+    var apiResult = await http.get(Uri.parse(url), headers: {
+      "Accept": "application/json",
+      "Access-Control-Allow-Origin": "*"
+    });
+    var jsonObject = json.decode(apiResult.body);
+    var data = (jsonObject as Map<String, dynamic>)['data'];
+    List<Rating> listData = [];
+    if (data.toString() == "null") {
+      return listData;
+    } else {
+      for (int i = 0; i < data.length; i++) {
+        listData.add(Rating.createData(data[i]));
+      }
+      return listData;
+    }
+  }
+}

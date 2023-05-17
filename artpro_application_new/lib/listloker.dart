@@ -42,7 +42,6 @@ class _ListLokerState extends State<ListLoker> {
   String kategori = "";
   String kriteria = "";
 
-  TextEditingController alasanctr = TextEditingController();
   DateTime date = DateTime.now();
   String tglmodif = "";
 
@@ -56,6 +55,8 @@ class _ListLokerState extends State<ListLoker> {
         setState(() {
           globals.listLokerAktif.clear();
           globals.listLokerTidakAktif.clear();
+          globals.kategori.clear();
+          globals.kriteria.clear();
 
           for (int i = 0; i < value.length; i++) {
             if (value[i].statusloker == 1) {
@@ -127,118 +128,92 @@ class _ListLokerState extends State<ListLoker> {
     }
   }
 
-  Future<void> addLokerDetail(int index) async {
-    var url = "${globals.urlapi}addlokerdetail";
-    var response = await http.post(Uri.parse(url), body: {
-      "idloker": globals.listLokerAktif[index].idloker,
-      "iduser": globals.listLokerAktif[index].iduser,
-      "judulloker": globals.listLokerAktif[index].judulloker,
-      "gajiawal": globals.listLokerAktif[index].gajiawal,
-      "gajiakhir": globals.listLokerAktif[index].gajiakhir,
-      "informasi": globals.listLokerAktif[index].informasi,
-      "tugas": globals.listLokerAktif[index].tugas,
-      "kprt": globals.listLokerAktif[index].kprt,
-      "kbabysitter": globals.listLokerAktif[index].kbabysitter,
-      "kseniorcare": globals.listLokerAktif[index].kseniorcare,
-      "ksupir": globals.listLokerAktif[index].ksupir,
-      "kofficeboy": globals.listLokerAktif[index].kofficeboy,
-      "ktukangkebun": globals.listLokerAktif[index].ktukangkebun,
-      "hewan": globals.listLokerAktif[index].hewan,
-      "masak": globals.listLokerAktif[index].masak,
-      "mabukjalan": globals.listLokerAktif[index].mabukjalan,
-      "sepedamotor": globals.listLokerAktif[index].sepedamotor,
-      "mobil": globals.listLokerAktif[index].mobil,
-      "tkmenginap": globals.listLokerAktif[index].tkmenginap,
-      "tkwarnen": globals.listLokerAktif[index].tkwarnen,
-      "tglpost": globals.listLokerAktif[index].tglpost,
-      "statusloker": "tidak aktif",
-      "alasan": alasanctr.text
-    });
-    if (response.statusCode == 200) {
-      var url2 =
-          "${globals.urlapi}editstatusloker?idloker=${int.parse(globals.listLokerAktif[index].idloker)}";
-      var response2 = await http.put(Uri.parse(url2),
-          body: {"statusloker": "tidak aktif", "tglpost": tglmodif});
+  Future<void> updateStatusLoker(int index) async {
+    var url =
+        "${globals.urlapi}editstatusloker?idloker=${int.parse(globals.listLokerAktif[index].idloker)}";
+    var response2 = await http
+        .put(Uri.parse(url), body: {"statusloker": "0", "tglpost": tglmodif});
 
-      if (response2.statusCode == 200) {
-        setState(() {
-          if (globals.status_user == "majikan") {
-            Loker.getDataLokerperUser(globals.iduser).then((value) {
-              setState(() {
-                globals.listLokerAktif.clear();
-                globals.listLokerTidakAktif.clear();
+    if (response2.statusCode == 200) {
+      setState(() {
+        if (globals.status_user == "majikan") {
+          Loker.getDataLokerperUser(globals.iduser).then((value) {
+            setState(() {
+              globals.listLokerAktif.clear();
+              globals.listLokerTidakAktif.clear();
+              globals.kategori.clear();
+              globals.kriteria.clear();
 
-                for (int i = 0; i < value.length; i++) {
-                  if (value[i].statusloker == 1) {
-                    globals.listLokerAktif.add(value[i]);
-                  } else {
-                    globals.listLokerTidakAktif.add(value[i]);
-                  }
+              for (int i = 0; i < value.length; i++) {
+                if (value[i].statusloker == 1) {
+                  globals.listLokerAktif.add(value[i]);
+                } else {
+                  globals.listLokerTidakAktif.add(value[i]);
                 }
+              }
 
-                // arrange data in list loker aktif
-                for (int i = 0; i < globals.listLokerAktif.length; i++) {
-                  // arrange kategori to string
-                  if (globals.listLokerAktif[i].kprt == 1) {
-                    kategori = kategori + "Pembantu, ";
-                  }
-                  if (globals.listLokerAktif[i].kbabysitter == 1) {
-                    kategori = kategori + "Babysitter, ";
-                  }
-                  if (globals.listLokerAktif[i].kseniorcare == 1) {
-                    kategori = kategori + "Pendamping Lansia, ";
-                  }
-                  if (globals.listLokerAktif[i].ksupir == 1) {
-                    kategori = kategori + "Supir, ";
-                  }
-                  if (globals.listLokerAktif[i].kofficeboy == 1) {
-                    kategori = kategori + "Office Boy / Girl, ";
-                  }
-                  if (globals.listLokerAktif[i].ktukangkebun == 1) {
-                    kategori = kategori + "Tukang Kebun, ";
-                  }
-                  kategori = kategori.substring(0, kategori.length - 2);
-                  globals.kategori.add(kategori);
-                  kategori = "";
-
-                  // arrange kriteria to string
-                  if (globals.listLokerAktif[i].hewan == 1) {
-                    kriteria = kriteria + "Tidak takut hewan, ";
-                  }
-                  if (globals.listLokerAktif[i].masak == 1) {
-                    kriteria = kriteria + "Memasak, ";
-                  }
-                  if (globals.listLokerAktif[i].mabukjalan == 1) {
-                    kriteria = kriteria + "Tidak mabuk perjalanan, ";
-                  }
-                  if (globals.listLokerAktif[i].sepedamotor == 1) {
-                    kriteria = kriteria + "Menyetir sepeda motor, ";
-                  }
-                  if (globals.listLokerAktif[i].mobil == 1) {
-                    kriteria = kriteria + "Menyetir mobil, ";
-                  }
-                  if (globals.listLokerAktif[i].tkmenginap == 1) {
-                    kriteria = kriteria + "Menginap, ";
-                  }
-                  if (globals.listLokerAktif[i].tkwarnen == 1) {
-                    kriteria = kriteria + "Warnen, ";
-                  }
-                  if (globals.listLokerAktif[i].ssingle == 1) {
-                    kriteria = kriteria + "Belum menikah, ";
-                  }
-                  if (globals.listLokerAktif[i].smarried == 1) {
-                    kriteria = kriteria + "Sudah menikah, ";
-                  }
-                  kriteria = kriteria.substring(0, kriteria.length - 2);
-                  globals.kriteria.add(kriteria);
-                  kriteria = "";
+              // arrange data in list loker aktif
+              for (int i = 0; i < globals.listLokerAktif.length; i++) {
+                // arrange kategori to string
+                if (globals.listLokerAktif[i].kprt == 1) {
+                  kategori = kategori + "Pembantu, ";
                 }
-              });
+                if (globals.listLokerAktif[i].kbabysitter == 1) {
+                  kategori = kategori + "Babysitter, ";
+                }
+                if (globals.listLokerAktif[i].kseniorcare == 1) {
+                  kategori = kategori + "Pendamping Lansia, ";
+                }
+                if (globals.listLokerAktif[i].ksupir == 1) {
+                  kategori = kategori + "Supir, ";
+                }
+                if (globals.listLokerAktif[i].kofficeboy == 1) {
+                  kategori = kategori + "Office Boy / Girl, ";
+                }
+                if (globals.listLokerAktif[i].ktukangkebun == 1) {
+                  kategori = kategori + "Tukang Kebun, ";
+                }
+                kategori = kategori.substring(0, kategori.length - 2);
+                globals.kategori.add(kategori);
+                kategori = "";
+
+                // arrange kriteria to string
+                if (globals.listLokerAktif[i].hewan == 1) {
+                  kriteria = kriteria + "Tidak takut hewan, ";
+                }
+                if (globals.listLokerAktif[i].masak == 1) {
+                  kriteria = kriteria + "Memasak, ";
+                }
+                if (globals.listLokerAktif[i].mabukjalan == 1) {
+                  kriteria = kriteria + "Tidak mabuk perjalanan, ";
+                }
+                if (globals.listLokerAktif[i].sepedamotor == 1) {
+                  kriteria = kriteria + "Menyetir sepeda motor, ";
+                }
+                if (globals.listLokerAktif[i].mobil == 1) {
+                  kriteria = kriteria + "Menyetir mobil, ";
+                }
+                if (globals.listLokerAktif[i].tkmenginap == 1) {
+                  kriteria = kriteria + "Menginap, ";
+                }
+                if (globals.listLokerAktif[i].tkwarnen == 1) {
+                  kriteria = kriteria + "Warnen, ";
+                }
+                if (globals.listLokerAktif[i].ssingle == 1) {
+                  kriteria = kriteria + "Belum menikah, ";
+                }
+                if (globals.listLokerAktif[i].smarried == 1) {
+                  kriteria = kriteria + "Sudah menikah, ";
+                }
+                kriteria = kriteria.substring(0, kriteria.length - 2);
+                globals.kriteria.add(kriteria);
+                kriteria = "";
+              }
             });
-          }
-        });
-        Navigator.pop(context);
-      }
+          });
+        }
+      });
+      Navigator.pop(context);
     }
   }
 
@@ -1174,7 +1149,7 @@ class _ListLokerState extends State<ListLoker> {
                                                       ),
                                                       IconButton(
                                                         icon: Icon(
-                                                          Icons.delete,
+                                                          Icons.do_disturb,
                                                           color: Color(
                                                               int.parse(globals
                                                                   .color_secondary)),
@@ -1194,76 +1169,47 @@ class _ListLokerState extends State<ListLoker> {
                                                                       Expanded(
                                                                         child:
                                                                             Text(
-                                                                          "Berikan alasan menyelesaikan lowongan kerja ini?",
+                                                                          "Apakah anda yakin ingin menonaktifkan\n lowongan kerja ini?",
                                                                           style:
                                                                               GoogleFonts.poppins(textStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
-                                                                        ),
-                                                                      ),
-                                                                      IconButton(
-                                                                        onPressed:
-                                                                            () {
-                                                                          Navigator.pop(
-                                                                              context);
-                                                                        },
-                                                                        icon:
-                                                                            Icon(
-                                                                          Icons
-                                                                              .cancel_outlined,
-                                                                          color:
-                                                                              Color(int.parse(globals.color_secondary)),
+                                                                          textAlign:
+                                                                              TextAlign.center,
                                                                         ),
                                                                       ),
                                                                     ],
                                                                   ),
-                                                                  content:
-                                                                      Container(
-                                                                    child:
-                                                                        TextField(
-                                                                      controller:
-                                                                          alasanctr,
-                                                                      cursorColor:
-                                                                          Color(
-                                                                              int.parse(globals.color_primary)),
-                                                                      style: GoogleFonts.poppins(
-                                                                          textStyle: const TextStyle(
-                                                                              fontSize: 15,
-                                                                              color: Colors.black)),
-                                                                      decoration: const InputDecoration(
-                                                                          enabledBorder: OutlineInputBorder(
-                                                                            borderSide:
-                                                                                BorderSide(color: Color.fromARGB(255, 138, 138, 138), width: 1.0),
-                                                                          ),
-                                                                          focusedBorder: OutlineInputBorder(
-                                                                            borderSide:
-                                                                                BorderSide(color: Color.fromARGB(255, 138, 138, 138), width: 1.0),
-                                                                          ),
-                                                                          hintText: "alasan ...",
-                                                                          contentPadding: EdgeInsets.fromLTRB(8, 4, 8, 4)),
-                                                                      maxLines:
-                                                                          5,
-                                                                    ),
-                                                                  ),
                                                                   actions: [
-                                                                    Center(
-                                                                      child:
-                                                                          TextButton(
-                                                                        onPressed:
-                                                                            () {
-                                                                          setState(
-                                                                              () {
-                                                                            tglmodif =
-                                                                                DateFormat('dd-MM-yyyy').format(date);
-                                                                          });
-                                                                          addLokerDetail(
-                                                                              index);
-                                                                        },
-                                                                        child:
-                                                                            Text(
-                                                                          "Hapus Lowongan Kerja",
-                                                                          style:
-                                                                              GoogleFonts.poppins(textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(int.parse(globals.color_secondary)))),
-                                                                        ),
-                                                                      ),
+                                                                    Row(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .spaceEvenly,
+                                                                      children: [
+                                                                        ElevatedButton(
+                                                                            onPressed:
+                                                                                () {
+                                                                              Navigator.pop(context);
+                                                                            },
+                                                                            style:
+                                                                                ElevatedButton.styleFrom(backgroundColor: Color(int.parse(globals.color_primary)), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+                                                                            child: Text(
+                                                                              "Batal",
+                                                                              style: GoogleFonts.poppins(textStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
+                                                                            )),
+                                                                        ElevatedButton(
+                                                                            onPressed:
+                                                                                () {
+                                                                              setState(() {
+                                                                                tglmodif = DateFormat('dd-MM-yyyy').format(date);
+                                                                              });
+                                                                              updateStatusLoker(index);
+                                                                            },
+                                                                            style:
+                                                                                ElevatedButton.styleFrom(backgroundColor: Color(int.parse(globals.color_secondary)), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+                                                                            child: Text(
+                                                                              "Ya",
+                                                                              style: GoogleFonts.poppins(textStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
+                                                                            ))
+                                                                      ],
                                                                     )
                                                                   ],
                                                                 );

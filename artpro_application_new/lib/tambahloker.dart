@@ -530,7 +530,7 @@ class _TambahLokerState extends State<TambahLoker> {
       "ssingle": ssingle == true ? "1" : "0",
       "smarried": smarried == true ? "1" : "0",
       "tglpost": tglpost,
-      "statusloker": "aktif"
+      "statusloker": "1"
     });
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);

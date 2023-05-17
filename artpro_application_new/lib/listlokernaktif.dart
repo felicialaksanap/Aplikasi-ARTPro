@@ -20,8 +20,6 @@ class _LokerTidakAktifState extends State<LokerTidakAktif> {
   DateTime date = DateTime.now();
   String tglpost = "";
 
-  TextEditingController alasanctr = TextEditingController();
-
   @override
   void initState() {
     // TODO: implement initState
@@ -88,50 +86,19 @@ class _LokerTidakAktifState extends State<LokerTidakAktif> {
     tglpost = DateFormat('dd-MM-yyyy').format(date);
   }
 
-  void updatenAddToDetail(int index) async {
-    var url = "${globals.urlapi}addlokerdetail";
-    var response = await http.post(Uri.parse(url), body: {
-      "idloker": globals.listLokerTidakAktif[index].idloker,
-      "iduser": globals.listLokerTidakAktif[index].iduser,
-      "judulloker": globals.listLokerTidakAktif[index].judulloker,
-      "gajiawal": globals.listLokerTidakAktif[index].gajiawal,
-      "gajiakhir": globals.listLokerTidakAktif[index].gajiakhir,
-      "informasi": globals.listLokerTidakAktif[index].informasi,
-      "tugas": globals.listLokerTidakAktif[index].tugas,
-      "kprt": globals.listLokerTidakAktif[index].kprt.toString(),
-      "kbabysitter": globals.listLokerTidakAktif[index].kbabysitter.toString(),
-      "kseniorcare": globals.listLokerTidakAktif[index].kseniorcare.toString(),
-      "ksupir": globals.listLokerTidakAktif[index].ksupir.toString(),
-      "kofficeboy": globals.listLokerTidakAktif[index].kofficeboy.toString(),
-      "ktukangkebun":
-          globals.listLokerTidakAktif[index].ktukangkebun.toString(),
-      "hewan": globals.listLokerTidakAktif[index].hewan.toString(),
-      "masak": globals.listLokerTidakAktif[index].masak.toString(),
-      "mabukjalan": globals.listLokerTidakAktif[index].mabukjalan.toString(),
-      "sepedamotor": globals.listLokerTidakAktif[index].sepedamotor.toString(),
-      "mobil": globals.listLokerTidakAktif[index].mobil.toString(),
-      "tkmenginap": globals.listLokerTidakAktif[index].tkmenginap.toString(),
-      "tkwarnen": globals.listLokerTidakAktif[index].tkwarnen.toString(),
-      "ssingle": globals.listLokerTidakAktif[index].ssingle.toString(),
-      "smarried": globals.listLokerTidakAktif[index].smarried.toString(),
-      "tglpost": globals.listLokerTidakAktif[index].tglpost,
-      "statusloker": "1",
-      "alasan": alasanctr.text
-    });
-    if (response.statusCode == 200) {
-      var url2 =
-          "${globals.urlapi}editstatusloker?idloker=${int.parse(globals.listLokerTidakAktif[index].idloker)}";
-      var response2 = await http
-          .put(Uri.parse(url2), body: {"statusloker": "1", "tglpost": tglpost});
+  void updateStatusLoker(int index) async {
+    var url =
+        "${globals.urlapi}editstatusloker?idloker=${int.parse(globals.listLokerTidakAktif[index].idloker)}";
+    var response2 = await http
+        .put(Uri.parse(url), body: {"statusloker": "1", "tglpost": tglpost});
 
-      if (response2.statusCode == 200) {
-        setState(() {
-          globals.listLokerTidakAktif.removeAt(index);
-          globals.kategorina.removeAt(index);
-          globals.kriteriana.removeAt(index);
-        });
-        Navigator.pop(context);
-      }
+    if (response2.statusCode == 200) {
+      setState(() {
+        globals.listLokerTidakAktif.removeAt(index);
+        globals.kategorina.removeAt(index);
+        globals.kriteriana.removeAt(index);
+      });
+      Navigator.pop(context);
     }
   }
 
@@ -252,54 +219,6 @@ class _LokerTidakAktifState extends State<LokerTidakAktif> {
                                                                         FontWeight
                                                                             .w500)),
                                                           ),
-                                                          content: Container(
-                                                            child: TextField(
-                                                              controller:
-                                                                  alasanctr,
-                                                              cursorColor: Color(
-                                                                  int.parse(globals
-                                                                      .color_primary)),
-                                                              style: GoogleFonts.poppins(
-                                                                  textStyle: const TextStyle(
-                                                                      fontSize:
-                                                                          15,
-                                                                      color: Colors
-                                                                          .black)),
-                                                              decoration:
-                                                                  const InputDecoration(
-                                                                      enabledBorder:
-                                                                          OutlineInputBorder(
-                                                                        borderSide: BorderSide(
-                                                                            color: Color.fromARGB(
-                                                                                255,
-                                                                                138,
-                                                                                138,
-                                                                                138),
-                                                                            width:
-                                                                                1.0),
-                                                                      ),
-                                                                      focusedBorder:
-                                                                          OutlineInputBorder(
-                                                                        borderSide: BorderSide(
-                                                                            color: Color.fromARGB(
-                                                                                255,
-                                                                                138,
-                                                                                138,
-                                                                                138),
-                                                                            width:
-                                                                                1.0),
-                                                                      ),
-                                                                      hintText:
-                                                                          "alasan ...",
-                                                                      contentPadding:
-                                                                          EdgeInsets.fromLTRB(
-                                                                              8,
-                                                                              4,
-                                                                              8,
-                                                                              4)),
-                                                              maxLines: 5,
-                                                            ),
-                                                          ),
                                                           actions: [
                                                             Row(
                                                               mainAxisAlignment:
@@ -318,16 +237,15 @@ class _LokerTidakAktifState extends State<LokerTidakAktif> {
                                                                               .color_primary)),
                                                                       shape: RoundedRectangleBorder(
                                                                           borderRadius:
-                                                                              BorderRadius.circular(20))),
+                                                                              BorderRadius.circular(10))),
                                                                   child: Text(
                                                                     "Batal",
-                                                                    style: GoogleFonts
-                                                                        .poppins(
-                                                                            textStyle:
-                                                                                const TextStyle(
-                                                                      fontSize:
-                                                                          15,
-                                                                    )),
+                                                                    style: GoogleFonts.poppins(
+                                                                        textStyle: const TextStyle(
+                                                                            fontSize:
+                                                                                15,
+                                                                            fontWeight:
+                                                                                FontWeight.w500)),
                                                                   ),
                                                                 ),
                                                                 const SizedBox(
@@ -336,12 +254,8 @@ class _LokerTidakAktifState extends State<LokerTidakAktif> {
                                                                 ElevatedButton(
                                                                   onPressed:
                                                                       () {
-                                                                    if (alasanctr
-                                                                            .text !=
-                                                                        "") {
-                                                                      updatenAddToDetail(
-                                                                          index);
-                                                                    }
+                                                                    updateStatusLoker(
+                                                                        index);
                                                                   },
                                                                   style: ElevatedButton.styleFrom(
                                                                       backgroundColor:
@@ -349,16 +263,15 @@ class _LokerTidakAktifState extends State<LokerTidakAktif> {
                                                                               .color_secondary)),
                                                                       shape: RoundedRectangleBorder(
                                                                           borderRadius:
-                                                                              BorderRadius.circular(20))),
+                                                                              BorderRadius.circular(10))),
                                                                   child: Text(
-                                                                    "Buka Lowongan",
-                                                                    style: GoogleFonts
-                                                                        .poppins(
-                                                                            textStyle:
-                                                                                const TextStyle(
-                                                                      fontSize:
-                                                                          15,
-                                                                    )),
+                                                                    "Aktifkan",
+                                                                    style: GoogleFonts.poppins(
+                                                                        textStyle: const TextStyle(
+                                                                            fontSize:
+                                                                                15,
+                                                                            fontWeight:
+                                                                                FontWeight.w500)),
                                                                   ),
                                                                 )
                                                               ],
@@ -368,7 +281,8 @@ class _LokerTidakAktifState extends State<LokerTidakAktif> {
                                                       });
                                                 },
                                                 icon: Icon(
-                                                  Icons.delete,
+                                                  Icons
+                                                      .power_settings_new_rounded,
                                                   color: Color(int.parse(
                                                       globals.color_secondary)),
                                                 ))
