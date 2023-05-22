@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:artpro_application_new/detailloker.dart';
 import 'package:artpro_application_new/listloker.dart';
 import 'package:artpro_application_new/services/lokerservices.dart';
@@ -471,7 +470,7 @@ class _TambahLokerState extends State<TambahLoker> {
         globals.listKriteria.add("Belum menikah");
       }
       if (smarried == true) {
-        kriteria = kriteria + "Sudah menikah, ";
+        kriteria = kriteria + "Sudah menikah,  ";
         globals.listKriteria.add("Sudah menikah");
       }
       kriteria = kriteria.substring(0, kriteria.length - 2);
@@ -532,18 +531,18 @@ class _TambahLokerState extends State<TambahLoker> {
       "tglpost": tglpost,
       "statusloker": "1"
     });
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      var lastId = data['data']['getIdLast'];
+    // if (response.statusCode == 200) {
+    //   final data = jsonDecode(response.body);
+    //   var lastId = data['data']['getIdLast'];
 
-      Loker.getDataLokerperIdLoker(lastId.toString()).then((value) {
-        setState(() {
-          globals.listLokerAktif.add(value[0]);
-          globals.kategori.add(kategori);
-          globals.kriteria.add(kriteria);
-        });
-      });
-    }
+    //   Loker.getDataLokerperIdLoker(lastId.toString()).then((value) {
+    //     setState(() {
+    //       globals.listLokerAktif.add(value[0]);
+    //       globals.kategori.add(kategori);
+    //       globals.kriteria.add(kriteria);
+    //     });
+    //   });
+    // }
     messagetoBack();
   }
 

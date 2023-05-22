@@ -273,30 +273,205 @@ class DetailKerjaART {
   }
 }
 
-class Rating {
-  int idart;
-  String rating;
+class DataARTbyKategori {
+  int idart = 0;
+  String namalengkap = "";
+  String jeniskelamin = "";
+  String tempatlahir = "";
+  String tanggallahir = "";
+  String telephone = "";
+  String profpicpath = "";
+  String pendidikan = "";
+  int beratbadan = 0;
+  int tinggibadan = 0;
+  String agama = "";
+  double jarak = 0.0;
+  int tkmenginap = 0;
+  int tkwarnen = 0;
+  int hewan = 0;
+  int mabukjalan = 0;
+  int sepedamotor = 0;
+  int mobil = 0;
+  int masak = 0;
+  int ssingle = 0;
+  int smarried = 0;
+  int kprt = 0;
+  int kbabysitter = 0;
+  int kseniorcare = 0;
+  int ksupir = 0;
+  int kofficeboy = 0;
+  int ktukangkebun = 0;
+  String pengalaman = "";
+  String gajiawal = "";
+  String gajiakhir = "";
+  double rating = 0.0;
 
-  Rating({required this.idart, required this.rating});
+  DataARTbyKategori({
+    required this.idart,
+    required this.namalengkap,
+    required this.jeniskelamin,
+    required this.tempatlahir,
+    required this.tanggallahir,
+    required this.telephone,
+    required this.profpicpath,
+    required this.pendidikan,
+    required this.beratbadan,
+    required this.tinggibadan,
+    required this.agama,
+    required this.jarak,
+    required this.tkmenginap,
+    required this.tkwarnen,
+    required this.hewan,
+    required this.mabukjalan,
+    required this.sepedamotor,
+    required this.mobil,
+    required this.masak,
+    required this.ssingle,
+    required this.smarried,
+    required this.kprt,
+    required this.kbabysitter,
+    required this.kseniorcare,
+    required this.ksupir,
+    required this.kofficeboy,
+    required this.ktukangkebun,
+    required this.pengalaman,
+    required this.gajiawal,
+    required this.gajiakhir,
+    required this.rating,
+  });
 
-  factory Rating.createData(Map<String, dynamic> object) {
-    return Rating(idart: object['idart'], rating: object['rating'].toString());
+  factory DataARTbyKategori.createData(Map<String, dynamic> object) {
+    return DataARTbyKategori(
+        idart: object['idart'],
+        namalengkap: object['namalengkap'],
+        jeniskelamin: object['jeniskelamin'],
+        tempatlahir: object['tempatlahir'],
+        tanggallahir: object['tanggallahir'],
+        telephone: object['telephone'],
+        profpicpath: object['profpicpath'],
+        pendidikan: object['pendidikan'],
+        beratbadan: object['beratbadan'],
+        tinggibadan: object['tinggibadan'],
+        agama: object['agama'],
+        jarak: 0.0,
+        tkmenginap: object['tkmenginap'],
+        tkwarnen: object['tkwarnen'],
+        hewan: object['hewan'],
+        mabukjalan: object['mabukjalan'],
+        sepedamotor: object['sepedamotor'],
+        mobil: object['mobil'],
+        masak: object['masak'],
+        ssingle: object['ssingle'],
+        smarried: object['smarried'],
+        kprt: object['kprt'],
+        kbabysitter: object['kbabysitter'],
+        kseniorcare: object['kseniorcare'],
+        ksupir: object['ksupir'],
+        kofficeboy: object['kofficeboy'],
+        ktukangkebun: object['ktukangkebun'],
+        pengalaman: object['pengalaman'],
+        gajiawal: object['gajiawal'],
+        gajiakhir: object['gajiakhir'],
+        rating: double.parse(object['rating'].toString()));
   }
 
-  static Future<List<Rating>> getData(String idart) async {
-    var url = "${globals.urlapi}getratingart?idart=${int.parse(idart)}";
+  static Future<List<DataARTbyKategori>> getData(String kategori) async {
+    var url = "${globals.urlapi}dataartbykategori?kategori=$kategori";
     var apiResult = await http.get(Uri.parse(url), headers: {
       "Accept": "application/json",
       "Access-Control-Allow-Origin": "*"
     });
     var jsonObject = json.decode(apiResult.body);
     var data = (jsonObject as Map<String, dynamic>)['data'];
-    List<Rating> listData = [];
+    List<DataARTbyKategori> listData = [];
     if (data.toString() == "null") {
       return listData;
     } else {
       for (int i = 0; i < data.length; i++) {
-        listData.add(Rating.createData(data[i]));
+        listData.add(DataARTbyKategori.createData(data[i]));
+      }
+      return listData;
+    }
+  }
+}
+
+class RataPenilaian {
+  double estetika = 0.0;
+  double etika = 0.0;
+  double kebersihan = 0.0;
+  double kerapian = 0.0;
+  double kecepatan = 0.0;
+
+  RataPenilaian(
+      {required this.estetika,
+      required this.etika,
+      required this.kebersihan,
+      required this.kerapian,
+      required this.kecepatan});
+
+  factory RataPenilaian.createData(Map<String, dynamic> object) {
+    return RataPenilaian(
+        estetika: double.parse(object['estetika'].toString()),
+        etika: double.parse(object['etika'].toString()),
+        kebersihan: double.parse(object['kebersihan'].toString()),
+        kerapian: double.parse(object['kerapian'].toString()),
+        kecepatan: double.parse(object['kecepatan'].toString()));
+  }
+
+  static Future<List<RataPenilaian>> getData(String idart) async {
+    var url = "${globals.urlapi}dataratapenilaian?idart=${int.parse(idart)}";
+    var apiResult = await http.get(Uri.parse(url), headers: {
+      "Accept": "application/json",
+      "Access-Control-Allow-Origin": "*"
+    });
+    var jsonObject = json.decode(apiResult.body);
+    var data = (jsonObject as Map<String, dynamic>)['data'];
+    List<RataPenilaian> listData = [];
+    if (data.toString() == "null") {
+      return listData;
+    } else {
+      for (int i = 0; i < data.length; i++) {
+        listData.add(RataPenilaian.createData(data[i]));
+      }
+      return listData;
+    }
+  }
+}
+
+class ReviewMajikan {
+  int idmajikan = 0;
+  String namalengkap = "";
+  String review = "";
+  String tglpost = "";
+
+  ReviewMajikan(
+      {required this.idmajikan,
+      required this.namalengkap,
+      required this.review,
+      required this.tglpost});
+
+  factory ReviewMajikan.createData(Map<String, dynamic> object) {
+    return ReviewMajikan(
+        idmajikan: object['idmajikan'],
+        namalengkap: object['namalengkap'],
+        review: object['review'],
+        tglpost: object['tglpost']);
+  }
+
+  static Future<List<ReviewMajikan>> getData(String idart) async {
+    var url = "${globals.urlapi}datareviewmajikan?idart=${int.parse(idart)}";
+    var apiResult = await http.get(Uri.parse(url), headers: {
+      "Accept": "application/json",
+      "Access-Control-Allow-Origin": "*"
+    });
+    var jsonObject = json.decode(apiResult.body);
+    var data = (jsonObject as Map<String, dynamic>)['data'];
+    List<ReviewMajikan> listData = [];
+    if (data.toString() == "null") {
+      return listData;
+    } else {
+      for (int i = 0; i < data.length; i++) {
+        listData.add(ReviewMajikan.createData(data[i]));
       }
       return listData;
     }

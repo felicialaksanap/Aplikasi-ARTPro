@@ -1,3 +1,4 @@
+import 'package:artpro_application_new/services/userservices.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import './global.dart' as globals;
@@ -29,28 +30,105 @@ class _ListARTState extends State<ListART> {
   bool mobilSel = false;
   bool maPerSel = false;
   bool masakSel = false;
-  bool pJawaSel = false;
 
   List<String> kriteria = [];
   String tempkriteria = "";
+
+  List<String> kategori = [];
+  String tempkategori = "";
+
+  String titlekategori = "";
+
+  bool getAlldata = false;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
-    for (int i = 0; i < MListART.isiListART.length; i++) {
-      for (int j = 0; j < MListART.isiListART[i].kriteria.length; j++) {
-        if (j != MListART.isiListART[i].kriteria.length - 1) {
-          tempkriteria =
-              tempkriteria + MListART.isiListART[i].kriteria[j] + ", ";
-        } else {
-          tempkriteria = tempkriteria + MListART.isiListART[i].kriteria[j];
-        }
-      }
-      kriteria.add(tempkriteria);
-      tempkriteria = "";
+    getListARTbyKategori();
+
+    if (widget.konten == "prt") {
+      titlekategori = "Pembantu Rumah Tangga";
+    } else if (widget.konten == "babysitter") {
+      titlekategori = "Baby Sitter";
+    } else if (widget.konten == "seniorcare") {
+      titlekategori = "Penjaga Lansia";
+    } else if (widget.konten == "supir") {
+      titlekategori = "Supir";
+    } else if (widget.konten == "officeboy") {
+      titlekategori = "Office Boy / Girl";
+    } else if (widget.konten == "tukangkebun") {
+      titlekategori = "Tukang Kebun";
     }
+  }
+
+  void getListARTbyKategori() {
+    DataARTbyKategori.getData(widget.konten).then((value) {
+      setState(() {
+        globals.listARTbyKategori.clear();
+        globals.listARTbyKategori = value;
+
+        for (int i = 0; i < globals.listARTbyKategori.length; i++) {
+          // arrange kategori to string
+          if (globals.listARTbyKategori[i].kprt == 1) {
+            tempkategori = tempkategori + "Pembantu Rumah Tangga, ";
+          }
+          if (globals.listARTbyKategori[i].kbabysitter == 1) {
+            tempkategori = tempkategori + "Babysitter, ";
+          }
+          if (globals.listARTbyKategori[i].kseniorcare == 1) {
+            tempkategori = tempkategori + "Pendamping Lansia, ";
+          }
+          if (globals.listARTbyKategori[i].ksupir == 1) {
+            tempkategori = tempkategori + "Supir, ";
+          }
+          if (globals.listARTbyKategori[i].kofficeboy == 1) {
+            tempkategori = tempkategori + "Office Boy / Girl, ";
+          }
+          if (globals.listARTbyKategori[i].ktukangkebun == 1) {
+            tempkategori = tempkategori + "Tukang Kebun, ";
+          }
+          tempkategori = tempkategori.substring(0, tempkategori.length - 2);
+          kategori.add(tempkategori);
+          tempkategori = "";
+
+          // arrange kriteria to string
+          if (globals.listARTbyKategori[i].hewan == 1) {
+            tempkriteria = tempkriteria + "Tidak takut hewan, ";
+          }
+          if (globals.listARTbyKategori[i].masak == 1) {
+            tempkriteria = tempkriteria + "Memasak, ";
+          }
+          if (globals.listARTbyKategori[i].mabukjalan == 1) {
+            tempkriteria = tempkriteria + "Tidak mabuk perjalanan, ";
+          }
+          if (globals.listARTbyKategori[i].sepedamotor == 1) {
+            tempkriteria = tempkriteria + "Menyetir sepeda motor, ";
+          }
+          if (globals.listARTbyKategori[i].mobil == 1) {
+            tempkriteria = tempkriteria + "Menyetir mobil, ";
+          }
+          if (globals.listARTbyKategori[i].tkmenginap == 1) {
+            tempkriteria = tempkriteria + "Menginap, ";
+          }
+          if (globals.listARTbyKategori[i].tkwarnen == 1) {
+            tempkriteria = tempkriteria + "Warnen, ";
+          }
+          if (globals.listARTbyKategori[i].ssingle == 1) {
+            tempkriteria = tempkriteria + "Belum menikah, ";
+          }
+          if (globals.listARTbyKategori[i].smarried == 1) {
+            tempkriteria = tempkriteria + "Sudah menikah, ";
+          }
+          tempkriteria = tempkriteria.substring(0, tempkriteria.length - 2);
+          kriteria.add(tempkriteria);
+          tempkriteria = "";
+        }
+
+        getAlldata = true;
+      });
+    });
   }
 
   @override
@@ -789,164 +867,273 @@ class _ListARTState extends State<ListART> {
             ),
           ),
         ),
-        body: Container(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Kategori: ${widget.konten}",
-                style: GoogleFonts.poppins(
-                    textStyle: const TextStyle(
-                        fontSize: 15, fontWeight: FontWeight.bold)),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Expanded(
-                child: ListView.builder(
-                    itemCount: MListART.isiListART.length,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => DetailART(
-                                        index: index,
-                                      )));
-                        },
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.0)),
-                          elevation: 3,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  width: 70,
-                                  height: 70,
-                                  child: Stack(
-                                    children: [
-                                      Center(
-                                        child: Container(
-                                          width: 60,
-                                          height: 60,
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(50.0),
-                                              image: DecorationImage(
-                                                  image: AssetImage(
-                                                    MListART.isiListART[index]
-                                                        .gambarUrl,
-                                                  ),
-                                                  fit: BoxFit.fill)),
-                                        ),
-                                      ),
-                                      Positioned(
-                                        right: 0,
-                                        bottom: 0,
-                                        child: Container(
-                                          width: 40,
-                                          padding: const EdgeInsets.all(2.0),
-                                          decoration: BoxDecoration(
-                                              color: Color(int.parse(
-                                                  globals.color_primary)),
-                                              borderRadius:
-                                                  BorderRadius.circular(20.0)),
-                                          child: Text(
-                                            MListART.isiListART[index].rating,
-                                            style: GoogleFonts.poppins(
-                                                textStyle: const TextStyle(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white,
-                                            )),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Expanded(
-                                  child: Column(
+        body: getAlldata == false
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(
+                      color: Color(int.parse(globals.color_primary)),
+                      strokeWidth: 5,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "Memuat data ...",
+                      style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                              fontSize: 15,
+                              color: Color(int.parse(globals.color_primary)))),
+                    )
+                  ],
+                ),
+              )
+            : Container(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Kategori: $titlekategori",
+                      style: GoogleFonts.poppins(
+                          textStyle: const TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.bold)),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                          itemCount: globals.listARTbyKategori.length,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  globals.kriteria.clear();
+
+                                  if (globals.listARTbyKategori[index].hewan ==
+                                      1) {
+                                    globals.kriteria.add("Tidak takut hewan");
+                                  }
+                                  if (globals.listARTbyKategori[index].masak ==
+                                      1) {
+                                    globals.kriteria.add("Memasak");
+                                  }
+                                  if (globals.listARTbyKategori[index]
+                                          .mabukjalan ==
+                                      1) {
+                                    globals.kriteria
+                                        .add("Tidak mabuk perjalanan");
+                                  }
+                                  if (globals.listARTbyKategori[index]
+                                          .sepedamotor ==
+                                      1) {
+                                    globals.kriteria
+                                        .add("Menyetir sepeda motor");
+                                  }
+                                  if (globals.listARTbyKategori[index].mobil ==
+                                      1) {
+                                    globals.kriteria.add("Menyetir mobil");
+                                  }
+                                  if (globals.listARTbyKategori[index]
+                                          .tkmenginap ==
+                                      1) {
+                                    globals.kriteria.add("Menginap");
+                                  }
+                                  if (globals
+                                          .listARTbyKategori[index].tkwarnen ==
+                                      1) {
+                                    globals.kriteria.add("Warnen");
+                                  }
+                                  if (globals
+                                          .listARTbyKategori[index].ssingle ==
+                                      1) {
+                                    globals.kriteria.add("Belum menikah");
+                                  }
+                                  if (globals
+                                          .listARTbyKategori[index].smarried ==
+                                      1) {
+                                    globals.kriteria.add("Sudah menikah");
+                                  }
+                                });
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => DetailART(
+                                              index: index,
+                                              kategori: kategori[index],
+                                            )));
+                              },
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.0)),
+                                elevation: 3,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        MListART.isiListART[index].nama,
-                                        style: GoogleFonts.poppins(
-                                            textStyle: const TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold)),
+                                      Container(
+                                        width: 70,
+                                        height: 70,
+                                        child: Stack(
+                                          children: [
+                                            Center(
+                                              child: Container(
+                                                width: 60,
+                                                height: 60,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            50.0),
+                                                    image: DecorationImage(
+                                                        image: NetworkImage(
+                                                            '${globals.urlapi}getimage?id=${globals.listARTbyKategori[index].idart}&folder=profpic'),
+                                                        fit: BoxFit.fill)),
+                                              ),
+                                            ),
+                                            Positioned(
+                                              right: 0,
+                                              bottom: 0,
+                                              child: Container(
+                                                width: 40,
+                                                padding:
+                                                    const EdgeInsets.all(2.0),
+                                                decoration: BoxDecoration(
+                                                    color: Color(int.parse(
+                                                        globals.color_primary)),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20.0)),
+                                                child: Text(
+                                                  globals
+                                                      .listARTbyKategori[index]
+                                                      .rating
+                                                      .toString(),
+                                                  style: GoogleFonts.poppins(
+                                                      textStyle:
+                                                          const TextStyle(
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.white,
+                                                  )),
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                       const SizedBox(
-                                        height: 10,
+                                        width: 5,
                                       ),
-                                      Text(
-                                        "Asal: ${MListART.isiListART[index].tempatlahir}",
-                                        style: GoogleFonts.poppins(
-                                            textStyle: const TextStyle(
-                                          fontSize: 14,
-                                        )),
-                                      ),
-                                      Text(
-                                        "Usia: ${MListART.isiListART[index].umur}",
-                                        style: GoogleFonts.poppins(
-                                            textStyle: const TextStyle(
-                                          fontSize: 14,
-                                        )),
-                                      ),
-                                      Text(
-                                        "Agama: ${MListART.isiListART[index].agama}",
-                                        style: GoogleFonts.poppins(
-                                            textStyle: const TextStyle(
-                                          fontSize: 14,
-                                        )),
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text(
-                                        "Kriteria",
-                                        style: GoogleFonts.poppins(
-                                            textStyle: const TextStyle(
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              globals.listARTbyKategori[index]
+                                                  .namalengkap,
+                                              style: GoogleFonts.poppins(
+                                                  textStyle: const TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.bold)),
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            Text(
+                                              "Asal: ${globals.listARTbyKategori[index].tempatlahir}",
+                                              style: GoogleFonts.poppins(
+                                                  textStyle: const TextStyle(
+                                                fontSize: 14,
+                                              )),
+                                            ),
+                                            Text(
+                                              "Agama: ${globals.listARTbyKategori[index].agama}",
+                                              style: GoogleFonts.poppins(
+                                                  textStyle: const TextStyle(
+                                                fontSize: 14,
+                                              )),
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            Text(
+                                              "Penawaran Gaji",
+                                              style: GoogleFonts.poppins(
+                                                  textStyle: const TextStyle(
+                                                      fontSize: 13,
+                                                      fontWeight:
+                                                          FontWeight.bold)),
+                                            ),
+                                            Text(
+                                              "Rp ${globals.listARTbyKategori[index].gajiawal} - ${globals.listARTbyKategori[index].gajiakhir} per bulan",
+                                              style: GoogleFonts.poppins(
+                                                  textStyle: const TextStyle(
                                                 fontSize: 13,
-                                                fontWeight: FontWeight.bold)),
+                                              )),
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            Text(
+                                              "Kriteria",
+                                              style: GoogleFonts.poppins(
+                                                  textStyle: const TextStyle(
+                                                      fontSize: 13,
+                                                      fontWeight:
+                                                          FontWeight.bold)),
+                                            ),
+                                            Text(
+                                              kriteria[index],
+                                              style: GoogleFonts.poppins(
+                                                  textStyle: const TextStyle(
+                                                fontSize: 13,
+                                              )),
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            Text(
+                                              "Kategori",
+                                              style: GoogleFonts.poppins(
+                                                  textStyle: const TextStyle(
+                                                      fontSize: 13,
+                                                      fontWeight:
+                                                          FontWeight.bold)),
+                                            ),
+                                            Text(
+                                              kategori[index],
+                                              style: GoogleFonts.poppins(
+                                                  textStyle: const TextStyle(
+                                                fontSize: 13,
+                                              )),
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                      Text(
-                                        kriteria[index],
-                                        style: GoogleFonts.poppins(
-                                            textStyle: const TextStyle(
-                                          fontSize: 13,
-                                        )),
-                                      )
+                                      IconButton(
+                                          onPressed: () {},
+                                          icon: Icon(
+                                            Icons.call,
+                                            size: 30,
+                                            color: Color(int.parse(
+                                                globals.color_primary)),
+                                          ))
                                     ],
                                   ),
                                 ),
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(
-                                      Icons.call,
-                                      size: 30,
-                                      color: Color(
-                                          int.parse(globals.color_primary)),
-                                    ))
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    }),
-              ),
-            ],
-          ),
-        ));
+                              ),
+                            );
+                          }),
+                    ),
+                  ],
+                ),
+              ));
   }
 }

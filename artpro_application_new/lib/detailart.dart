@@ -1,4 +1,5 @@
 import 'package:artpro_application_new/listkomen.dart';
+import 'package:artpro_application_new/services/userservices.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:multi_charts/multi_charts.dart';
@@ -7,19 +8,52 @@ import './modeltemp/modeltemp.dart';
 
 class DetailART extends StatefulWidget {
   int index;
-  DetailART({super.key, required this.index});
+  String? kategori;
+  DetailART({super.key, required this.index, this.kategori});
 
   @override
   State<DetailART> createState() => _DetailARTState();
 }
 
 class _DetailARTState extends State<DetailART> {
-  List<String> ketlain = [
-    "Tidak takut hewan",
-    "Tidak Mabuk perjalanan",
-    "Menyetir Sepeda Motor",
-    "Memasak"
-  ];
+  List<RataPenilaian> listPenilaian = [];
+  List<double> valueradar = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    getDataRataPenilaian();
+    getReviewMajikan();
+  }
+
+  void getDataRataPenilaian() {
+    RataPenilaian.getData(
+            globals.listARTbyKategori[widget.index].idart.toString())
+        .then((value) {
+      setState(() {
+        listPenilaian = value;
+
+        valueradar.clear();
+        valueradar.add(listPenilaian[0].estetika);
+        valueradar.add(listPenilaian[0].etika);
+        valueradar.add(listPenilaian[0].kebersihan);
+        valueradar.add(listPenilaian[0].kerapian);
+        valueradar.add(listPenilaian[0].kecepatan);
+      });
+    });
+  }
+
+  void getReviewMajikan() {
+    ReviewMajikan.getData(
+            globals.listARTbyKategori[widget.index].idart.toString())
+        .then((value) {
+      setState(() {
+        globals.listReviewMajikan = value;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +67,9 @@ class _DetailARTState extends State<DetailART> {
             color: Color(int.parse(globals.color_primary)),
           ),
           onPressed: () {
+            setState(() {
+              globals.kriteria.clear();
+            });
             Navigator.pop(context);
           },
         ),
@@ -54,8 +91,8 @@ class _DetailARTState extends State<DetailART> {
                         height: 110,
                         decoration: BoxDecoration(
                             image: DecorationImage(
-                                image: AssetImage(MListART
-                                    .isiListART[widget.index].gambarUrl),
+                                image: NetworkImage(
+                                    '${globals.urlapi}getimage?id=${globals.listARTbyKategori[widget.index].idart}&folder=profpic'),
                                 fit: BoxFit.fill),
                             borderRadius: BorderRadius.circular(50.0)),
                       ),
@@ -69,7 +106,8 @@ class _DetailARTState extends State<DetailART> {
                               color: Color(int.parse(globals.color_primary)),
                               borderRadius: BorderRadius.circular(20.0)),
                           child: Text(
-                            MListART.isiListART[widget.index].rating,
+                            globals.listARTbyKategori[widget.index].rating
+                                .toString(),
                             style: GoogleFonts.poppins(
                                 textStyle: const TextStyle(
                               fontSize: 15,
@@ -91,11 +129,14 @@ class _DetailARTState extends State<DetailART> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  "Pembantu Rumah Tangga | Warnen",
-                  style: GoogleFonts.poppins(
-                      textStyle: const TextStyle(
-                          fontSize: 15, fontWeight: FontWeight.bold)),
+                Expanded(
+                  child: Text(
+                    widget.kategori.toString(),
+                    style: GoogleFonts.poppins(
+                        textStyle: const TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.bold)),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ],
             ),
@@ -103,7 +144,7 @@ class _DetailARTState extends State<DetailART> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Rp 2.000.000 - 3.500.000",
+                  "Rp ${globals.listARTbyKategori[widget.index].gajiawal} - ${globals.listARTbyKategori[widget.index].gajiakhir} per bulan",
                   style: GoogleFonts.poppins(
                       textStyle: const TextStyle(fontSize: 15)),
                 ),
@@ -146,7 +187,7 @@ class _DetailARTState extends State<DetailART> {
                       Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: Text(
-                          MListART.isiListART[0].nama,
+                          globals.listARTbyKategori[widget.index].namalengkap,
                           style: GoogleFonts.poppins(
                               textStyle: const TextStyle(fontSize: 15)),
                         ),
@@ -163,7 +204,11 @@ class _DetailARTState extends State<DetailART> {
                       Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: Text(
-                          "Perempuan",
+                          globals.listARTbyKategori[widget.index]
+                                      .jeniskelamin ==
+                                  "P"
+                              ? "Perempuan"
+                              : "Laki - Laki",
                           style: GoogleFonts.poppins(
                               textStyle: const TextStyle(fontSize: 15)),
                         ),
@@ -180,7 +225,7 @@ class _DetailARTState extends State<DetailART> {
                       Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: Text(
-                          MListART.isiListART[widget.index].tempatlahir,
+                          globals.listARTbyKategori[widget.index].tempatlahir,
                           style: GoogleFonts.poppins(
                               textStyle: const TextStyle(fontSize: 15)),
                         ),
@@ -197,7 +242,7 @@ class _DetailARTState extends State<DetailART> {
                       Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: Text(
-                          "03-07-2003 | ${MListART.isiListART[0].umur}",
+                          globals.listARTbyKategori[widget.index].tanggallahir,
                           style: GoogleFonts.poppins(
                               textStyle: const TextStyle(fontSize: 15)),
                         ),
@@ -214,7 +259,7 @@ class _DetailARTState extends State<DetailART> {
                       Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: Text(
-                          "SMA",
+                          globals.listARTbyKategori[widget.index].pendidikan,
                           style: GoogleFonts.poppins(
                               textStyle: const TextStyle(fontSize: 15)),
                         ),
@@ -240,7 +285,7 @@ class _DetailARTState extends State<DetailART> {
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
                           child: Text(
-                            "50 kg",
+                            "${globals.listARTbyKategori[widget.index].beratbadan} kg",
                             style: GoogleFonts.poppins(
                                 textStyle: const TextStyle(fontSize: 15)),
                           ),
@@ -257,7 +302,7 @@ class _DetailARTState extends State<DetailART> {
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
                           child: Text(
-                            "155 cm",
+                            "${globals.listARTbyKategori[widget.index].tinggibadan} cm",
                             style: GoogleFonts.poppins(
                                 textStyle: const TextStyle(fontSize: 15)),
                           ),
@@ -274,7 +319,7 @@ class _DetailARTState extends State<DetailART> {
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
                           child: Text(
-                            "Katolik",
+                            globals.listARTbyKategori[widget.index].agama,
                             style: GoogleFonts.poppins(
                                 textStyle: const TextStyle(fontSize: 15)),
                           ),
@@ -308,7 +353,7 @@ class _DetailARTState extends State<DetailART> {
               height: 10,
             ),
             Text(
-              "Lorem ipsum dolor sit amet consectetur. Quisque at ut odio ullamcorper. Gravida egestas urna massa egestas sit habitant. Sed quam nisl tristique adipiscing dolor vel nisl. Morbi duis id fermentum diam est.",
+              globals.listARTbyKategori[widget.index].pengalaman,
               style:
                   GoogleFonts.poppins(textStyle: const TextStyle(fontSize: 15)),
             ),
@@ -323,7 +368,7 @@ class _DetailARTState extends State<DetailART> {
                       topRight: Radius.circular(20.0),
                       bottomRight: Radius.circular(20.0))),
               child: Text(
-                "Keterangan Lain",
+                "Kriteria",
                 style: GoogleFonts.poppins(
                     textStyle: const TextStyle(
                         fontSize: 15,
@@ -338,7 +383,7 @@ class _DetailARTState extends State<DetailART> {
               child: GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: ketlain.length,
+                itemCount: globals.kriteria.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     childAspectRatio: 3,
@@ -354,7 +399,7 @@ class _DetailARTState extends State<DetailART> {
                             width: 1)),
                     child: Center(
                       child: Text(
-                        ketlain[index],
+                        globals.kriteria[index],
                         style: GoogleFonts.poppins(
                             textStyle: const TextStyle(fontSize: 14)),
                         textAlign: TextAlign.center,
@@ -467,17 +512,17 @@ class _DetailARTState extends State<DetailART> {
                 width: 350,
                 height: 350,
                 child: RadarChart(
-                  values: const [1, 2, 4, 7, 9],
+                  values: valueradar,
                   labels: const [
-                    "Etika",
                     "Estetika",
+                    "Etika",
                     "Kebersihan",
                     "Kerapian",
                     "Kecepatan"
                   ],
                   strokeColor: Color(int.parse(globals.color_primary)),
                   labelColor: Color(int.parse(globals.color_primary)),
-                  maxValue: 10,
+                  maxValue: 5,
                   fillColor: Color(int.parse(globals.color_secondary)),
                   chartRadiusFactor: 0.7,
                 ),
@@ -523,9 +568,9 @@ class _DetailARTState extends State<DetailART> {
               height: 20,
             ),
             Container(
-              height: 400,
+              height: 200,
               child: ListView.builder(
-                  itemCount: 2,
+                  itemCount: 1,
                   itemBuilder: (context, index) {
                     return Column(
                       children: [
@@ -542,8 +587,8 @@ class _DetailARTState extends State<DetailART> {
                                         borderRadius:
                                             BorderRadius.circular(50.0),
                                         image: DecorationImage(
-                                            image: AssetImage(MListKomen
-                                                .isiKomen[index].foto),
+                                            image: NetworkImage(
+                                                '${globals.urlapi}getimage?id=${globals.listReviewMajikan[index].idmajikan}&folder=profpic'),
                                             fit: BoxFit.fill)),
                                   ),
                                   const SizedBox(
@@ -554,14 +599,16 @@ class _DetailARTState extends State<DetailART> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        MListKomen.isiKomen[index].nama,
+                                        globals.listReviewMajikan[index]
+                                            .namalengkap,
                                         style: GoogleFonts.poppins(
                                             textStyle: const TextStyle(
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.bold)),
                                       ),
                                       Text(
-                                        MListKomen.isiKomen[index].tanggal,
+                                        globals
+                                            .listReviewMajikan[index].tglpost,
                                         style: GoogleFonts.poppins(
                                             textStyle: const TextStyle(
                                                 fontSize: 12,
@@ -576,7 +623,7 @@ class _DetailARTState extends State<DetailART> {
                                 height: 10,
                               ),
                               Text(
-                                MListKomen.isiKomen[index].isikomen,
+                                globals.listReviewMajikan[index].review,
                                 style: GoogleFonts.poppins(
                                     textStyle: const TextStyle(fontSize: 15)),
                               )

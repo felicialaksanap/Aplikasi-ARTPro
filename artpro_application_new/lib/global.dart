@@ -1,6 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:artpro_application_new/services/lokerservices.dart';
+import 'package:artpro_application_new/services/userservices.dart';
 import 'package:image_picker/image_picker.dart';
 
 String color_primary = '0xFF246A73';
@@ -94,5 +95,6 @@ List<String> listKriteria = [];
 List<String> kategorina = [];
 List<String> kriteriana = [];
 
-
+List<DataARTbyKategori> listARTbyKategori = [];
+List<ReviewMajikan> listReviewMajikan = [];
 // ==== Penilaian ====

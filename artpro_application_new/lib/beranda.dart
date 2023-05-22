@@ -102,7 +102,7 @@ class _BerandaState extends State<Beranda> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => ListART(
-                                                konten: "Pembantu Rumah Tangga",
+                                                konten: "prt",
                                               )));
                                 },
                                 child: Container(
@@ -150,7 +150,7 @@ class _BerandaState extends State<Beranda> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => ListART(
-                                                konten: "Baby Sitter",
+                                                konten: "babysitter",
                                               )));
                                 },
                                 child: Container(
@@ -198,7 +198,7 @@ class _BerandaState extends State<Beranda> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => ListART(
-                                                konten: "Penjaga Lansia",
+                                                konten: "seniorcare",
                                               )));
                                 },
                                 child: Container(
@@ -254,7 +254,7 @@ class _BerandaState extends State<Beranda> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => ListART(
-                                                konten: "Office Boy/Girl",
+                                                konten: "officeboy",
                                               )));
                                 },
                                 child: Container(
@@ -302,7 +302,7 @@ class _BerandaState extends State<Beranda> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => ListART(
-                                                konten: "Supir Pribadi",
+                                                konten: "supir",
                                               )));
                                 },
                                 child: Container(
@@ -350,7 +350,7 @@ class _BerandaState extends State<Beranda> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => ListART(
-                                                konten: "Tukang Kebun",
+                                                konten: "tukangkebun",
                                               )));
                                 },
                                 child: Container(

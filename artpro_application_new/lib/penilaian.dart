@@ -3,6 +3,7 @@ import 'package:artpro_application_new/services/userservices.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'global.dart' as globals;
 
 class Penilaian extends StatefulWidget {
@@ -13,6 +14,9 @@ class Penilaian extends StatefulWidget {
 }
 
 class _PenilaianState extends State<Penilaian> {
+  DateTime date = DateTime.now();
+  String tglpost = "";
+
   String pathsmile = "assets/icons/smile-green.png";
   String pathsmilealt = "assets/icons/smile-alt-green.png";
   String pathdis = "assets/icons/dis-green.png";
@@ -29,8 +33,6 @@ class _PenilaianState extends State<Penilaian> {
   List<ProfileUser> profART = [];
   List<DetailKerjaART> detKerjaART = [];
   String kategori = "";
-
-  List<Rating> listRatingART = [];
 
   @override
   void dispose() {
@@ -80,31 +82,15 @@ class _PenilaianState extends State<Penilaian> {
   }
 
   void calculateRating() {
-    Rating.getData("2").then((value) {
-      setState(() {
-        listRatingART.clear();
-        listRatingART = value;
-
-        print("listRating: ${listRatingART[0].rating}");
-
-        if (listRatingART.isNotEmpty) {
-          rating = (estval / 5) +
-              (etval / 5) +
-              (kebval / 5) +
-              (kecval / 5) +
-              (kerval / 5);
-          rating = (rating + double.parse(listRatingART[0].rating)) / 2;
-        } else {
-          rating = (estval / 5) +
-              (etval / 5) +
-              (kebval / 5) +
-              (kecval / 5) +
-              (kerval / 5);
-        }
-      });
+    setState(() {
+      rating = (estval / 5) +
+          (etval / 5) +
+          (kebval / 5) +
+          (kecval / 5) +
+          (kerval / 5);
+      tglpost = DateFormat('dd-MM-yyyy').format(date);
+      addPenilaianToDatabase();
     });
-
-    addPenilaianToDatabase();
   }
 
   void addPenilaianToDatabase() async {
@@ -118,7 +104,8 @@ class _PenilaianState extends State<Penilaian> {
       "kecepatan": kecval.toString(),
       "kerapian": kerval.toString(),
       "rating": rating.toString(),
-      "review": komenctr.text
+      "review": komenctr.text,
+      "tglpost": tglpost
     });
     if (response.statusCode == 200) {
       showDialog(

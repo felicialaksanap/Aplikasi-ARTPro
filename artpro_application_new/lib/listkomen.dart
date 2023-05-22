@@ -37,7 +37,7 @@ class _ListKomenState extends State<ListKomen> {
       body: Container(
         padding: const EdgeInsets.all(10.0),
         child: ListView.builder(
-            itemCount: MListKomen.isiKomen.length,
+            itemCount: globals.listReviewMajikan.length,
             itemBuilder: (context, index) {
               return Column(
                 children: [
@@ -53,8 +53,8 @@ class _ListKomenState extends State<ListKomen> {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(50.0),
                                   image: DecorationImage(
-                                      image: AssetImage(
-                                          MListKomen.isiKomen[index].foto),
+                                      image: NetworkImage(
+                                          '${globals.urlapi}getimage?id=${globals.listReviewMajikan[index].idmajikan}&folder=profpic'),
                                       fit: BoxFit.fill)),
                             ),
                             const SizedBox(
@@ -64,14 +64,14 @@ class _ListKomenState extends State<ListKomen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  MListKomen.isiKomen[index].nama,
+                                  globals.listReviewMajikan[index].namalengkap,
                                   style: GoogleFonts.poppins(
                                       textStyle: const TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold)),
                                 ),
                                 Text(
-                                  MListKomen.isiKomen[index].tanggal,
+                                  globals.listReviewMajikan[index].tglpost,
                                   style: GoogleFonts.poppins(
                                       textStyle: const TextStyle(
                                           fontSize: 12,
@@ -86,7 +86,7 @@ class _ListKomenState extends State<ListKomen> {
                           height: 10,
                         ),
                         Text(
-                          MListKomen.isiKomen[index].isikomen,
+                          globals.listReviewMajikan[index].review,
                           style: GoogleFonts.poppins(
                               textStyle: const TextStyle(fontSize: 15)),
                         )
@@ -101,7 +101,7 @@ class _ListKomenState extends State<ListKomen> {
                     color: const Color.fromARGB(255, 138, 138, 138),
                   ),
                   const SizedBox(
-                    height: 10,
+                    height: 20,
                   )
                 ],
               );
