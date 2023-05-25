@@ -32,8 +32,6 @@ class _SignUpInputTState extends State<SignUpInputT> {
   static const _locale = 'en';
   String _formatNumber(String s) =>
       NumberFormat.decimalPattern(_locale).format(int.parse(s));
-  String get _currency =>
-      NumberFormat.compactSimpleCurrency(locale: _locale).currencySymbol;
 
   @override
   void dispose() {
@@ -57,8 +55,14 @@ class _SignUpInputTState extends State<SignUpInputT> {
       k_obog = globals.kofficeboy == 0 ? false : true;
       k_tk = globals.ktukangkebun == 0 ? false : true;
       expctr.text = globals.pengalaman;
-      mingajictr.text = globals.gajiawal;
-      maxgajictr.text = globals.gajiakhir;
+      mingajictr.text =
+          NumberFormat.decimalPatternDigits(locale: 'en-US', decimalDigits: 0)
+              .format(globals.gajiawal)
+              .toString();
+      maxgajictr.text =
+          NumberFormat.decimalPatternDigits(locale: 'en-US', decimalDigits: 0)
+              .format(globals.gajiakhir)
+              .toString();
 
       if (k_prt == true) {
         count++;
@@ -90,8 +94,8 @@ class _SignUpInputTState extends State<SignUpInputT> {
       globals.kofficeboy = k_obog == true ? 1 : 0;
       globals.ktukangkebun = k_tk == true ? 1 : 0;
       globals.pengalaman = expctr.text;
-      globals.gajiawal = mingajictr.text;
-      globals.gajiakhir = maxgajictr.text;
+      globals.gajiawal = int.parse(mingajictr.text.replaceAll(",", ""));
+      globals.gajiakhir = int.parse(maxgajictr.text.replaceAll(",", ""));
     });
 
     if (widget.konten == "daftar") {
@@ -108,8 +112,8 @@ class _SignUpInputTState extends State<SignUpInputT> {
         "kofficeboy": globals.kofficeboy.toString(),
         "ktukangkebun": globals.ktukangkebun.toString(),
         "pengalaman": globals.pengalaman,
-        "gajiawal": globals.gajiawal,
-        "gajiakhir": globals.gajiakhir
+        "gajiawal": globals.gajiawal.toString(),
+        "gajiakhir": globals.gajiakhir.toString()
       });
 
       messagetoBack();

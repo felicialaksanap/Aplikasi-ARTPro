@@ -100,7 +100,12 @@ class _SplashScreenState extends State<SplashScreen> {
                       listDetailProfART[0].pendidikanterakhir;
                   globals.berat = listDetailProfART[0].beratbadan;
                   globals.tinggi = listDetailProfART[0].tinggibadan;
-                  globals.agama = listDetailProfART[0].agama;
+                  globals.aislam = listDetailProfART[0].aislam;
+                  globals.akatolik = listDetailProfART[0].akatolik;
+                  globals.akristen = listDetailProfART[0].akristen;
+                  globals.ahindu = listDetailProfART[0].ahindu;
+                  globals.abuddha = listDetailProfART[0].abuddha;
+                  globals.akonghucu = listDetailProfART[0].akonghucu;
                   globals.tkmenginap = listDetailProfART[0].tkmenginap;
                   globals.tkwarnen = listDetailProfART[0].tkwarnen;
                   globals.hewan = listDetailProfART[0].hewan;

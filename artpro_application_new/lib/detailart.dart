@@ -19,6 +19,8 @@ class _DetailARTState extends State<DetailART> {
   List<RataPenilaian> listPenilaian = [];
   List<double> valueradar = [];
 
+  String agama = "";
+
   @override
   void initState() {
     // TODO: implement initState
@@ -26,6 +28,20 @@ class _DetailARTState extends State<DetailART> {
 
     getDataRataPenilaian();
     getReviewMajikan();
+
+    if (globals.listARTbyKategori[widget.index].aislam == 1) {
+      agama = "Islam";
+    } else if (globals.listARTbyKategori[widget.index].akatolik == 1) {
+      agama = "Katolik";
+    } else if (globals.listARTbyKategori[widget.index].akristen == 1) {
+      agama = "Kristen";
+    } else if (globals.listARTbyKategori[widget.index].ahindu == 1) {
+      agama = "Hindu";
+    } else if (globals.listARTbyKategori[widget.index].abuddha == 1) {
+      agama = "Buddha";
+    } else if (globals.listARTbyKategori[widget.index].akonghucu == 1) {
+      agama = "Konghucu";
+    }
   }
 
   void getDataRataPenilaian() {
@@ -319,7 +335,7 @@ class _DetailARTState extends State<DetailART> {
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
                           child: Text(
-                            globals.listARTbyKategori[widget.index].agama,
+                            agama,
                             style: GoogleFonts.poppins(
                                 textStyle: const TextStyle(fontSize: 15)),
                           ),

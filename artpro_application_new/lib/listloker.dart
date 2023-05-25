@@ -45,6 +45,12 @@ class _ListLokerState extends State<ListLoker> {
   DateTime date = DateTime.now();
   String tglmodif = "";
 
+  static const _locale = 'en';
+  String _formatNumber(String s) =>
+      NumberFormat.decimalPattern(_locale).format(int.parse(s));
+  String get _currency =>
+      NumberFormat.compactSimpleCurrency(locale: _locale).currencySymbol;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -68,6 +74,17 @@ class _ListLokerState extends State<ListLoker> {
 
           // arrange data in list loker aktif
           for (int i = 0; i < globals.listLokerAktif.length; i++) {
+            // convert to format currency
+            globals.listLokerAktif[i].gajiawal =
+                NumberFormat.decimalPatternDigits(
+                        locale: 'en-US', decimalDigits: 0)
+                    .format(int.parse(globals.listLokerAktif[i].gajiawal));
+
+            globals.listLokerAktif[i].gajiakhir =
+                NumberFormat.decimalPatternDigits(
+                        locale: 'en-US', decimalDigits: 0)
+                    .format(int.parse(globals.listLokerAktif[i].gajiakhir));
+
             // arrange kategori to string
             if (globals.listLokerAktif[i].kprt == 1) {
               kategori = kategori + "Pembantu, ";
@@ -478,7 +495,7 @@ class _ListLokerState extends State<ListLoker> {
                                     textStyle: const TextStyle(fontSize: 15)),
                               ),
                               Text(
-                                "5.250 km",
+                                "10 km",
                                 style: GoogleFonts.poppins(
                                     textStyle: const TextStyle(fontSize: 15)),
                               ),
@@ -494,7 +511,7 @@ class _ListLokerState extends State<ListLoker> {
                                       const TextStyle(color: Colors.white))),
                           child: Slider(
                               value: curLokasiVal,
-                              max: 5250,
+                              max: 10,
                               divisions: 10,
                               activeColor:
                                   Color(int.parse(globals.color_primary)),

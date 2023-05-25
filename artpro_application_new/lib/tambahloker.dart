@@ -31,8 +31,9 @@ class _TambahLokerState extends State<TambahLoker> {
   static const _locale = 'en';
   String _formatNumber(String s) =>
       NumberFormat.decimalPattern(_locale).format(int.parse(s));
-  String get _currency =>
-      NumberFormat.compactSimpleCurrency(locale: _locale).currencySymbol;
+
+  int gajiawal = 0;
+  int gajiakhir = 0;
 
   bool tthewan = false;
   bool masak = false;
@@ -494,6 +495,10 @@ class _TambahLokerState extends State<TambahLoker> {
         kategori = kategori + "Tukang Kebun, ";
       }
       kategori = kategori.substring(0, kategori.length - 2);
+
+      // format
+      gajiawal = int.parse(mingajictr.text.replaceAll(",", ""));
+      gajiakhir = int.parse(maxgajictr.text.replaceAll(",", ""));
     });
 
     if (widget.konten == "edit") {
@@ -509,8 +514,8 @@ class _TambahLokerState extends State<TambahLoker> {
     var response = await http.post(Uri.parse(url), body: {
       "iduser": globals.iduser,
       "judulloker": judulctr.text,
-      "gajiawal": mingajictr.text,
-      "gajiakhir": maxgajictr.text,
+      "gajiawal": gajiawal.toString(),
+      "gajiakhir": gajiakhir.toString(),
       "informasi": infoctr.text,
       "tugas": tugas,
       "kprt": k_prt == true ? "1" : "0",
@@ -531,18 +536,6 @@ class _TambahLokerState extends State<TambahLoker> {
       "tglpost": tglpost,
       "statusloker": "1"
     });
-    // if (response.statusCode == 200) {
-    //   final data = jsonDecode(response.body);
-    //   var lastId = data['data']['getIdLast'];
-
-    //   Loker.getDataLokerperIdLoker(lastId.toString()).then((value) {
-    //     setState(() {
-    //       globals.listLokerAktif.add(value[0]);
-    //       globals.kategori.add(kategori);
-    //       globals.kriteria.add(kriteria);
-    //     });
-    //   });
-    // }
     messagetoBack();
   }
 
@@ -553,8 +546,8 @@ class _TambahLokerState extends State<TambahLoker> {
     var response = await http.put(Uri.parse(url), body: {
       "idloker": globals.listLokerAktif[widget.index].idloker,
       "judulloker": judulctr.text,
-      "gajiawal": mingajictr.text,
-      "gajiakhir": maxgajictr.text,
+      "gajiawal": gajiawal.toString(),
+      "gajiakhir": gajiakhir.toString(),
       "informasi": infoctr.text,
       "tugas": tugas,
       "kprt": k_prt == true ? "1" : "0",

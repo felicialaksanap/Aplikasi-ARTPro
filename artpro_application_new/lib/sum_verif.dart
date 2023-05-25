@@ -92,7 +92,12 @@ class _SummaryVerifikasiState extends State<SummaryVerifikasi> {
         "pendidikanterakhir": globals.pendidikanterakhir,
         "beratbadan": globals.berat,
         "tinggibadan": globals.tinggi,
-        "agama": globals.agama,
+        "aislam": globals.aislam,
+        "akatolik": globals.akatolik,
+        "akristen": globals.akristen,
+        "ahindu": globals.ahindu,
+        "abuddha": globals.abuddha,
+        "akonghucu": globals.akonghucu,
         "tkmenginap": globals.tkmenginap,
         "tkwarnen": globals.tkwarnen,
         "hewan": globals.hewan,
@@ -114,8 +119,8 @@ class _SummaryVerifikasiState extends State<SummaryVerifikasi> {
         "kofficeboy": globals.kofficeboy,
         "ktukangkebun": globals.ktukangkebun,
         "pengalaman": globals.pengalaman,
-        "gajiawal": globals.gajiawal,
-        "gajiakhir": globals.gajiakhir
+        "gajiawal": globals.gajiawal.toString(),
+        "gajiakhir": globals.gajiakhir.toString()
       });
       // END OF SIMPAN DETAIL KERJA ART
     }

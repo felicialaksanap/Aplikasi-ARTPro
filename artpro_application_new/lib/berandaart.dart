@@ -7,6 +7,7 @@ import 'package:artpro_application_new/notifikasi.dart';
 import 'package:artpro_application_new/services/lokerservices.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'global.dart' as globals;
 
 class BerandaART extends StatefulWidget {
@@ -26,19 +27,36 @@ class _BerandaARTState extends State<BerandaART> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    getListloker();
+  }
+
+  void getListloker() {
     Loker.getAllData().then((value) {
       setState(() {
         globals.listLokerAktif.clear();
 
         for (int i = 0; i < value.length; i++) {
-          if (value[i].statusloker == "aktif") {
+          if (value[i].statusloker == 1) {
             globals.listLokerAktif.add(value[i]);
           }
         }
 
-        // arrange data in list loker aktif
+        // arrage data in list loker aktif
+        globals.kategori.clear();
+        globals.kriteria.clear();
         for (int i = 0; i < globals.listLokerAktif.length; i++) {
-          // arrange kategori to string
+          // convert to format currency
+          globals.listLokerAktif[i].gajiawal =
+              NumberFormat.decimalPatternDigits(
+                      locale: 'en-US', decimalDigits: 0)
+                  .format(int.parse(globals.listLokerAktif[i].gajiawal));
+
+          globals.listLokerAktif[i].gajiakhir =
+              NumberFormat.decimalPatternDigits(
+                      locale: 'en-US', decimalDigits: 0)
+                  .format(int.parse(globals.listLokerAktif[i].gajiakhir));
+
           if (globals.listLokerAktif[i].kprt == 1) {
             kategori = kategori + "Pembantu, ";
           }

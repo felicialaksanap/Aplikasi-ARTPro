@@ -45,7 +45,21 @@ class _SignUpInputDState extends State<SignUpInputD> {
       beratctr.text = globals.berat;
       tinggictr.text = globals.tinggi;
       pendidikanctr.text = globals.pendidikanterakhir;
-      agama = globals.agama;
+
+      if (globals.aislam == 1) {
+        agama = "islam";
+      } else if (globals.akatolik == 1) {
+        agama = "katolik";
+      } else if (globals.akristen == 1) {
+        agama = "kristen";
+      } else if (globals.ahindu == 1) {
+        agama = "hindu";
+      } else if (globals.abuddha == 1) {
+        agama = "buddha";
+      } else if (globals.akonghucu == 1) {
+        agama = "konghucu";
+      }
+
       t_menginap = globals.tkmenginap == 0 ? false : true;
       t_warnen = globals.tkwarnen == 0 ? false : true;
       l_hewan = globals.hewan == 0 ? false : true;
@@ -62,7 +76,12 @@ class _SignUpInputDState extends State<SignUpInputD> {
       globals.berat = beratctr.text;
       globals.tinggi = tinggictr.text;
       globals.pendidikanterakhir = pendidikanctr.text;
-      globals.agama = agama;
+      globals.aislam = agama == "islam" ? 1 : 0;
+      globals.akatolik = agama == "katolik" ? 1 : 0;
+      globals.akristen = agama == "kristen" ? 1 : 0;
+      globals.ahindu = agama == "hindu" ? 1 : 0;
+      globals.abuddha = agama == "buddha" ? 1 : 0;
+      globals.akonghucu = agama == "konghucu" ? 1 : 0;
       globals.tkmenginap = t_menginap == true ? 1 : 0;
       globals.tkwarnen = t_warnen == true ? 1 : 0;
       globals.hewan = l_hewan == true ? 1 : 0;
@@ -88,7 +107,12 @@ class _SignUpInputDState extends State<SignUpInputD> {
         "pendidikanterakhir": globals.pendidikanterakhir,
         "beratbadan": globals.berat,
         "tinggibadan": globals.tinggi,
-        "agama": globals.agama,
+        "aislam": globals.aislam,
+        "akatolik": globals.akatolik,
+        "akristen": globals.akristen,
+        "ahindu": globals.ahindu,
+        "abuddha": globals.abuddha,
+        "akonghucu": globals.akonghucu,
         "tkmenginap": globals.tkmenginap.toString(),
         "tkwarnen": globals.tkwarnen.toString(),
         "hewan": globals.hewan.toString(),

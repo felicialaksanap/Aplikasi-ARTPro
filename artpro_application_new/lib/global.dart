@@ -9,7 +9,7 @@ String color_secondary = '0xFFFF4D00';
 
 int select_index = 0; // navigasi beranda
 
-String urlapi = "http://192.168.1.15:1234/";
+String urlapi = "http://192.168.1.21:1234/";
 
 // Akun User //
 String email = "";
@@ -60,7 +60,12 @@ String idkelktp = "";
 String pendidikanterakhir = "";
 String berat = "";
 String tinggi = "";
-String agama = "";
+int aislam = 0;
+int akatolik = 0;
+int akristen = 0;
+int ahindu = 0;
+int abuddha = 0;
+int akonghucu = 0;
 int tkmenginap = 0;
 int tkwarnen = 0;
 int hewan = 0;
@@ -79,8 +84,8 @@ int ksupir = 0;
 int kofficeboy = 0;
 int ktukangkebun = 0;
 String pengalaman = "";
-String gajiawal = "";
-String gajiakhir = "";
+int gajiawal = 0;
+int gajiakhir = 0;
 
 // Lowongan Kerja //
 // --- store data from database to see loker at specific iduser ---

@@ -27,6 +27,15 @@ class _LokerTidakAktifState extends State<LokerTidakAktif> {
 
     // arrange data in list loker aktif
     for (int i = 0; i < globals.listLokerTidakAktif.length; i++) {
+      // convert to format currency
+      globals.listLokerTidakAktif[i].gajiawal =
+          NumberFormat.decimalPatternDigits(locale: 'en-US', decimalDigits: 0)
+              .format(int.parse(globals.listLokerTidakAktif[i].gajiawal));
+
+      globals.listLokerTidakAktif[i].gajiakhir =
+          NumberFormat.decimalPatternDigits(locale: 'en-US', decimalDigits: 0)
+              .format(int.parse(globals.listLokerTidakAktif[i].gajiakhir));
+
       // arrange kategori to string
       if (globals.listLokerTidakAktif[i].kprt == 1) {
         kategori = kategori + "Pembantu, ";

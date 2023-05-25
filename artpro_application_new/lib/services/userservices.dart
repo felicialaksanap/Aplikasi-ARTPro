@@ -148,7 +148,12 @@ class DetailProfileART {
   String pendidikanterakhir = "";
   String beratbadan = "";
   String tinggibadan = "";
-  String agama = "";
+  int aislam = 0;
+  int akatolik = 0;
+  int akristen = 0;
+  int ahindu = 0;
+  int abuddha = 0;
+  int akonghucu = 0;
   int tkmenginap = 0;
   int tkwarnen = 0;
   int hewan = 0;
@@ -164,7 +169,12 @@ class DetailProfileART {
       required this.pendidikanterakhir,
       required this.beratbadan,
       required this.tinggibadan,
-      required this.agama,
+      required this.aislam,
+      required this.akatolik,
+      required this.akristen,
+      required this.ahindu,
+      required this.abuddha,
+      required this.akonghucu,
       required this.tkmenginap,
       required this.tkwarnen,
       required this.hewan,
@@ -181,7 +191,12 @@ class DetailProfileART {
         pendidikanterakhir: object['pendidikanterakhir'],
         beratbadan: object['beratbadan'].toString(),
         tinggibadan: object['tinggibadan'].toString(),
-        agama: object['agama'],
+        aislam: object['aislam'],
+        akatolik: object['akatolik'],
+        akristen: object['akristen'],
+        ahindu: object['ahindu'],
+        abuddha: object['abuddha'],
+        akonghucu: object['akonghucu'],
         tkmenginap: object['tkmenginap'],
         tkwarnen: object['tkwarnen'],
         hewan: object['hewan'],
@@ -223,8 +238,8 @@ class DetailKerjaART {
   int kofficeboy = 0;
   int ktukangkebun = 0;
   String pengalaman = "";
-  String gajiawal = "";
-  String gajiakhir = "";
+  int gajiawal = 0;
+  int gajiakhir = 0;
 
   DetailKerjaART(
       {required this.iduser,
@@ -284,7 +299,12 @@ class DataARTbyKategori {
   String pendidikan = "";
   int beratbadan = 0;
   int tinggibadan = 0;
-  String agama = "";
+  int aislam = 0;
+  int akatolik = 0;
+  int akristen = 0;
+  int ahindu = 0;
+  int abuddha = 0;
+  int akonghucu = 0;
   double jarak = 0.0;
   int tkmenginap = 0;
   int tkwarnen = 0;
@@ -304,6 +324,8 @@ class DataARTbyKategori {
   String pengalaman = "";
   String gajiawal = "";
   String gajiakhir = "";
+  String latitude = "";
+  String longitude = "";
   double rating = 0.0;
 
   DataARTbyKategori({
@@ -317,7 +339,12 @@ class DataARTbyKategori {
     required this.pendidikan,
     required this.beratbadan,
     required this.tinggibadan,
-    required this.agama,
+    required this.aislam,
+    required this.akatolik,
+    required this.akristen,
+    required this.ahindu,
+    required this.abuddha,
+    required this.akonghucu,
     required this.jarak,
     required this.tkmenginap,
     required this.tkwarnen,
@@ -337,6 +364,8 @@ class DataARTbyKategori {
     required this.pengalaman,
     required this.gajiawal,
     required this.gajiakhir,
+    required this.latitude,
+    required this.longitude,
     required this.rating,
   });
 
@@ -352,8 +381,160 @@ class DataARTbyKategori {
         pendidikan: object['pendidikan'],
         beratbadan: object['beratbadan'],
         tinggibadan: object['tinggibadan'],
-        agama: object['agama'],
+        aislam: object['aislam'],
+        akatolik: object['akatolik'],
+        akristen: object['akristen'],
+        ahindu: object['ahindu'],
+        abuddha: object['abuddha'],
+        akonghucu: object['akonghucu'],
         jarak: 0.0,
+        tkmenginap: object['tkmenginap'],
+        tkwarnen: object['tkwarnen'],
+        hewan: object['hewan'],
+        mabukjalan: object['mabukjalan'],
+        sepedamotor: object['sepedamotor'],
+        mobil: object['mobil'],
+        masak: object['masak'],
+        ssingle: object['ssingle'],
+        smarried: object['smarried'],
+        kprt: object['kprt'],
+        kbabysitter: object['kbabysitter'],
+        kseniorcare: object['kseniorcare'],
+        ksupir: object['ksupir'],
+        kofficeboy: object['kofficeboy'],
+        ktukangkebun: object['ktukangkebun'],
+        pengalaman: object['pengalaman'],
+        gajiawal: object['gajiawal'].toString(),
+        gajiakhir: object['gajiakhir'].toString(),
+        latitude: object['latitude'],
+        longitude: object['longitude'],
+        rating: double.parse(object['rating'].toString()));
+  }
+
+  static Future<List<DataARTbyKategori>> getData(String kategori) async {
+    var url = "${globals.urlapi}dataartbykategori?kategori=$kategori";
+    var apiResult = await http.get(Uri.parse(url), headers: {
+      "Accept": "application/json",
+      "Access-Control-Allow-Origin": "*"
+    });
+    var jsonObject = json.decode(apiResult.body);
+    var data = (jsonObject as Map<String, dynamic>)['data'];
+    List<DataARTbyKategori> listData = [];
+    if (data.toString() == "null") {
+      return listData;
+    } else {
+      for (int i = 0; i < data.length; i++) {
+        listData.add(DataARTbyKategori.createData(data[i]));
+      }
+      return listData;
+    }
+  }
+}
+
+class DataARTbyFilter {
+  int idart = 0;
+  int idmajikan = 0;
+  double innerproduct = 0;
+  double x = 0;
+  double y = 0;
+  double cosinesimilarity = 0;
+  String namalengkap = "";
+  String jeniskelamin = "";
+  String tempatlahir = "";
+  String tanggallahir = "";
+  String telephone = "";
+  String pendidikan = "";
+  int beratbadan = 0;
+  int tinggibadan = 0;
+  int aislam = 0;
+  int akatolik = 0;
+  int akristen = 0;
+  int ahindu = 0;
+  int abuddha = 0;
+  int akonghucu = 0;
+  int tkmenginap = 0;
+  int tkwarnen = 0;
+  int hewan = 0;
+  int mabukjalan = 0;
+  int sepedamotor = 0;
+  int mobil = 0;
+  int masak = 0;
+  int ssingle = 0;
+  int smarried = 0;
+  int kprt = 0;
+  int kbabysitter = 0;
+  int kseniorcare = 0;
+  int ksupir = 0;
+  int kofficeboy = 0;
+  int ktukangkebun = 0;
+  String pengalaman = "";
+  int gajiawal = 0;
+  int gajiakhir = 0;
+  double rating = 0.0;
+
+  DataARTbyFilter(
+      {required this.idart,
+      required this.idmajikan,
+      required this.innerproduct,
+      required this.x,
+      required this.y,
+      required this.cosinesimilarity,
+      required this.namalengkap,
+      required this.jeniskelamin,
+      required this.tempatlahir,
+      required this.tanggallahir,
+      required this.telephone,
+      required this.pendidikan,
+      required this.beratbadan,
+      required this.tinggibadan,
+      required this.aislam,
+      required this.akatolik,
+      required this.akristen,
+      required this.ahindu,
+      required this.abuddha,
+      required this.akonghucu,
+      required this.tkmenginap,
+      required this.tkwarnen,
+      required this.hewan,
+      required this.mabukjalan,
+      required this.sepedamotor,
+      required this.mobil,
+      required this.masak,
+      required this.ssingle,
+      required this.smarried,
+      required this.kprt,
+      required this.kbabysitter,
+      required this.kseniorcare,
+      required this.ksupir,
+      required this.kofficeboy,
+      required this.ktukangkebun,
+      required this.pengalaman,
+      required this.gajiawal,
+      required this.gajiakhir,
+      required this.rating});
+
+  factory DataARTbyFilter.createData(Map<String, dynamic> object) {
+    return DataARTbyFilter(
+        idart: object['idart'],
+        idmajikan: object['idmajikan'],
+        innerproduct: double.parse(object['innerproduct'].toString()),
+        x: double.parse(object['x'].toString()),
+        y: double.parse(object['y'].toString()),
+        cosinesimilarity: double.parse(object['cosinesimilarity'].toString()),
+        namalengkap: object['namalengkap'],
+        jeniskelamin: object['jeniskelamin'],
+        tempatlahir: object['tempatlahir'],
+        tanggallahir: object['tanggallahir'],
+        telephone: object['telephone'],
+        pendidikan: object['pendidikan'],
+        beratbadan: object['beratbadan'],
+        tinggibadan: object['tinggibadan'],
+        aislam: object['aislam'],
+        akatolik: object['akatolik'],
+        akristen: object['akristen'],
+        ahindu: object['ahindu'],
+        abuddha: object['abuddha'],
+        akonghucu: object['akonghucu'],
         tkmenginap: object['tkmenginap'],
         tkwarnen: object['tkwarnen'],
         hewan: object['hewan'],
@@ -375,20 +556,20 @@ class DataARTbyKategori {
         rating: double.parse(object['rating'].toString()));
   }
 
-  static Future<List<DataARTbyKategori>> getData(String kategori) async {
-    var url = "${globals.urlapi}dataartbykategori?kategori=$kategori";
+  static Future<List<DataARTbyFilter>> getData(String param) async {
+    var url = "${globals.urlapi}dataartbyfk?$param";
     var apiResult = await http.get(Uri.parse(url), headers: {
       "Accept": "application/json",
       "Access-Control-Allow-Origin": "*"
     });
     var jsonObject = json.decode(apiResult.body);
     var data = (jsonObject as Map<String, dynamic>)['data'];
-    List<DataARTbyKategori> listData = [];
+    List<DataARTbyFilter> listData = [];
     if (data.toString() == "null") {
       return listData;
     } else {
       for (int i = 0; i < data.length; i++) {
-        listData.add(DataARTbyKategori.createData(data[i]));
+        listData.add(DataARTbyFilter.createData(data[i]));
       }
       return listData;
     }
