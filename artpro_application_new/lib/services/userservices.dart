@@ -305,7 +305,6 @@ class DataARTbyKategori {
   int ahindu = 0;
   int abuddha = 0;
   int akonghucu = 0;
-  double jarak = 0.0;
   int tkmenginap = 0;
   int tkwarnen = 0;
   int hewan = 0;
@@ -345,7 +344,6 @@ class DataARTbyKategori {
     required this.ahindu,
     required this.abuddha,
     required this.akonghucu,
-    required this.jarak,
     required this.tkmenginap,
     required this.tkwarnen,
     required this.hewan,
@@ -387,7 +385,6 @@ class DataARTbyKategori {
         ahindu: object['ahindu'],
         abuddha: object['abuddha'],
         akonghucu: object['akonghucu'],
-        jarak: 0.0,
         tkmenginap: object['tkmenginap'],
         tkwarnen: object['tkwarnen'],
         hewan: object['hewan'],
@@ -656,5 +653,38 @@ class ReviewMajikan {
       }
       return listData;
     }
+  }
+}
+
+class HasilJarak {
+  int idart = 0;
+  double jarak = 0.0;
+
+  HasilJarak({required this.idart, required this.jarak});
+
+  factory HasilJarak.createData(Map<String, dynamic> object) {
+    return HasilJarak(idart: 0, jarak: object['routes'][0]['distance']);
+  }
+
+  static Future<HasilJarak> getData(String param) async {
+    var url =
+        "http://router.project-osrm.org/route/v1/driving/$param?overview=false";
+    var response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      return HasilJarak.createData(jsonDecode(response.body.toString()));
+    } else {
+      throw Exception('Failed');
+    }
+    // var jsonObject = json.decode(apiResult.body);
+    // var data = (jsonObject as Map<String, dynamic>)['code'];
+    // List<HasilJarak> listData = [];
+    // if (data.toString() == "null") {
+    //   return listData;
+    // } else {
+    //   for (int i = 0; i < data.length; i++) {
+    //     listData.add(HasilJarak.createData(data[i]));
+    //   }
+    //   return listData;
+    // }
   }
 }
