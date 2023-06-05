@@ -1,6 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:artpro_application_new/services/lokerservices.dart';
+import 'package:artpro_application_new/services/tambahanservices.dart';
 import 'package:artpro_application_new/services/userservices.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -9,7 +10,9 @@ String color_secondary = '0xFFFF4D00';
 
 int select_index = 0; // navigasi beranda
 
+// String urlapi = "http://192.168.1.20:1234/";
 String urlapi = "http://172.22.58.181:1234/";
+// String urlapi = "http://lectio.crossnet.co.id:1234/"; // url global
 
 // Akun User //
 String email = "";
@@ -102,4 +105,5 @@ List<String> kriteriana = [];
 
 List<DataARTbyKategori> listARTbyKategori = [];
 List<ReviewMajikan> listReviewMajikan = [];
+List<BeritaTips> listBeritaTips = [];
 // ==== Penilaian ====

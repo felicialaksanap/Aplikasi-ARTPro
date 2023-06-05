@@ -1,6 +1,7 @@
 import 'package:artpro_application_new/modeltemp/modeltemp.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'global.dart' as globals;
 
 class DetailBerita extends StatefulWidget {
@@ -12,6 +13,15 @@ class DetailBerita extends StatefulWidget {
 }
 
 class _DetailBeritaState extends State<DetailBerita> {
+  openBerita() async {
+    var url = Uri.parse(globals.listBeritaTips[widget.index].url);
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +53,7 @@ class _DetailBeritaState extends State<DetailBerita> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              MBerita.isiBerita[widget.index].judul,
+              globals.listBeritaTips[widget.index].judul,
               style: GoogleFonts.poppins(
                   textStyle: const TextStyle(
                       fontSize: 16, fontWeight: FontWeight.bold)),
@@ -51,18 +61,6 @@ class _DetailBeritaState extends State<DetailBerita> {
             ),
             const SizedBox(
               height: 20,
-            ),
-            Text(
-              "1 April 2023 12.00 WIB",
-              style: GoogleFonts.poppins(
-                  textStyle: const TextStyle(
-                      fontSize: 12, color: Color.fromARGB(255, 138, 138, 138))),
-            ),
-            Text(
-              "Sumber berita : www.liputan6.com/xxxx",
-              style: GoogleFonts.poppins(
-                  textStyle: const TextStyle(
-                      fontSize: 12, color: Color.fromARGB(255, 138, 138, 138))),
             ),
             const SizedBox(
               height: 30,
@@ -72,26 +70,34 @@ class _DetailBeritaState extends State<DetailBerita> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.0),
                   image: DecorationImage(
-                      image:
-                          AssetImage(MBerita.isiBerita[widget.index].gambarUrl),
+                      image: NetworkImage(
+                          '${globals.urlapi}getimage?id=${globals.listBeritaTips[widget.index].idberita}&folder=berita'),
                       fit: BoxFit.fitWidth)),
             ),
-            Text(
-              "Foto: xxx",
-              style: GoogleFonts.poppins(
-                  textStyle: const TextStyle(
-                      fontSize: 12, color: Color.fromARGB(255, 138, 138, 138))),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Diunggah pada: ${globals.listBeritaTips[widget.index].tglpost}",
+                  style: GoogleFonts.poppins(
+                      textStyle: const TextStyle(
+                          fontSize: 12,
+                          color: Color.fromARGB(255, 138, 138, 138))),
+                ),
+                Text(
+                  "Sumber berita : ${globals.listBeritaTips[widget.index].url}",
+                  style: GoogleFonts.poppins(
+                      textStyle: const TextStyle(
+                          fontSize: 12,
+                          color: Color.fromARGB(255, 138, 138, 138))),
+                ),
+              ],
             ),
             const SizedBox(
               height: 30,
             ),
             Text(
-              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-              style:
-                  GoogleFonts.poppins(textStyle: const TextStyle(fontSize: 15)),
-            ),
-            Text(
-              "\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+              globals.listBeritaTips[widget.index].isi,
               style:
                   GoogleFonts.poppins(textStyle: const TextStyle(fontSize: 15)),
             ),

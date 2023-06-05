@@ -4,6 +4,7 @@ import 'package:artpro_application_new/listberita.dart';
 import 'package:artpro_application_new/listloker.dart';
 import 'package:artpro_application_new/notifikasi.dart';
 import 'package:artpro_application_new/services/lokerservices.dart';
+import 'package:artpro_application_new/services/tambahanservices.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import './global.dart' as globals;
@@ -18,7 +19,28 @@ class Beranda extends StatefulWidget {
 }
 
 class _BerandaState extends State<Beranda> {
-  bool finishgetdata = true;
+  bool finishgetdata = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getBerita();
+  }
+
+  void getBerita() {
+    BeritaTips.getAllData().then((value) {
+      setState(() {
+        globals.listBeritaTips = value;
+
+        for (int i = 0; i < globals.listBeritaTips.length; i++) {
+          globals.listBeritaTips[i].isi =
+              globals.listBeritaTips[i].isi.replaceAll("<br>", "\n");
+        }
+        finishgetdata = true;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -434,7 +456,7 @@ class _BerandaState extends State<Beranda> {
                     height: 250,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: MBerita.isiBerita.length,
+                      itemCount: 5,
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {
@@ -450,8 +472,8 @@ class _BerandaState extends State<Beranda> {
                                 children: [
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(10.0),
-                                    child: Image.asset(
-                                      MBerita.isiBerita[index].gambarUrl,
+                                    child: Image.network(
+                                      '${globals.urlapi}getimage?id=${globals.listBeritaTips[index].idberita}&folder=berita',
                                       height: 150,
                                       width: 250,
                                       fit: BoxFit.cover,
@@ -460,7 +482,7 @@ class _BerandaState extends State<Beranda> {
                                   Container(
                                     width: 250,
                                     child: Text(
-                                      MBerita.isiBerita[index].judul,
+                                      globals.listBeritaTips[index].judul,
                                       style: GoogleFonts.poppins(
                                           textStyle: const TextStyle(
                                               fontSize: 15,
@@ -469,7 +491,7 @@ class _BerandaState extends State<Beranda> {
                                   )
                                 ],
                               ),
-                              index != MBerita.isiBerita.length - 1
+                              index != 4
                                   ? const SizedBox(
                                       width: 20,
                                     )

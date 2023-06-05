@@ -571,6 +571,16 @@ class DataARTbyFilter {
       return listData;
     }
   }
+
+  static Future<String> makeCopyTable(String param) async {
+    var url = "${globals.urlapi}makeandcopytable?$param";
+    var response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      throw Exception('Failed');
+    }
+  }
 }
 
 class RataPenilaian {
@@ -675,16 +685,5 @@ class HasilJarak {
     } else {
       throw Exception('Failed');
     }
-    // var jsonObject = json.decode(apiResult.body);
-    // var data = (jsonObject as Map<String, dynamic>)['code'];
-    // List<HasilJarak> listData = [];
-    // if (data.toString() == "null") {
-    //   return listData;
-    // } else {
-    //   for (int i = 0; i < data.length; i++) {
-    //     listData.add(HasilJarak.createData(data[i]));
-    //   }
-    //   return listData;
-    // }
   }
 }

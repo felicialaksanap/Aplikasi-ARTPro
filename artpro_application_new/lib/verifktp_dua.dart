@@ -80,6 +80,7 @@ class _VerifikasiKTPDState extends State<VerifikasiKTPD> {
         if (globals.alamatktp != "") {
           dropProvinsi = globals.provktp;
         }
+        getDataDone = true;
       });
     });
   }
@@ -99,6 +100,7 @@ class _VerifikasiKTPDState extends State<VerifikasiKTPD> {
         if (globals.alamatktp != "") {
           dropKota = globals.kotaktp;
         }
+        getDataDone = true;
       });
     });
   }
@@ -118,6 +120,7 @@ class _VerifikasiKTPDState extends State<VerifikasiKTPD> {
         if (globals.alamatktp != "") {
           dropKec = globals.kecktp;
         }
+        getDataDone = true;
       });
     });
   }
@@ -138,6 +141,7 @@ class _VerifikasiKTPDState extends State<VerifikasiKTPD> {
           dropKelu = globals.kelktp;
           checkValue();
         }
+        getDataDone = true;
       });
     });
   }

@@ -40,7 +40,7 @@ class _ListBeritaState extends State<ListBerita> {
       body: Container(
         padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
         child: ListView.builder(
-            itemCount: MBerita.isiBerita.length,
+            itemCount: globals.listBeritaTips.length,
             itemBuilder: (context, index) {
               return Column(
                 children: [
@@ -56,8 +56,8 @@ class _ListBeritaState extends State<ListBerita> {
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(10.0),
-                          child: Image.asset(
-                            MBerita.isiBerita[index].gambarUrl,
+                          child: Image.network(
+                            '${globals.urlapi}getimage?id=${globals.listBeritaTips[index].idberita}&folder=berita',
                             height: 100,
                             width: 150,
                             fit: BoxFit.cover,
@@ -71,7 +71,7 @@ class _ListBeritaState extends State<ListBerita> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                MBerita.isiBerita[index].judul,
+                                globals.listBeritaTips[index].judul,
                                 style: GoogleFonts.poppins(
                                     textStyle: const TextStyle(
                                         fontSize: 15,
@@ -81,7 +81,7 @@ class _ListBeritaState extends State<ListBerita> {
                                 height: 10,
                               ),
                               Text(
-                                "1 April 2023 12.00 WIB",
+                                "diunggah pada ${globals.listBeritaTips[index].tglpost}",
                                 style: GoogleFonts.poppins(
                                     textStyle: const TextStyle(
                                         fontSize: 12,
