@@ -5,7 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'global.dart' as globals;
 
 class ListBerita extends StatefulWidget {
-  const ListBerita({super.key});
+  String konten = "";
+
+  ListBerita({super.key, required this.konten});
 
   @override
   State<ListBerita> createState() => _ListBeritaState();
@@ -40,7 +42,9 @@ class _ListBeritaState extends State<ListBerita> {
       body: Container(
         padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
         child: ListView.builder(
-            itemCount: globals.listBeritaTips.length,
+            itemCount: widget.konten == "berita"
+                ? globals.listBeritaTips.length
+                : globals.ListInfoPelatihan.length,
             itemBuilder: (context, index) {
               return Column(
                 children: [
@@ -49,15 +53,19 @@ class _ListBeritaState extends State<ListBerita> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  DetailBerita(index: index)));
+                              builder: (context) => DetailBerita(
+                                    index: index,
+                                    konten: widget.konten,
+                                  )));
                     },
                     child: Row(
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(10.0),
                           child: Image.network(
-                            '${globals.urlapi}getimage?id=${globals.listBeritaTips[index].idberita}&folder=berita',
+                            widget.konten == "berita"
+                                ? '${globals.urlapi}getimage?id=${globals.listBeritaTips[index].idberita}&folder=berita'
+                                : '${globals.urlapi}getimage?id=${globals.ListInfoPelatihan[index].idinfo}&folder=info',
                             height: 100,
                             width: 150,
                             fit: BoxFit.cover,
@@ -71,7 +79,9 @@ class _ListBeritaState extends State<ListBerita> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                globals.listBeritaTips[index].judul,
+                                widget.konten == "berita"
+                                    ? globals.listBeritaTips[index].judul
+                                    : globals.ListInfoPelatihan[index].judul,
                                 style: GoogleFonts.poppins(
                                     textStyle: const TextStyle(
                                         fontSize: 15,
@@ -81,7 +91,9 @@ class _ListBeritaState extends State<ListBerita> {
                                 height: 10,
                               ),
                               Text(
-                                "diunggah pada ${globals.listBeritaTips[index].tglpost}",
+                                widget.konten == "berita"
+                                    ? "diunggah pada ${globals.listBeritaTips[index].tglpost}"
+                                    : "diunggah pada ${globals.ListInfoPelatihan[index].tglpost}",
                                 style: GoogleFonts.poppins(
                                     textStyle: const TextStyle(
                                         fontSize: 12,

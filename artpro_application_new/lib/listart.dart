@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings
 
+import 'dart:async';
 import 'dart:developer';
 import 'dart:convert';
 import 'package:artpro_application_new/services/userservices.dart';
@@ -64,6 +65,9 @@ class _ListARTState extends State<ListART> {
   int gajiawal = 0;
   int gajiakhir = 0;
 
+  DateTime date = DateTime.now();
+  String tglkontak = "";
+
   @override
   void initState() {
     // TODO: implement initState
@@ -84,6 +88,8 @@ class _ListARTState extends State<ListART> {
     } else if (widget.konten == "tukangkebun") {
       titlekategori = "Tukang Kebun";
     }
+
+    tglkontak = DateFormat('dd-MM-yyyy').format(date);
   }
 
   void getListARTbyKategori() {
@@ -191,6 +197,20 @@ class _ListARTState extends State<ListART> {
     // }
     var url = Uri.parse("tel:${globals.listARTbyKategori[index].telephone}");
     if (await canLaunchUrl(url)) {
+      KontakArt.getData(globals.listARTbyKategori[index].idart.toString())
+          .then((value) async {
+        setState(() {
+          globals.listKontakArt = value;
+        });
+        if (globals.listKontakArt.isEmpty) {
+          var url2 = "${globals.urlapi}addkontakuser";
+          var response = await http.post(Uri.parse(url2), body: {
+            "idmajikan": globals.iduser.toString(),
+            "idart": globals.listARTbyKategori[index].idart.toString(),
+            "waktukontak": tglkontak
+          });
+        }
+      });
       await launchUrl(url);
     } else {
       throw 'Could not launch $url';
@@ -205,7 +225,7 @@ class _ListARTState extends State<ListART> {
 
         log("length: ${listDatabyFilter.length}");
         for (int i = 0; i < listDatabyFilter.length; i++) {
-          log("id index: $i - ${listDatabyFilter[i].idart}");
+          log("id index: $i - ${listDatabyFilter[i].idart} - ${listDatabyFilter[i].jarak}");
           globals.listARTbyKategori[i].idart = listDatabyFilter[i].idart;
           globals.listARTbyKategori[i].namalengkap =
               listDatabyFilter[i].namalengkap;
@@ -261,7 +281,8 @@ class _ListARTState extends State<ListART> {
           globals.listARTbyKategori[i].gajiakhir =
               NumberFormat.decimalPatternDigits(
                       locale: 'en-US', decimalDigits: 0)
-                  .format(listDatabyFilter[i].idart);
+                  .format(listDatabyFilter[i].gajiakhir);
+          globals.listARTbyKategori[i].jarak = listDatabyFilter[i].jarak;
           globals.listARTbyKategori[i].rating = listDatabyFilter[i].rating;
 
           // arrange kategori to string
@@ -345,9 +366,12 @@ class _ListARTState extends State<ListART> {
     String longlatart = "";
     String longlatparam = "";
     String paramsmakeandcopy = "";
-    var url = "${globals.urlapi}updatejarak";
 
     if (curLokasiVal != 0.0) {
+      paramsmakeandcopy = paramsmakeandcopy +
+          "kategori=${widget.konten}&idmajikan=${globals.iduser}";
+      DataARTbyFilter.makeCopyTable(paramsmakeandcopy).then((value) {});
+
       longlatmajikan =
           longlatmajikan + "${globals.longitude},${globals.latitude};";
 
@@ -365,25 +389,24 @@ class _ListARTState extends State<ListART> {
           listJarak[i].jarak = listJarak[i].jarak / 1000;
           listJarak[i].jarak =
               double.parse(listJarak[i].jarak.toStringAsFixed(1));
+          updateJaraktoDB(globals.iduser.toString(),
+              listJarak[i].idart.toString(), listJarak[i].jarak.toString());
         });
         longlatart = "";
       }
 
-      paramsmakeandcopy = paramsmakeandcopy +
-          "kategori=${widget.konten}&idmajikan=${globals.iduser}";
-      DataARTbyFilter.makeCopyTable(paramsmakeandcopy).then((value) {});
-
-      for (int i = 0; i < listJarak.length; i++) {
-        log("info: ${listJarak[i].idart} - ${listJarak[i].jarak}");
-        var response = await http.put(Uri.parse(url), body: {
-          "idmajikan": globals.iduser.toString(),
-          "idart": listJarak[i].idart.toString(),
-          "jarak": listJarak[i].jarak.toString()
-        });
-      }
+      param = param + "updatestatusjarak=true";
+    } else {
+      param = param + "updatestatusjarak=false";
     }
 
     getListARTbyFilter(param);
+  }
+
+  void updateJaraktoDB(String idmajikan, String idart, String jarak) async {
+    var url = "${globals.urlapi}updatejarak";
+    var response = await http.put(Uri.parse(url),
+        body: {"idmajikan": idmajikan, "idart": idart, "jarak": jarak});
   }
 
   @override
@@ -1106,6 +1129,7 @@ class _ListARTState extends State<ListART> {
                           onPressed: () async {
                             var url = "";
                             String longlat = "";
+                            int jarakmajikan = 0;
 
                             setState(() {
                               params = "";
@@ -1227,11 +1251,12 @@ class _ListARTState extends State<ListART> {
                                     maxgajictr.text.replaceAll(",", ""));
                               }
 
-                              params = params +
-                                  "gajiawal=$gajiawal&gajiakhir=$gajiakhir&jarak=$curLokasiVal&updatestatusjarak=false";
+                              jarakmajikan = curLokasiVal.toInt();
 
-                              getListARTbyFilter(params);
-                              // calculateDistane(params);
+                              params = params +
+                                  "gajiawal=$gajiawal&gajiakhir=$gajiakhir&jarak=$jarakmajikan&";
+
+                              calculateDistane(params);
                             });
                           },
                           style: ElevatedButton.styleFrom(

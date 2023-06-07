@@ -143,6 +143,41 @@ class DomisiliUser {
   }
 }
 
+class LongLatUser {
+  int iduser = 0;
+  String longitude = "";
+  String latitude = "";
+
+  LongLatUser(
+      {required this.iduser, required this.longitude, required this.latitude});
+
+  factory LongLatUser.createData(Map<String, dynamic> object) {
+    return LongLatUser(
+        iduser: object['iduser'],
+        longitude: object['longitude'],
+        latitude: object['latitude']);
+  }
+
+  static Future<List<LongLatUser>> getData(String iduser) async {
+    var url = "${globals.urlapi}getlonglatuser?iduser=${int.parse(iduser)}";
+    var apiResult = await http.get(Uri.parse(url), headers: {
+      "Accept": "application/json",
+      "Access-Control-Allow-Origin": "*"
+    });
+    var jsonObject = json.decode(apiResult.body);
+    var data = (jsonObject as Map<String, dynamic>)['data'];
+    List<LongLatUser> listData = [];
+    if (data.toString() == "null") {
+      return listData;
+    } else {
+      for (int i = 0; i < data.length; i++) {
+        listData.add(LongLatUser.createData(data[i]));
+      }
+      return listData;
+    }
+  }
+}
+
 class DetailProfileART {
   String iduser = "";
   String pendidikanterakhir = "";
@@ -325,6 +360,7 @@ class DataARTbyKategori {
   String gajiakhir = "";
   String latitude = "";
   String longitude = "";
+  double jarak = 0.0;
   double rating = 0.0;
 
   DataARTbyKategori({
@@ -364,6 +400,7 @@ class DataARTbyKategori {
     required this.gajiakhir,
     required this.latitude,
     required this.longitude,
+    required this.jarak,
     required this.rating,
   });
 
@@ -405,6 +442,7 @@ class DataARTbyKategori {
         gajiakhir: object['gajiakhir'].toString(),
         latitude: object['latitude'],
         longitude: object['longitude'],
+        jarak: 0.0,
         rating: double.parse(object['rating'].toString()));
   }
 
@@ -467,6 +505,7 @@ class DataARTbyFilter {
   String pengalaman = "";
   int gajiawal = 0;
   int gajiakhir = 0;
+  double jarak = 0.0;
   double rating = 0.0;
 
   DataARTbyFilter(
@@ -508,6 +547,7 @@ class DataARTbyFilter {
       required this.pengalaman,
       required this.gajiawal,
       required this.gajiakhir,
+      required this.jarak,
       required this.rating});
 
   factory DataARTbyFilter.createData(Map<String, dynamic> object) {
@@ -550,6 +590,7 @@ class DataARTbyFilter {
         pengalaman: object['pengalaman'],
         gajiawal: object['gajiawal'],
         gajiakhir: object['gajiakhir'],
+        jarak: double.parse(object['jarak'].toString()),
         rating: double.parse(object['rating'].toString()));
   }
 
@@ -684,6 +725,148 @@ class HasilJarak {
       return HasilJarak.createData(jsonDecode(response.body.toString()));
     } else {
       throw Exception('Failed');
+    }
+  }
+}
+
+class DataKontakART {
+  int idart = 0;
+  String namalengkap = "";
+  String tanggallahir = "";
+  String telephone = "";
+  int kprt = 0;
+  int kbabysitter = 0;
+  int kseniorcare = 0;
+  int ksupir = 0;
+  int kofficeboy = 0;
+  int ktukangkebun = 0;
+
+  DataKontakART(
+      {required this.idart,
+      required this.namalengkap,
+      required this.tanggallahir,
+      required this.telephone,
+      required this.kprt,
+      required this.kbabysitter,
+      required this.kseniorcare,
+      required this.ksupir,
+      required this.kofficeboy,
+      required this.ktukangkebun});
+
+  factory DataKontakART.createData(Map<String, dynamic> object) {
+    return DataKontakART(
+        idart: object['idart'],
+        namalengkap: object['namalengkap'],
+        tanggallahir: object['tanggallahir'],
+        telephone: object['telephone'],
+        kprt: object['kprt'],
+        kbabysitter: object['kbabysitter'],
+        kseniorcare: object['kseniorcare'],
+        ksupir: object['ksupir'],
+        kofficeboy: object['kofficeboy'],
+        ktukangkebun: object['ktukangkebun']);
+  }
+
+  static Future<List<DataKontakART>> getData(String idmajikan) async {
+    var url =
+        "${globals.urlapi}alldatakontakart?idmajikan=${int.parse(idmajikan)}";
+    var apiResult = await http.get(Uri.parse(url), headers: {
+      "Accept": "application/json",
+      "Access-Control-Allow-Origin": "*"
+    });
+    var jsonObject = json.decode(apiResult.body);
+    var data = (jsonObject as Map<String, dynamic>)['data'];
+    List<DataKontakART> listData = [];
+    if (data.toString() == "null") {
+      return listData;
+    } else {
+      for (int i = 0; i < data.length; i++) {
+        listData.add(DataKontakART.createData(data[i]));
+      }
+      return listData;
+    }
+  }
+}
+
+class DataKontakMajikan {
+  int idmajikan = 0;
+  String namalengkap = "";
+  String telephone = "";
+  String kecamatan = "";
+  String kota = "";
+
+  DataKontakMajikan(
+      {required this.idmajikan,
+      required this.namalengkap,
+      required this.telephone,
+      required this.kecamatan,
+      required this.kota});
+
+  factory DataKontakMajikan.createData(Map<String, dynamic> object) {
+    return DataKontakMajikan(
+        idmajikan: object['idmajikan'],
+        namalengkap: object['namalengkap'],
+        telephone: object['telephone'],
+        kecamatan: object['kecamatan'],
+        kota: object['kota']);
+  }
+
+  static Future<List<DataKontakMajikan>> getData(String idart) async {
+    var url = "${globals.urlapi}alldatakontakmajikan?idart=${int.parse(idart)}";
+    var apiResult = await http.get(Uri.parse(url), headers: {
+      "Accept": "application/json",
+      "Access-Control-Allow-Origin": "*"
+    });
+    var jsonObject = json.decode(apiResult.body);
+    var data = (jsonObject as Map<String, dynamic>)['data'];
+    List<DataKontakMajikan> listData = [];
+    if (data.toString() == "null") {
+      return listData;
+    } else {
+      for (int i = 0; i < data.length; i++) {
+        listData.add(DataKontakMajikan.createData(data[i]));
+      }
+      return listData;
+    }
+  }
+}
+
+class KontakArt {
+  int idkontak = 0;
+  int idmajikan = 0;
+  int idart = 0;
+  String waktukontak = "";
+
+  KontakArt(
+      {required this.idkontak,
+      required this.idmajikan,
+      required this.idart,
+      required this.waktukontak});
+
+  factory KontakArt.createData(Map<String, dynamic> object) {
+    return KontakArt(
+        idkontak: object['idkontak'],
+        idmajikan: object['idmajikan'],
+        idart: object['idart'],
+        waktukontak: object['waktukontak']);
+  }
+
+  static Future<List<KontakArt>> getData(String idart) async {
+    var url = "${globals.urlapi}getinfokontak?idart=${int.parse(idart)}";
+    var apiResult = await http.get(Uri.parse(url), headers: {
+      "Accept": "application/json",
+      "Access-Control-Allow-Origin": "*"
+    });
+    var jsonObject = json.decode(apiResult.body);
+    var data = (jsonObject as Map<String, dynamic>)['data'];
+    List<KontakArt> listData = [];
+    if (data.toString() == "null") {
+      return listData;
+    } else {
+      for (int i = 0; i < data.length; i++) {
+        listData.add(KontakArt.createData(data[i]));
+      }
+      return listData;
     }
   }
 }

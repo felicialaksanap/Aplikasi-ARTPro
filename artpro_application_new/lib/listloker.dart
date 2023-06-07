@@ -1,10 +1,13 @@
 // ignore_for_file: sort_child_properties_last
 
+import 'dart:developer';
+
 import 'package:artpro_application_new/beranda.dart';
 import 'package:artpro_application_new/detailloker.dart';
 import 'package:artpro_application_new/listlokernaktif.dart';
 import 'package:artpro_application_new/mainberanda.dart';
 import 'package:artpro_application_new/modeltemp/modeltemp.dart';
+import 'package:artpro_application_new/services/userservices.dart';
 import 'package:artpro_application_new/tambahloker.dart';
 import 'package:artpro_application_new/services/lokerservices.dart';
 import 'package:flutter/material.dart';
@@ -50,6 +53,16 @@ class _ListLokerState extends State<ListLoker> {
       NumberFormat.decimalPattern(_locale).format(int.parse(s));
   String get _currency =>
       NumberFormat.compactSimpleCurrency(locale: _locale).currencySymbol;
+
+  String params = "";
+  int gajiawal = 0;
+  int gajiakhir = 0;
+
+  TextEditingController mingajictr = TextEditingController();
+  TextEditingController maxgajictr = TextEditingController();
+
+  List<LokerbyFilter> listLokerbyFilter = [];
+  List<Loker> tempListLokerAktif = [];
 
   @override
   void initState() {
@@ -284,6 +297,66 @@ class _ListLokerState extends State<ListLoker> {
         globals.listKriteria.add("Sudah menikah");
       }
     });
+  }
+
+  void getListLokerbyFilter(String params) {
+    LokerbyFilter.getData(params).then((value) {
+      setState(() {
+        log("length loker filter: ${value.length}");
+        // listLokerbyFilter.clear();
+        // listLokerbyFilter = value;
+
+        // tempListLokerAktif = globals.listLokerAktif;
+
+        // log("length: ${listLokerbyFilter.length}");
+      });
+    });
+  }
+
+  void calculateDistance(String param) async {
+    String longlatart = "";
+    String longlatloker = "";
+    String longlatparam = "";
+    String paramsmakeandcopy = "";
+    double caljarak = 0.0;
+
+    if (curLokasiVal != 0.0) {
+      paramsmakeandcopy = paramsmakeandcopy + "idart=${globals.iduser}a";
+      LokerbyFilter.makeCopyTable(paramsmakeandcopy).then((value) {});
+
+      longlatart = longlatart + "${globals.longitude},${globals.latitude};";
+
+      for (int i = 0; i < globals.listLokerAktif.length; i++) {
+        LongLatUser.getData(globals.listLokerAktif[i].iduser).then((value) {
+          longlatloker = "";
+          longlatloker =
+              longlatloker + "${value[0].longitude},${value[0].latitude}";
+
+          longlatparam = "";
+          longlatparam = longlatart + longlatloker;
+          HasilJarak.getData(longlatparam).then((value) {
+            caljarak = 0.0;
+            caljarak = value.jarak / 1000;
+            caljarak = double.parse(caljarak.toStringAsFixed(1));
+
+            updateJaraktoDb("${globals.iduser}a",
+                globals.listLokerAktif[i].idloker, caljarak.toString());
+          });
+        });
+      }
+
+      param = param + "updatejarak=true";
+    } else {
+      param = param + "updatejarak=false";
+    }
+
+    getListLokerbyFilter(param);
+  }
+
+  void updateJaraktoDb(String idart, String idloker, String jarak) async {
+    var url = "${globals.urlapi}updatejarakloker";
+    var response = await http.put(Uri.parse(url),
+        body: {"idart": idart, "idloker": idloker, "jarak": jarak});
   }
 
   @override
@@ -553,8 +626,18 @@ class _ListLokerState extends State<ListLoker> {
                       width: 130,
                       height: 30,
                       child: TextField(
+                        controller: mingajictr,
                         cursorColor: Color(int.parse(globals.color_primary)),
                         textAlign: TextAlign.center,
+                        onChanged: (string) {
+                          string =
+                              '${_formatNumber(string.replaceAll(',', ''))}';
+                          mingajictr.value = TextEditingValue(
+                            text: string,
+                            selection:
+                                TextSelection.collapsed(offset: string.length),
+                          );
+                        },
                         decoration: InputDecoration(
                             enabledBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
@@ -583,8 +666,18 @@ class _ListLokerState extends State<ListLoker> {
                       width: 130,
                       height: 30,
                       child: TextField(
+                        controller: maxgajictr,
                         cursorColor: Color(int.parse(globals.color_primary)),
                         textAlign: TextAlign.center,
+                        onChanged: (string) {
+                          string =
+                              '${_formatNumber(string.replaceAll(',', ''))}';
+                          maxgajictr.value = TextEditingValue(
+                            text: string,
+                            selection:
+                                TextSelection.collapsed(offset: string.length),
+                          );
+                        },
                         decoration: InputDecoration(
                             enabledBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
@@ -964,6 +1057,7 @@ class _ListLokerState extends State<ListLoker> {
                                   textStyle: const TextStyle(fontSize: 14))),
                         ),
                       ),
+                      const SizedBox(height: 10),
                       GestureDetector(
                         onTap: () {
                           setState(() {
@@ -1024,7 +1118,121 @@ class _ListLokerState extends State<ListLoker> {
                       width: MediaQuery.of(context).size.width / 3,
                       padding: const EdgeInsets.only(left: 10.0),
                       child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            int jarakart = 0;
+                            setState(() {
+                              params = "";
+
+                              params =
+                                  params + "idart=" + globals.iduser + "a&";
+
+                              if (prtSel == true) {
+                                params = params + "kprt=1&";
+                              } else {
+                                params = params + "kprt=0&";
+                              }
+                              if (babySel == true) {
+                                params = params + "kbabysitter=1&";
+                              } else {
+                                params = params + "kbabysitter=0&";
+                              }
+                              if (seniorSel == true) {
+                                params = params + "kseniorcare=1&";
+                              } else {
+                                params = params + "kseniorcare=0&";
+                              }
+                              if (supirSel == true) {
+                                params = params + "ksupir=1&";
+                              } else {
+                                params = params + "ksupir=0&";
+                              }
+                              if (officeSel == true) {
+                                params = params + "kofficeboy=1&";
+                              } else {
+                                params = params + "kofficeboy=0&";
+                              }
+                              if (gardenerSel == true) {
+                                params = params + "ktukangkebun=1&";
+                              } else {
+                                params = params + "ktukangkebun=0&";
+                              }
+
+                              if (petSelect == true) {
+                                params = params + "hewan=1&";
+                              } else {
+                                params = params + "hewan=0&";
+                              }
+                              if (masakSel == true) {
+                                params = params + "masak=1&";
+                              } else {
+                                params = params + "masak=0&";
+                              }
+                              if (maPerSel == true) {
+                                params = params + "mabukjalan=1&";
+                              } else {
+                                params = params + "mabukjalan=0&";
+                              }
+                              if (motorSel == true) {
+                                params = params + "sepedamotor=1&";
+                              } else {
+                                params = params + "sepedamotor=0&";
+                              }
+                              if (mobilSel == true) {
+                                params = params + "mobil=1&";
+                              } else {
+                                params = params + "mobil=0&";
+                              }
+
+                              if (inapSelect == true) {
+                                params = params + "tkmenginap=1&";
+                              } else {
+                                params = params + "tkmenginap=0&";
+                              }
+                              if (warnenSelect == true) {
+                                params = params + "tkwarnen=1&";
+                              } else {
+                                params = params + "tkwarnen=0&";
+                              }
+
+                              if (singleSel == true) {
+                                params = params + "ssingle=1&";
+                              } else {
+                                params = params + "ssingle=0&";
+                              }
+                              if (marriedSel == true) {
+                                params = params + "smarried=1&";
+                              } else {
+                                params = params + "smarried=0&";
+                              }
+
+                              if (mingajictr.text == "") {
+                                gajiawal = 0;
+                              } else {
+                                gajiawal = int.parse(
+                                    mingajictr.text.replaceAll(",", ""));
+                              }
+
+                              if (maxgajictr.text == "") {
+                                gajiakhir = 0;
+                              } else {
+                                gajiakhir = int.parse(
+                                    maxgajictr.text.replaceAll(",", ""));
+                              }
+
+                              if (warnenSelect == true) {
+                                jarakart = curLokasiVal.toInt();
+                                log("jarak: $jarakart");
+                              } else {
+                                curLokasiVal = 0.0;
+                                jarakart = curLokasiVal.toInt();
+                              }
+
+                              params = params +
+                                  "gajiawal=$gajiawal&gajiakhir=$gajiakhir&jarak=$jarakart&";
+
+                              calculateDistance(params);
+                            });
+                          },
                           style: ElevatedButton.styleFrom(
                               elevation: 0,
                               backgroundColor:

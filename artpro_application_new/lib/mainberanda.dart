@@ -49,7 +49,7 @@ class _MainBerandaState extends State<MainBeranda> {
             BottomNavigationBarItem(
                 icon: Icon(Icons.home_filled), label: 'Beranda'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.assignment), label: 'Karir'),
+                icon: Icon(Icons.contacts), label: 'Kontak'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.account_box), label: 'Profile'),
           ],

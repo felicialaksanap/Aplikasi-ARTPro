@@ -6,21 +6,22 @@ import 'global.dart' as globals;
 
 class DetailBerita extends StatefulWidget {
   int index;
-  DetailBerita({super.key, required this.index});
+  String konten = "";
+  DetailBerita({super.key, required this.index, required this.konten});
 
   @override
   State<DetailBerita> createState() => _DetailBeritaState();
 }
 
 class _DetailBeritaState extends State<DetailBerita> {
-  openBerita() async {
-    var url = Uri.parse(globals.listBeritaTips[widget.index].url);
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
+  // openBerita() async {
+  //   var url = Uri.parse(globals.listBeritaTips[widget.index].url);
+  //   if (await canLaunchUrl(url)) {
+  //     await launchUrl(url);
+  //   } else {
+  //     throw 'Could not launch $url';
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +54,9 @@ class _DetailBeritaState extends State<DetailBerita> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              globals.listBeritaTips[widget.index].judul,
+              widget.konten == "berita"
+                  ? globals.listBeritaTips[widget.index].judul
+                  : globals.ListInfoPelatihan[widget.index].judul,
               style: GoogleFonts.poppins(
                   textStyle: const TextStyle(
                       fontSize: 16, fontWeight: FontWeight.bold)),
@@ -70,34 +73,47 @@ class _DetailBeritaState extends State<DetailBerita> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.0),
                   image: DecorationImage(
-                      image: NetworkImage(
-                          '${globals.urlapi}getimage?id=${globals.listBeritaTips[widget.index].idberita}&folder=berita'),
+                      image: NetworkImage(widget.konten == "berita"
+                          ? '${globals.urlapi}getimage?id=${globals.listBeritaTips[widget.index].idberita}&folder=berita'
+                          : '${globals.urlapi}getimage?id=${globals.ListInfoPelatihan[widget.index].idinfo}&folder=info'),
                       fit: BoxFit.fitWidth)),
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Diunggah pada: ${globals.listBeritaTips[widget.index].tglpost}",
+                  widget.konten == "berita"
+                      ? "Diunggah pada: ${globals.listBeritaTips[widget.index].tglpost}"
+                      : "Diunggah pada: ${globals.ListInfoPelatihan[widget.index].tglpost}",
                   style: GoogleFonts.poppins(
                       textStyle: const TextStyle(
                           fontSize: 12,
                           color: Color.fromARGB(255, 138, 138, 138))),
                 ),
-                Text(
-                  "Sumber berita : ${globals.listBeritaTips[widget.index].url}",
-                  style: GoogleFonts.poppins(
-                      textStyle: const TextStyle(
-                          fontSize: 12,
-                          color: Color.fromARGB(255, 138, 138, 138))),
-                ),
+                InkWell(
+                  child: Text(
+                    widget.konten == "berita"
+                        ? "Sumber berita : ${globals.listBeritaTips[widget.index].url}"
+                        : "Sumber berita : ${globals.ListInfoPelatihan[widget.index].url}",
+                    style: GoogleFonts.poppins(
+                        textStyle:
+                            const TextStyle(fontSize: 15, color: Colors.blue)),
+                  ),
+                  onTap: () => widget.konten == "berita"
+                      ? launchUrl(
+                          Uri.parse(globals.listBeritaTips[widget.index].url))
+                      : launchUrl(Uri.parse(
+                          globals.ListInfoPelatihan[widget.index].url)),
+                )
               ],
             ),
             const SizedBox(
               height: 30,
             ),
             Text(
-              globals.listBeritaTips[widget.index].isi,
+              widget.konten == "berita"
+                  ? globals.listBeritaTips[widget.index].isi
+                  : globals.ListInfoPelatihan[widget.index].isi,
               style:
                   GoogleFonts.poppins(textStyle: const TextStyle(fontSize: 15)),
             ),

@@ -5,6 +5,7 @@ import 'package:artpro_application_new/listloker.dart';
 import 'package:artpro_application_new/modeltemp/modeltemp.dart';
 import 'package:artpro_application_new/notifikasi.dart';
 import 'package:artpro_application_new/services/lokerservices.dart';
+import 'package:artpro_application_new/services/tambahanservices.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -29,6 +30,26 @@ class _BerandaARTState extends State<BerandaART> {
     super.initState();
 
     getListloker();
+    getBerita();
+    getInfoPelatihan();
+  }
+
+  void getInfoPelatihan() {
+    InfoPelatihan.getAllData().then((value) {
+      setState(() {
+        globals.ListInfoPelatihan.clear();
+        globals.ListInfoPelatihan = value;
+      });
+    });
+  }
+
+  void getBerita() {
+    BeritaTips.getAllData().then((value) {
+      setState(() {
+        globals.listBeritaTips.clear();
+        globals.listBeritaTips = value;
+      });
+    });
   }
 
   void getListloker() {
@@ -390,153 +411,6 @@ class _BerandaARTState extends State<BerandaART> {
                       ),
                     ),
                   ),
-                  // const SizedBox(
-                  //   height: 5,
-                  // ),
-                  // GestureDetector(
-                  //   onTap: () {
-                  //     Navigator.push(
-                  //         context,
-                  //         MaterialPageRoute(
-                  //             builder: (context) => DetailLoker(
-                  //                   index: 1,
-                  //                 )));
-                  //   },
-                  //   child: Card(
-                  //     shape: RoundedRectangleBorder(
-                  //         borderRadius: BorderRadius.circular(10.0)),
-                  //     elevation: 3,
-                  //     child: Container(
-                  //       width: MediaQuery.of(context).size.width,
-                  //       padding: const EdgeInsets.all(8.0),
-                  //       child: Column(
-                  //         crossAxisAlignment: CrossAxisAlignment.start,
-                  //         children: [
-                  //           Text(
-                  //             globals.listLokerAll[1].judulloker,
-                  //             style: GoogleFonts.poppins(
-                  //                 textStyle: TextStyle(
-                  //                     fontSize: 15,
-                  //                     fontWeight: FontWeight.bold,
-                  //                     color: Color(
-                  //                         int.parse(globals.color_primary)))),
-                  //           ),
-                  //           Text(
-                  //             globals.listLokerAll[1].jeniskelamin == "P"
-                  //                 ? "Ibu ${globals.listLokerAll[1].namalengkap}"
-                  //                 : "Bapak ${globals.listLokerAll[1].namalengkap}",
-                  //             style: GoogleFonts.poppins(
-                  //                 textStyle: const TextStyle(
-                  //                     fontSize: 15, color: Colors.black)),
-                  //           ),
-                  //           const SizedBox(
-                  //             height: 10,
-                  //           ),
-                  //           Text(
-                  //             "${globals.listLokerAll[1].kecamatan}, ${globals.listLokerAll[1].kota} | 0 km",
-                  //             style: GoogleFonts.poppins(
-                  //                 textStyle: const TextStyle(
-                  //                     fontSize: 13,
-                  //                     fontWeight: FontWeight.bold,
-                  //                     color: Colors.black)),
-                  //           ),
-                  //           Text(
-                  //             "Rp ${globals.listLokerAll[1].gajiawal} - ${globals.listLokerAll[1].gajiakhir} per bulan",
-                  //             style: GoogleFonts.poppins(
-                  //                 textStyle: const TextStyle(
-                  //                     fontSize: 13,
-                  //                     fontWeight: FontWeight.bold,
-                  //                     color: Colors.black)),
-                  //           ),
-                  //           const SizedBox(
-                  //             height: 20,
-                  //           ),
-                  //           Text(
-                  //             globals.listLokerAll[1].informasi,
-                  //             style: GoogleFonts.poppins(
-                  //                 textStyle: const TextStyle(
-                  //               fontSize: 13,
-                  //             )),
-                  //           ),
-                  //           const SizedBox(
-                  //             height: 10,
-                  //           ),
-                  //           Row(
-                  //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //             children: [
-                  //               Text(
-                  //                 "Post pada ${globals.listLokerAll[1].tglpost}",
-                  //                 style: GoogleFonts.poppins(
-                  //                     textStyle: const TextStyle(
-                  //                         fontSize: 11, color: Colors.black)),
-                  //               ),
-                  //               IconButton(
-                  //                   onPressed: () {
-                  //                     setState(() {
-                  //                       globals.listLokerAll[1].expand =
-                  //                           !globals.listLokerAll[1].expand;
-                  //                     });
-                  //                   },
-                  //                   icon: globals.listLokerAll[1].expand ==
-                  //                           false
-                  //                       ? Icon(
-                  //                           Icons.keyboard_arrow_down_rounded,
-                  //                           color: Color(int.parse(
-                  //                               globals.color_primary)),
-                  //                         )
-                  //                       : Icon(
-                  //                           Icons.keyboard_arrow_up_rounded,
-                  //                           color: Color(int.parse(
-                  //                               globals.color_primary)),
-                  //                         ))
-                  //             ],
-                  //           ),
-                  //           Visibility(
-                  //               visible: globals.listLokerAll[1].expand == true
-                  //                   ? true
-                  //                   : false,
-                  //               child: Column(
-                  //                 crossAxisAlignment: CrossAxisAlignment.start,
-                  //                 children: [
-                  //                   Text(
-                  //                     "Kriteria",
-                  //                     style: GoogleFonts.poppins(
-                  //                         textStyle: const TextStyle(
-                  //                             fontSize: 13,
-                  //                             fontWeight: FontWeight.bold)),
-                  //                   ),
-                  //                   Text(
-                  //                     globals.kriteria[1],
-                  //                     style: GoogleFonts.poppins(
-                  //                         textStyle:
-                  //                             const TextStyle(fontSize: 13)),
-                  //                   ),
-                  //                   const SizedBox(
-                  //                     height: 20,
-                  //                   ),
-                  //                   Text(
-                  //                     "Kategori Pekerjaan",
-                  //                     style: GoogleFonts.poppins(
-                  //                         textStyle: const TextStyle(
-                  //                             fontSize: 13,
-                  //                             fontWeight: FontWeight.bold)),
-                  //                   ),
-                  //                   Text(
-                  //                     globals.kategori[1],
-                  //                     style: GoogleFonts.poppins(
-                  //                         textStyle: TextStyle(
-                  //                             fontSize: 13,
-                  //                             fontWeight: FontWeight.bold,
-                  //                             color: Color(int.parse(
-                  //                                 globals.color_primary)))),
-                  //                   )
-                  //                 ],
-                  //               ))
-                  //         ],
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
                   const SizedBox(
                     height: 20,
                   ),
@@ -556,7 +430,9 @@ class _BerandaARTState extends State<BerandaART> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const ListBerita()));
+                                    builder: (context) => ListBerita(
+                                          konten: "berita",
+                                        )));
                           },
                           child: Text(
                             "Lihat semua",
@@ -575,15 +451,17 @@ class _BerandaARTState extends State<BerandaART> {
                     height: 250,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: MBerita.isiBerita.length,
+                      itemCount: 5,
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        DetailBerita(index: index)));
+                                    builder: (context) => DetailBerita(
+                                          index: index,
+                                          konten: "berita",
+                                        )));
                           },
                           child: Row(
                             children: [
@@ -591,8 +469,8 @@ class _BerandaARTState extends State<BerandaART> {
                                 children: [
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(10.0),
-                                    child: Image.asset(
-                                      MBerita.isiBerita[index].gambarUrl,
+                                    child: Image.network(
+                                      '${globals.urlapi}getimage?id=${globals.listBeritaTips[index].idberita}&folder=berita',
                                       height: 150,
                                       width: 250,
                                       fit: BoxFit.cover,
@@ -601,7 +479,7 @@ class _BerandaARTState extends State<BerandaART> {
                                   Container(
                                     width: 250,
                                     child: Text(
-                                      MBerita.isiBerita[index].judul,
+                                      globals.listBeritaTips[index].judul,
                                       style: GoogleFonts.poppins(
                                           textStyle: const TextStyle(
                                               fontSize: 15,
@@ -610,7 +488,7 @@ class _BerandaARTState extends State<BerandaART> {
                                   )
                                 ],
                               ),
-                              index != MBerita.isiBerita.length - 1
+                              index != 4
                                   ? const SizedBox(
                                       width: 20,
                                     )
@@ -623,16 +501,35 @@ class _BerandaARTState extends State<BerandaART> {
                       },
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    'Materi',
-                    style: GoogleFonts.poppins(
-                        textStyle: const TextStyle(
-                            color: Color.fromARGB(255, 22, 15, 41),
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Informasi Pelatihan',
+                        style: GoogleFonts.poppins(
+                            textStyle: const TextStyle(
+                                color: Color.fromARGB(255, 22, 15, 41),
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold)),
+                      ),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ListBerita(
+                                          konten: "info",
+                                        )));
+                          },
+                          child: Text(
+                            "Lihat semua",
+                            style: GoogleFonts.poppins(
+                                textStyle: TextStyle(
+                                    fontSize: 12,
+                                    color: Color(
+                                        int.parse(globals.color_secondary)))),
+                          ))
+                    ],
                   ),
                   const SizedBox(
                     height: 10,
@@ -641,11 +538,17 @@ class _BerandaARTState extends State<BerandaART> {
                     height: 250,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: MBerita.isiBerita.length,
+                      itemCount: 5,
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {
-                            print("selected index berita: $index");
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => DetailBerita(
+                                          index: index,
+                                          konten: "info",
+                                        )));
                           },
                           child: Row(
                             children: [
@@ -653,8 +556,8 @@ class _BerandaARTState extends State<BerandaART> {
                                 children: [
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(10.0),
-                                    child: Image.asset(
-                                      MBerita.isiBerita[index].gambarUrl,
+                                    child: Image.network(
+                                      '${globals.urlapi}getimage?id=${globals.ListInfoPelatihan[index].idinfo}&folder=info',
                                       height: 150,
                                       width: 250,
                                       fit: BoxFit.cover,
@@ -663,7 +566,7 @@ class _BerandaARTState extends State<BerandaART> {
                                   Container(
                                     width: 250,
                                     child: Text(
-                                      MBerita.isiBerita[index].judul,
+                                      globals.ListInfoPelatihan[index].judul,
                                       style: GoogleFonts.poppins(
                                           textStyle: const TextStyle(
                                               fontSize: 15,
@@ -672,7 +575,7 @@ class _BerandaARTState extends State<BerandaART> {
                                   )
                                 ],
                               ),
-                              index != MBerita.isiBerita.length - 1
+                              index != 4
                                   ? const SizedBox(
                                       width: 20,
                                     )

@@ -31,6 +31,7 @@ class _BerandaState extends State<Beranda> {
   void getBerita() {
     BeritaTips.getAllData().then((value) {
       setState(() {
+        globals.listBeritaTips.clear();
         globals.listBeritaTips = value;
 
         for (int i = 0; i < globals.listBeritaTips.length; i++) {
@@ -437,7 +438,9 @@ class _BerandaState extends State<Beranda> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const ListBerita()));
+                                    builder: (context) => ListBerita(
+                                          konten: "berita",
+                                        )));
                           },
                           child: Text(
                             "Lihat semua",
@@ -463,8 +466,10 @@ class _BerandaState extends State<Beranda> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        DetailBerita(index: index)));
+                                    builder: (context) => DetailBerita(
+                                          index: index,
+                                          konten: "berita",
+                                        )));
                           },
                           child: Row(
                             children: [
