@@ -1,15 +1,11 @@
 import 'package:artpro_application_new/detailberita.dart';
 import 'package:artpro_application_new/listart.dart';
 import 'package:artpro_application_new/listberita.dart';
-import 'package:artpro_application_new/listloker.dart';
 import 'package:artpro_application_new/notifikasi.dart';
-import 'package:artpro_application_new/services/lokerservices.dart';
 import 'package:artpro_application_new/services/tambahanservices.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import './global.dart' as globals;
-import './modeltemp/modeltemp.dart';
-import 'detailloker.dart';
 
 class Beranda extends StatefulWidget {
   const Beranda({super.key});

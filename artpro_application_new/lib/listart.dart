@@ -1,8 +1,6 @@
-// ignore_for_file: prefer_interpolation_to_compose_strings
+// ignore_for_file: prefer_interpolation_to_compose_strings, unused_local_variable, unnecessary_string_interpolations
 
-import 'dart:async';
 import 'dart:developer';
-import 'dart:convert';
 import 'package:artpro_application_new/services/userservices.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,7 +8,6 @@ import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 import './global.dart' as globals;
-import './modeltemp/modeltemp.dart';
 import './detailart.dart';
 
 class ListART extends StatefulWidget {

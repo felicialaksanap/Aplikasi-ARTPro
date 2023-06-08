@@ -1,11 +1,9 @@
-import 'package:artpro_application_new/berandaart.dart';
 import 'package:artpro_application_new/listloker.dart';
 import 'package:artpro_application_new/mainberanda.dart';
 import 'package:artpro_application_new/tambahloker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import './global.dart' as globals;
-import './modeltemp/modeltemp.dart';
 
 class DetailLoker extends StatefulWidget {
   int index;

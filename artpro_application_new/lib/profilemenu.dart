@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:artpro_application_new/formpengaduan.dart';
 import 'package:artpro_application_new/listloker.dart';
 import 'package:artpro_application_new/loginmenu.dart';
 import 'package:artpro_application_new/profileedit.dart';
@@ -233,7 +234,12 @@ class _ProfileMenuState extends State<ProfileMenu> {
                 height: 10,
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const FormPengaduan()));
+                },
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
@@ -250,7 +256,7 @@ class _ProfileMenuState extends State<ProfileMenu> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Bantuan",
+                        "Buat Pengaduan",
                         style: GoogleFonts.poppins(
                             textStyle: TextStyle(
                                 fontSize: 15,
@@ -290,7 +296,7 @@ class _ProfileMenuState extends State<ProfileMenu> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Kebijakan Privasi",
+                        "Panduan Aplikasi",
                         style: GoogleFonts.poppins(
                             textStyle: TextStyle(
                                 fontSize: 15,

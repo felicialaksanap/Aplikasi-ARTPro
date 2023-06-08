@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'global.dart' as globals;
-import './modeltemp/modeltemp.dart';
 
 class ListKomen extends StatefulWidget {
   const ListKomen({super.key});

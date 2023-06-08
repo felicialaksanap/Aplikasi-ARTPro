@@ -2,7 +2,6 @@ import 'package:artpro_application_new/detailberita.dart';
 import 'package:artpro_application_new/detailloker.dart';
 import 'package:artpro_application_new/listberita.dart';
 import 'package:artpro_application_new/listloker.dart';
-import 'package:artpro_application_new/modeltemp/modeltemp.dart';
 import 'package:artpro_application_new/notifikasi.dart';
 import 'package:artpro_application_new/services/lokerservices.dart';
 import 'package:artpro_application_new/services/tambahanservices.dart';

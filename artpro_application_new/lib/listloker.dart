@@ -1,12 +1,10 @@
-// ignore_for_file: sort_child_properties_last
+// ignore_for_file: sort_child_properties_last, unnecessary_string_interpolations, unused_local_variable
 
 import 'dart:developer';
 
-import 'package:artpro_application_new/beranda.dart';
 import 'package:artpro_application_new/detailloker.dart';
 import 'package:artpro_application_new/listlokernaktif.dart';
 import 'package:artpro_application_new/mainberanda.dart';
-import 'package:artpro_application_new/modeltemp/modeltemp.dart';
 import 'package:artpro_application_new/services/userservices.dart';
 import 'package:artpro_application_new/tambahloker.dart';
 import 'package:artpro_application_new/services/lokerservices.dart';

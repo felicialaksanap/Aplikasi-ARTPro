@@ -5,7 +5,6 @@ import 'package:artpro_application_new/berandaart.dart';
 import 'package:artpro_application_new/karir.dart';
 import 'package:artpro_application_new/profilemenu.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import './global.dart' as globals;
 
 class MainBeranda extends StatefulWidget {

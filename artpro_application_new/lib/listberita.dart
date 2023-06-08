@@ -1,5 +1,4 @@
 import 'package:artpro_application_new/detailberita.dart';
-import 'package:artpro_application_new/modeltemp/modeltemp.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'global.dart' as globals;

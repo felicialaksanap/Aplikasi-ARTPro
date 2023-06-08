@@ -1,3 +1,5 @@
+// ignore_for_file: sort_child_properties_last, avoid_unnecessary_containers, sized_box_for_whitespace
+
 import 'package:artpro_application_new/verifktp_tiga.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

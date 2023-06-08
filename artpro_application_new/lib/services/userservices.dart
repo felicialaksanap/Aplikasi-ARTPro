@@ -740,6 +740,9 @@ class DataKontakART {
   int ksupir = 0;
   int kofficeboy = 0;
   int ktukangkebun = 0;
+  double rating = 0.0;
+  int umur = 0;
+  String kategori = "";
 
   DataKontakART(
       {required this.idart,
@@ -751,7 +754,10 @@ class DataKontakART {
       required this.kseniorcare,
       required this.ksupir,
       required this.kofficeboy,
-      required this.ktukangkebun});
+      required this.ktukangkebun,
+      required this.rating,
+      required this.umur,
+      required this.kategori});
 
   factory DataKontakART.createData(Map<String, dynamic> object) {
     return DataKontakART(
@@ -764,7 +770,10 @@ class DataKontakART {
         kseniorcare: object['kseniorcare'],
         ksupir: object['ksupir'],
         kofficeboy: object['kofficeboy'],
-        ktukangkebun: object['ktukangkebun']);
+        ktukangkebun: object['ktukangkebun'],
+        rating: double.parse(object['rating'].toString()),
+        umur: 0,
+        kategori: "-");
   }
 
   static Future<List<DataKontakART>> getData(String idmajikan) async {

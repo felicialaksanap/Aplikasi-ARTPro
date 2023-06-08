@@ -5,6 +5,7 @@ import 'package:artpro_application_new/services/lokerservices.dart';
 import 'package:artpro_application_new/services/userservices.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import './global.dart' as globals;
 import './loginmenu.dart';
@@ -26,11 +27,30 @@ class _SplashScreenState extends State<SplashScreen> {
   List<Loker> listLoker = [];
   String kategori = "";
 
+  Future<bool> checkInternetConnectivity() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      return false; // No internet connection
+    } else {
+      return true; // Internet connection is available
+    }
+  }
+
+  void checkConnection() async {
+    bool isConnected = await checkInternetConnectivity();
+    if (isConnected) {
+      // Internet connection available, perform necessary operations
+    } else {
+      // No internet connection, show appropriate message or take action
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getSharedprefAkunUser();
+    checkConnection();
   }
 
   navigationpage() async {

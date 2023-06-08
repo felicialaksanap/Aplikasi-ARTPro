@@ -1,5 +1,6 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, sized_box_for_whitespace
 
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,7 +9,6 @@ import 'package:dotted_border/dotted_border.dart';
 // import 'package:flutter_camera_overlay/model.dart';
 // import 'package:camera/camera.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:http/http.dart' as http;
 import './global.dart' as globals;
 import './sum_verif.dart';
 
@@ -44,7 +44,7 @@ class _VerifikasiKTPTState extends State<VerifikasiKTPT> {
       setState(() {
         imagektp = img;
         globals.fotoktp = imagektp;
-        print("foto ktp path: ${globals.fotoktp?.path}");
+        log("foto ktp path: ${globals.fotoktp?.path}");
         statusvisktp = false;
       });
     } else {

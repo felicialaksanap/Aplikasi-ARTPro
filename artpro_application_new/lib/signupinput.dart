@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names, sized_box_for_whitespace, avoid_unnecessary_containers, avoid_print, use_build_context_synchronously
+// ignore_for_file: non_constant_identifier_names, sized_box_for_whitespace, avoid_unnecessary_containers, avoid_print, use_build_context_synchronously, sort_child_properties_last
 
 import 'package:artpro_application_new/services/services.dart';
 import 'package:artpro_application_new/signupinput_dua.dart';

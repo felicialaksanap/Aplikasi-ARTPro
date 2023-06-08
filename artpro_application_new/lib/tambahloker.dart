@@ -1,7 +1,7 @@
-import 'dart:convert';
+// ignore_for_file: unused_local_variable, unnecessary_string_interpolations
+
 import 'package:artpro_application_new/detailloker.dart';
 import 'package:artpro_application_new/listloker.dart';
-import 'package:artpro_application_new/services/lokerservices.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';

@@ -1,7 +1,8 @@
+// ignore_for_file: sized_box_for_whitespace, non_constant_identifier_names
+
 import 'package:artpro_application_new/verifktp_dua.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'global.dart' as globals;
 

@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, unused_local_variable, unnecessary_string_interpolations
 
 import 'dart:io';
 import 'package:artpro_application_new/mainberanda.dart';

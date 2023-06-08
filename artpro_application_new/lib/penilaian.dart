@@ -1,4 +1,3 @@
-import 'package:artpro_application_new/customize/custom_slider_thumb_circle.dart';
 import 'package:artpro_application_new/services/userservices.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -803,7 +802,7 @@ class _PenilaianState extends State<Penilaian> {
                             "Kirim Penilaian",
                             style: GoogleFonts.poppins(
                                 textStyle: const TextStyle(
-                                    fontSize: 18,
+                                    fontSize: 15,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white)),
                           ),

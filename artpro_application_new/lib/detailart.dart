@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:multi_charts/multi_charts.dart';
 import './global.dart' as globals;
-import './modeltemp/modeltemp.dart';
 
 class DetailART extends StatefulWidget {
   int index;
