@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "657818941322",
+    "project_id": "artpro-8f549",
+    "storage_bucket": "artpro-8f549.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:657818941322:android:0f7c9c393f8c0f11f2fa73",
+        "android_client_info": {
+          "package_name": "com.example.artpro_application_new"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "657818941322-tf3q1kmeq5vn47a5ckahc0buuk65gaft.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPvgrcSCNCbOpLmKH5jlGSuUgrV1RA2Ck"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "657818941322-tf3q1kmeq5vn47a5ckahc0buuk65gaft.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "657818941322-rca8nnl34voens8qsufg6krm7999o0ni.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.artproApplicationNew"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

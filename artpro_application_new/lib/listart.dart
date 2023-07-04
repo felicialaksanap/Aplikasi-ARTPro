@@ -185,27 +185,29 @@ class _ListARTState extends State<ListART> {
   }
 
   makingPhoneCall(int index) async {
-    // var whatsappUrl = Uri.parse(
-    //     "https://api.whatsapp.com/send?phone=${globals.listARTbyKategori[index].telephone}");
-    // if (await canLaunchUrl(whatsappUrl)) {
-    //   await launchUrl(whatsappUrl);
-    // } else {
-    //   throw 'Could not launch $whatsappUrl';
-    // }
     var url = Uri.parse("tel:${globals.listARTbyKategori[index].telephone}");
     if (await canLaunchUrl(url)) {
-      KontakArt.getData(globals.listARTbyKategori[index].idart.toString())
+      KontakArt.getData(
+              globals.listARTbyKategori[index].idart.toString(), globals.iduser)
           .then((value) async {
-        setState(() {
-          globals.listKontakArt = value;
-        });
-        if (globals.listKontakArt.isEmpty) {
+        if (value.isEmpty) {
           var url2 = "${globals.urlapi}addkontakuser";
           var response = await http.post(Uri.parse(url2), body: {
             "idmajikan": globals.iduser.toString(),
             "idart": globals.listARTbyKategori[index].idart.toString(),
             "waktukontak": tglkontak
           });
+          if (response.statusCode == 200) {
+            var url3 = "${globals.urlapi}savenotifikasi";
+            var response2 = await http.post(Uri.parse(url3), body: {
+              "idmajikan": globals.iduser.toString(),
+              "idart": globals.listARTbyKategori[index].idart.toString(),
+              "title": "Penilaian",
+              "message":
+                  "Jangan Lupa Beri Penilaian Untuk Asisten Rumah Tangga",
+              "status": "active"
+            });
+          }
         }
       });
       await launchUrl(url);
@@ -220,9 +222,7 @@ class _ListARTState extends State<ListART> {
         listDatabyFilter.clear();
         listDatabyFilter = value;
 
-        log("length: ${listDatabyFilter.length}");
         for (int i = 0; i < listDatabyFilter.length; i++) {
-          log("id index: $i - ${listDatabyFilter[i].idart} - ${listDatabyFilter[i].jarak}");
           globals.listARTbyKategori[i].idart = listDatabyFilter[i].idart;
           globals.listARTbyKategori[i].namalengkap =
               listDatabyFilter[i].namalengkap;
@@ -354,6 +354,8 @@ class _ListARTState extends State<ListART> {
           agama[i] = tempagama;
           tempagama = "";
         }
+
+        getAlldata = true;
       });
     });
   }
@@ -362,39 +364,28 @@ class _ListARTState extends State<ListART> {
     String longlatmajikan = "";
     String longlatart = "";
     String longlatparam = "";
-    String paramsmakeandcopy = "";
 
-    if (curLokasiVal != 0.0) {
-      paramsmakeandcopy = paramsmakeandcopy +
-          "kategori=${widget.konten}&idmajikan=${globals.iduser}";
-      DataARTbyFilter.makeCopyTable(paramsmakeandcopy).then((value) {});
+    longlatmajikan =
+        longlatmajikan + "${globals.longitude},${globals.latitude};";
 
-      longlatmajikan =
-          longlatmajikan + "${globals.longitude},${globals.latitude};";
+    listJarak.clear();
+    for (int i = 0; i < globals.listARTbyKategori.length; i++) {
+      longlatart = longlatart +
+          "${globals.listARTbyKategori[i].longitude},${globals.listARTbyKategori[i].latitude}";
 
-      listJarak.clear();
-      for (int i = 0; i < globals.listARTbyKategori.length; i++) {
-        longlatart = longlatart +
-            "${globals.listARTbyKategori[i].longitude},${globals.listARTbyKategori[i].latitude}";
+      longlatparam = longlatmajikan + longlatart;
 
-        longlatparam = longlatmajikan + longlatart;
+      await HasilJarak.getData(longlatparam).then((value) {
+        listJarak.add(value);
+        listJarak[i].idart = globals.listARTbyKategori[i].idart;
 
-        await HasilJarak.getData(longlatparam).then((value) {
-          listJarak.add(value);
-          listJarak[i].idart = globals.listARTbyKategori[i].idart;
-
-          listJarak[i].jarak = listJarak[i].jarak / 1000;
-          listJarak[i].jarak =
-              double.parse(listJarak[i].jarak.toStringAsFixed(1));
-          updateJaraktoDB(globals.iduser.toString(),
-              listJarak[i].idart.toString(), listJarak[i].jarak.toString());
-        });
-        longlatart = "";
-      }
-
-      param = param + "updatestatusjarak=true";
-    } else {
-      param = param + "updatestatusjarak=false";
+        listJarak[i].jarak = listJarak[i].jarak / 1000;
+        listJarak[i].jarak =
+            double.parse(listJarak[i].jarak.toStringAsFixed(1));
+        updateJaraktoDB(globals.iduser.toString(),
+            listJarak[i].idart.toString(), listJarak[i].jarak.toString());
+      });
+      longlatart = "";
     }
 
     getListARTbyFilter(param);
@@ -477,11 +468,23 @@ class _ListARTState extends State<ListART> {
                     const SizedBox(
                       width: 10,
                     ),
-                    Text(
-                      "Jenis Bekerja",
-                      style: GoogleFonts.poppins(
-                          textStyle: const TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold)),
+                    Row(
+                      children: [
+                        Text(
+                          "Jenis Bekerja",
+                          style: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                                  fontSize: 15, fontWeight: FontWeight.bold)),
+                        ),
+                        Text(
+                          "*",
+                          style: GoogleFonts.poppins(
+                              textStyle: TextStyle(
+                                  fontSize: 15,
+                                  color: Color(
+                                      int.parse(globals.color_secondary)))),
+                        )
+                      ],
                     ),
                   ],
                 ),
@@ -496,7 +499,9 @@ class _ListARTState extends State<ListART> {
                     GestureDetector(
                       onTap: () {
                         setState(() {
-                          inapSelect = !inapSelect;
+                          if (warnenSelect != true) {
+                            inapSelect = !inapSelect;
+                          }
                         });
                       },
                       child: Container(
@@ -510,7 +515,12 @@ class _ListARTState extends State<ListART> {
                                 width: inapSelect ? 2 : 1)),
                         child: Text("Menginap",
                             style: GoogleFonts.poppins(
-                                textStyle: const TextStyle(fontSize: 14))),
+                                textStyle: TextStyle(
+                                    fontSize: 14,
+                                    color: warnenSelect == true
+                                        ? const Color.fromARGB(
+                                            255, 217, 217, 217)
+                                        : Colors.black))),
                       ),
                     ),
                     const SizedBox(
@@ -519,7 +529,9 @@ class _ListARTState extends State<ListART> {
                     GestureDetector(
                       onTap: () {
                         setState(() {
-                          warnenSelect = !warnenSelect;
+                          if (inapSelect != true) {
+                            warnenSelect = !warnenSelect;
+                          }
                         });
                       },
                       child: Container(
@@ -533,7 +545,12 @@ class _ListARTState extends State<ListART> {
                                 width: warnenSelect ? 2 : 1)),
                         child: Text("Warnen",
                             style: GoogleFonts.poppins(
-                                textStyle: const TextStyle(fontSize: 14))),
+                                textStyle: TextStyle(
+                                    fontSize: 14,
+                                    color: inapSelect == true
+                                        ? const Color.fromARGB(
+                                            255, 217, 217, 217)
+                                        : Colors.black))),
                       ),
                     )
                   ],
@@ -630,6 +647,7 @@ class _ListARTState extends State<ListART> {
                       height: 30,
                       child: TextField(
                         controller: mingajictr,
+                        keyboardType: TextInputType.number,
                         cursorColor: Color(int.parse(globals.color_primary)),
                         textAlign: TextAlign.center,
                         onChanged: (string) {
@@ -670,6 +688,7 @@ class _ListARTState extends State<ListART> {
                       height: 30,
                       child: TextField(
                         controller: maxgajictr,
+                        keyboardType: TextInputType.number,
                         cursorColor: Color(int.parse(globals.color_primary)),
                         textAlign: TextAlign.center,
                         onChanged: (string) {
@@ -690,7 +709,7 @@ class _ListARTState extends State<ListART> {
                                 borderSide: const BorderSide(
                                     color: Color.fromARGB(255, 217, 217, 217)),
                                 borderRadius: BorderRadius.circular(50.0)),
-                            hintText: '5,000,000',
+                            hintText: '4,000,000',
                             hintStyle: GoogleFonts.poppins(
                               textStyle: const TextStyle(
                                   fontSize: 15,
@@ -1124,116 +1143,13 @@ class _ListARTState extends State<ListART> {
                       padding: const EdgeInsets.only(left: 10.0),
                       child: ElevatedButton(
                           onPressed: () async {
-                            var url = "";
-                            String longlat = "";
+                            setState(() {
+                              getAlldata = false;
+                            });
+
                             int jarakmajikan = 0;
 
-                            setState(() {
-                              params = "";
-                              // getAlldata = false;
-
-                              params = params +
-                                  "kategori=${widget.konten}&idmajikan=${globals.iduser}&";
-
-                              if (islamSel == false) {
-                                params = params + "aislam=0&";
-                              } else {
-                                params = params + "aislam=1&";
-                              }
-                              if (katolikSel == false) {
-                                params = params + "akatolik=0&";
-                              } else {
-                                params = params + "akatolik=1&";
-                              }
-                              if (kristenSel == false) {
-                                params = params + "akristen=0&";
-                              } else {
-                                params = params + "akristen=1&";
-                              }
-                              if (hinduSel == false) {
-                                params = params + "ahindu=0&";
-                              } else {
-                                params = params + "ahindu=1&";
-                              }
-                              if (budhaSel == false) {
-                                params = params + "abuddha=0&";
-                              } else {
-                                params = params + "abuddha=1&";
-                              }
-                              if (konghucuSel == false) {
-                                params = params + "akonghucu=0&";
-                              } else {
-                                params = params + "akonghucu=1&";
-                              }
-
-                              if (inapSelect == false) {
-                                params = params + "tkmenginap=0&";
-                              } else {
-                                params = params + "tkmenginap=1&";
-                              }
-                              if (warnenSelect == false) {
-                                params = params + "tkwarnen=0&";
-                              } else {
-                                params = params + "tkwarnen=1&";
-                              }
-
-                              if (petSelect == false) {
-                                params = params + "hewan=0&";
-                              } else {
-                                params = params + "hewan=1&";
-                              }
-                              if (maPerSel == false) {
-                                params = params + "mabukjalan=0&";
-                              } else {
-                                params = params + "mabukjalan=1&";
-                              }
-                              if (motorSel == false) {
-                                params = params + "sepedamotor=0&";
-                              } else {
-                                params = params + "sepedamotor=1&";
-                              }
-                              if (mobilSel == false) {
-                                params = params + "mobil=0&";
-                              } else {
-                                params = params + "mobil=1&";
-                              }
-                              if (masakSel == false) {
-                                params = params + "masak=0&";
-                              } else {
-                                params = params + "masak=1&";
-                              }
-
-                              if (singleSel == false) {
-                                params = params + "ssingle=0&";
-                              } else {
-                                params = params + "ssingle=1&";
-                              }
-                              if (marriedSel == false) {
-                                params = params + "smarried=0&";
-                              } else {
-                                params = params + "smarried=1&";
-                              }
-
-                              if (widget.konten == "prt") {
-                                params = params +
-                                    "kprt=1&kbabysitter=0&kseniorcare=0&ksupir=0&kofficeboy=0&ktukangkebun=0&";
-                              } else if (widget.konten == "babysitter") {
-                                params = params +
-                                    "kprt=0&kbabysitter=1&kseniorcare=0&ksupir=0&kofficeboy=0&ktukangkebun=0&";
-                              } else if (widget.konten == "seniorcare") {
-                                params = params +
-                                    "kprt=0&kbabysitter=0&kseniorcare=1&ksupir=0&kofficeboy=0&ktukangkebun=0&";
-                              } else if (widget.konten == "supir") {
-                                params = params +
-                                    "kprt=0&kbabysitter=0&kseniorcare=0&ksupir=1&kofficeboy=0&ktukangkebun=0&";
-                              } else if (widget.konten == "officeboy") {
-                                params = params +
-                                    "kprt=0&kbabysitter=0&kseniorcare=0&ksupir=0&kofficeboy=1&ktukangkebun=0&";
-                              } else if (widget.konten == "tukangkebun") {
-                                params = params +
-                                    "kprt=0&kbabysitter=0&kseniorcare=0&ksupir=0&kofficeboy=0&ktukangkebun=1&";
-                              }
-
+                            if (inapSelect == true || warnenSelect == true) {
                               if (mingajictr.text == "") {
                                 gajiawal = 0;
                               } else {
@@ -1248,13 +1164,241 @@ class _ListARTState extends State<ListART> {
                                     maxgajictr.text.replaceAll(",", ""));
                               }
 
-                              jarakmajikan = curLokasiVal.toInt();
+                              if (gajiakhir <= 4000000) {
+                                await DataARTbyFilter.prepareDataTable(
+                                        widget.konten, globals.iduser)
+                                    .then((value) => {});
 
-                              params = params +
-                                  "gajiawal=$gajiawal&gajiakhir=$gajiakhir&jarak=$jarakmajikan&";
+                                if (inapSelect == true) {
+                                  params = ""; // make sure cleared.
 
-                              calculateDistane(params);
-                            });
+                                  params =
+                                      params + "idmajikan=${globals.iduser}&";
+
+                                  if (islamSel == false) {
+                                    params = params + "aislam=0&";
+                                  } else {
+                                    params = params + "aislam=1&";
+                                  }
+                                  if (katolikSel == false) {
+                                    params = params + "akatolik=0&";
+                                  } else {
+                                    params = params + "akatolik=1&";
+                                  }
+                                  if (kristenSel == false) {
+                                    params = params + "akristen=0&";
+                                  } else {
+                                    params = params + "akristen=1&";
+                                  }
+                                  if (hinduSel == false) {
+                                    params = params + "ahindu=0&";
+                                  } else {
+                                    params = params + "ahindu=1&";
+                                  }
+                                  if (budhaSel == false) {
+                                    params = params + "abuddha=0&";
+                                  } else {
+                                    params = params + "abuddha=1&";
+                                  }
+                                  if (konghucuSel == false) {
+                                    params = params + "akonghucu=0&";
+                                  } else {
+                                    params = params + "akonghucu=1&";
+                                  }
+
+                                  if (petSelect == false) {
+                                    params = params + "hewan=0&";
+                                  } else {
+                                    params = params + "hewan=1&";
+                                  }
+                                  if (maPerSel == false) {
+                                    params = params + "mabukjalan=0&";
+                                  } else {
+                                    params = params + "mabukjalan=1&";
+                                  }
+                                  if (motorSel == false) {
+                                    params = params + "sepedamotor=0&";
+                                  } else {
+                                    params = params + "sepedamotor=1&";
+                                  }
+                                  if (mobilSel == false) {
+                                    params = params + "mobil=0&";
+                                  } else {
+                                    params = params + "mobil=1&";
+                                  }
+                                  if (masakSel == false) {
+                                    params = params + "masak=0&";
+                                  } else {
+                                    params = params + "masak=1&";
+                                  }
+
+                                  if (singleSel == false) {
+                                    params = params + "ssingle=0&";
+                                  } else {
+                                    params = params + "ssingle=1&";
+                                  }
+                                  if (marriedSel == false) {
+                                    params = params + "smarried=0&";
+                                  } else {
+                                    params = params + "smarried=1&";
+                                  }
+
+                                  jarakmajikan = 0;
+
+                                  params = params +
+                                      "gajiawal=$gajiawal&gajiakhir=$gajiakhir&jarak=$jarakmajikan&mandatory=menginap";
+
+                                  getListARTbyFilter(params);
+                                }
+
+                                if (warnenSelect == true) {
+                                  params = ""; // make sure cleared.
+
+                                  params =
+                                      params + "idmajikan=${globals.iduser}&";
+
+                                  if (islamSel == false) {
+                                    params = params + "aislam=0&";
+                                  } else {
+                                    params = params + "aislam=1&";
+                                  }
+                                  if (katolikSel == false) {
+                                    params = params + "akatolik=0&";
+                                  } else {
+                                    params = params + "akatolik=1&";
+                                  }
+                                  if (kristenSel == false) {
+                                    params = params + "akristen=0&";
+                                  } else {
+                                    params = params + "akristen=1&";
+                                  }
+                                  if (hinduSel == false) {
+                                    params = params + "ahindu=0&";
+                                  } else {
+                                    params = params + "ahindu=1&";
+                                  }
+                                  if (budhaSel == false) {
+                                    params = params + "abuddha=0&";
+                                  } else {
+                                    params = params + "abuddha=1&";
+                                  }
+                                  if (konghucuSel == false) {
+                                    params = params + "akonghucu=0&";
+                                  } else {
+                                    params = params + "akonghucu=1&";
+                                  }
+
+                                  if (petSelect == false) {
+                                    params = params + "hewan=0&";
+                                  } else {
+                                    params = params + "hewan=1&";
+                                  }
+                                  if (maPerSel == false) {
+                                    params = params + "mabukjalan=0&";
+                                  } else {
+                                    params = params + "mabukjalan=1&";
+                                  }
+                                  if (motorSel == false) {
+                                    params = params + "sepedamotor=0&";
+                                  } else {
+                                    params = params + "sepedamotor=1&";
+                                  }
+                                  if (mobilSel == false) {
+                                    params = params + "mobil=0&";
+                                  } else {
+                                    params = params + "mobil=1&";
+                                  }
+                                  if (masakSel == false) {
+                                    params = params + "masak=0&";
+                                  } else {
+                                    params = params + "masak=1&";
+                                  }
+
+                                  if (singleSel == false) {
+                                    params = params + "ssingle=0&";
+                                  } else {
+                                    params = params + "ssingle=1&";
+                                  }
+                                  if (marriedSel == false) {
+                                    params = params + "smarried=0&";
+                                  } else {
+                                    params = params + "smarried=1&";
+                                  }
+
+                                  jarakmajikan = curLokasiVal.toInt();
+
+                                  params = params +
+                                      "gajiawal=$gajiawal&gajiakhir=$gajiakhir&jarak=$jarakmajikan&mandatory=warnen";
+
+                                  calculateDistane(params);
+                                }
+                              } else {
+                                showDialog<String>(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        AlertDialog(
+                                          title: Text(
+                                            "Gaji tertinggi harus <= (kurang dari sama dengan) 4,000,000",
+                                            style: GoogleFonts.poppins(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black),
+                                          ),
+                                          actions: [
+                                            Center(
+                                              child: TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Text(
+                                                    "OK",
+                                                    style: GoogleFonts.poppins(
+                                                        textStyle: TextStyle(
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: Color(int
+                                                                .parse(globals
+                                                                    .color_secondary)))),
+                                                  )),
+                                            )
+                                          ],
+                                        ));
+                              }
+                            } else {
+                              showDialog<String>(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      AlertDialog(
+                                        title: Text(
+                                          "Silahkan memilih jenis bekerja ART",
+                                          style: GoogleFonts.poppins(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black),
+                                        ),
+                                        actions: [
+                                          Center(
+                                            child: TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text(
+                                                  "OK",
+                                                  style: GoogleFonts.poppins(
+                                                      textStyle: TextStyle(
+                                                          fontSize: 15,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Color(
+                                                              int.parse(globals
+                                                                  .color_secondary)))),
+                                                  textAlign: TextAlign.center,
+                                                )),
+                                          )
+                                        ],
+                                      ));
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                               elevation: 0,
@@ -1471,6 +1615,17 @@ class _ListARTState extends State<ListART> {
                                                 fontSize: 14,
                                               )),
                                             ),
+                                            Visibility(
+                                                visible: warnenSelect == true
+                                                    ? true
+                                                    : false,
+                                                child: Text(
+                                                  "Jarak: ${globals.listARTbyKategori[index].jarak} km",
+                                                  style: GoogleFonts.poppins(
+                                                      textStyle:
+                                                          const TextStyle(
+                                                              fontSize: 14)),
+                                                )),
                                             const SizedBox(
                                               height: 10,
                                             ),

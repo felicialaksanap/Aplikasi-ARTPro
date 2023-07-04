@@ -497,16 +497,20 @@ class _ProfileEditState extends State<ProfileEdit> {
                             fontWeight: FontWeight.w500)),
                   ),
                   Text(
-                    "Belum verifikasi",
+                    "Sudah verifikasi",
                     style: GoogleFonts.poppins(
                         textStyle: const TextStyle(
                       fontSize: 14,
                       color: Colors.black38,
                     )),
                   ),
+                  // Icon(
+                  //   Icons.cancel,
+                  //   color: Color(int.parse(globals.color_secondary)),
+                  // )
                   Icon(
-                    Icons.cancel,
-                    color: Color(int.parse(globals.color_secondary)),
+                    Icons.check_circle,
+                    color: Color(int.parse(globals.color_primary)),
                   )
                 ],
               ),

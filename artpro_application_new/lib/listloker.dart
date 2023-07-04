@@ -298,15 +298,32 @@ class _ListLokerState extends State<ListLoker> {
   }
 
   void getListLokerbyFilter(String params) {
+    log("param: $params");
+
     LokerbyFilter.getData(params).then((value) {
       setState(() {
-        log("length loker filter: ${value.length}");
-        // listLokerbyFilter.clear();
-        // listLokerbyFilter = value;
+        listLokerbyFilter.clear();
+        listLokerbyFilter = value;
 
-        // tempListLokerAktif = globals.listLokerAktif;
+        tempListLokerAktif = globals.listLokerAktif;
 
-        // log("length: ${listLokerbyFilter.length}");
+        // ganti biar bisa di show
+        for (int i = 0; i < listLokerbyFilter.length; i++) {
+          globals.listLokerAktif[i].idloker =
+              listLokerbyFilter[i].idloker.toString();
+          globals.listLokerAktif[i].iduser =
+              listLokerbyFilter[i].iduser.toString();
+          globals.listLokerAktif[i].judulloker = listLokerbyFilter[i].judul;
+          globals.listLokerAktif[i].gajiawal =
+              NumberFormat.decimalPatternDigits(
+                      locale: 'en-US', decimalDigits: 0)
+                  .format(listLokerbyFilter[i].gajiawal);
+          globals.listLokerAktif[i].gajiakhir =
+              NumberFormat.decimalPatternDigits(
+                      locale: 'en-US', decimalDigits: 0)
+                  .format(listLokerbyFilter[i].gajiakhir);
+          globals.listLokerAktif[i].informasi = listLokerbyFilter[i].informasi;
+        }
       });
     });
   }
@@ -320,24 +337,25 @@ class _ListLokerState extends State<ListLoker> {
 
     if (curLokasiVal != 0.0) {
       paramsmakeandcopy = paramsmakeandcopy + "idart=${globals.iduser}a";
-      LokerbyFilter.makeCopyTable(paramsmakeandcopy).then((value) {});
+      await LokerbyFilter.makeCopyTable(paramsmakeandcopy).then((value) {});
 
       longlatart = longlatart + "${globals.longitude},${globals.latitude};";
 
       for (int i = 0; i < globals.listLokerAktif.length; i++) {
-        LongLatUser.getData(globals.listLokerAktif[i].iduser).then((value) {
+        await LongLatUser.getData(globals.listLokerAktif[i].iduser)
+            .then((value) async {
           longlatloker = "";
           longlatloker =
               longlatloker + "${value[0].longitude},${value[0].latitude}";
 
           longlatparam = "";
           longlatparam = longlatart + longlatloker;
-          HasilJarak.getData(longlatparam).then((value) {
+          await HasilJarak.getData(longlatparam).then((value) async {
             caljarak = 0.0;
             caljarak = value.jarak / 1000;
             caljarak = double.parse(caljarak.toStringAsFixed(1));
 
-            updateJaraktoDb("${globals.iduser}a",
+            await updateJaraktoDb("${globals.iduser}a",
                 globals.listLokerAktif[i].idloker, caljarak.toString());
           });
         });
@@ -351,7 +369,8 @@ class _ListLokerState extends State<ListLoker> {
     getListLokerbyFilter(param);
   }
 
-  void updateJaraktoDb(String idart, String idloker, String jarak) async {
+  Future<void> updateJaraktoDb(
+      String idart, String idloker, String jarak) async {
     var url = "${globals.urlapi}updatejarakloker";
     var response = await http.put(Uri.parse(url),
         body: {"idart": idart, "idloker": idloker, "jarak": jarak});
@@ -1421,9 +1440,20 @@ class _ListLokerState extends State<ListLoker> {
                                                                         ElevatedButton(
                                                                             onPressed:
                                                                                 () {
-                                                                              setState(() {
-                                                                                tglmodif = DateFormat('dd-MM-yyyy').format(date);
+                                                                              log("idloker: ${globals.listLokerAktif[index].idloker}");
+                                                                              Idlamar.getData(globals.listLokerAktif[index].idloker).then((value) {
+                                                                                setState(() async {
+                                                                                  for (int i = 0; i < value.length; i++) {
+                                                                                    var url = "${globals.urlapi}deletelamaran?idlamar=${value[i].idlamar}";
+                                                                                    var response = await http.delete(Uri.parse(url), headers: <String, String>{
+                                                                                      'Content-Type': 'application/json; charset=UTF-8',
+                                                                                    });
+                                                                                  }
+
+                                                                                  tglmodif = DateFormat('dd-MM-yyyy').format(date);
+                                                                                });
                                                                               });
+
                                                                               updateStatusLoker(index);
                                                                             },
                                                                             style:

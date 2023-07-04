@@ -10,8 +10,8 @@ String color_secondary = '0xFFFF4D00';
 
 int select_index = 0; // navigasi beranda
 
-String urlapi = "http://192.168.1.15:1234/";
-// String urlapi = "http://172.22.58.181:1234/";
+String urlapi = "http://192.168.1.19:1234/";
+// String urlapi = "http://172.22.4.82:1234/";
 // String urlapi = "http://192.168.229.219:1234/";
 // String urlapi = "http://lectio.crossnet.co.id:1234/"; // url global
 
@@ -110,6 +110,9 @@ List<BeritaTips> listBeritaTips = [];
 List<InfoPelatihan> ListInfoPelatihan = [];
 
 List<DataKontakART> listDataKontakArt = [];
+List<DataPelamar> listDataPelamar = [];
 List<DataKontakMajikan> listDataKontakMajikan = [];
-List<KontakArt> listKontakArt = [];
+List<DataLamaran> listDataLamaran = [];
+
+List<Notifikasi> listNotifikasi = [];
 // ==== Penilaian ====

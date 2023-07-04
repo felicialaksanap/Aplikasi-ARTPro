@@ -6,7 +6,8 @@ import 'package:intl/intl.dart';
 import 'global.dart' as globals;
 
 class Penilaian extends StatefulWidget {
-  const Penilaian({super.key});
+  int idart;
+  Penilaian({super.key, required this.idart});
 
   @override
   State<Penilaian> createState() => _PenilaianState();
@@ -45,7 +46,7 @@ class _PenilaianState extends State<Penilaian> {
     // TODO: implement initState
     super.initState();
 
-    ProfileUser.getData("2").then((value) {
+    ProfileUser.getData(widget.idart.toString()).then((value) {
       setState(() {
         profART.clear();
         profART = value;
@@ -95,7 +96,7 @@ class _PenilaianState extends State<Penilaian> {
   void addPenilaianToDatabase() async {
     var url = "${globals.urlapi}addpenilaian";
     var response = await http.post(Uri.parse(url), body: {
-      "idart": "2",
+      "idart": widget.idart.toString(),
       "idmajikan": globals.iduser,
       "estetika": estval.toString(),
       "etika": etval.toString(),

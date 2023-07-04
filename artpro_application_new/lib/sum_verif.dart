@@ -92,19 +92,19 @@ class _SummaryVerifikasiState extends State<SummaryVerifikasi> {
         "pendidikanterakhir": globals.pendidikanterakhir,
         "beratbadan": globals.berat,
         "tinggibadan": globals.tinggi,
-        "aislam": globals.aislam,
-        "akatolik": globals.akatolik,
-        "akristen": globals.akristen,
-        "ahindu": globals.ahindu,
-        "abuddha": globals.abuddha,
-        "akonghucu": globals.akonghucu,
-        "tkmenginap": globals.tkmenginap,
-        "tkwarnen": globals.tkwarnen,
-        "hewan": globals.hewan,
-        "mabukjalan": globals.mabukJalan,
-        "sepedamotor": globals.spdmotor,
-        "mobil": globals.mobil,
-        "masak": globals.masak
+        "aislam": globals.aislam.toString(),
+        "akatolik": globals.akatolik.toString(),
+        "akristen": globals.akristen.toString(),
+        "ahindu": globals.ahindu.toString(),
+        "abuddha": globals.abuddha.toString(),
+        "akonghucu": globals.akonghucu.toString(),
+        "tkmenginap": globals.tkmenginap.toString(),
+        "tkwarnen": globals.tkwarnen.toString(),
+        "hewan": globals.hewan.toString(),
+        "mabukjalan": globals.mabukJalan.toString(),
+        "sepedamotor": globals.spdmotor.toString(),
+        "mobil": globals.mobil.toString(),
+        "masak": globals.masak.toString()
       });
       // END OF SIMPAN DETAIL PROFILE ART
 
@@ -112,12 +112,12 @@ class _SummaryVerifikasiState extends State<SummaryVerifikasi> {
       var url6 = "${globals.urlapi}addkerjaart";
       var response6 = await http.post(Uri.parse(url6), body: {
         "iduser": globals.iduser,
-        "kprt": globals.kprt,
-        "kbabysitter": globals.kbabysitter,
-        "kseniorcare": globals.kseniorcare,
-        "ksupir": globals.ksupir,
-        "kofficeboy": globals.kofficeboy,
-        "ktukangkebun": globals.ktukangkebun,
+        "kprt": globals.kprt.toString(),
+        "kbabysitter": globals.kbabysitter.toString(),
+        "kseniorcare": globals.kseniorcare.toString(),
+        "ksupir": globals.ksupir.toString(),
+        "kofficeboy": globals.kofficeboy.toString(),
+        "ktukangkebun": globals.ktukangkebun.toString(),
         "pengalaman": globals.pengalaman,
         "gajiawal": globals.gajiawal.toString(),
         "gajiakhir": globals.gajiakhir.toString()

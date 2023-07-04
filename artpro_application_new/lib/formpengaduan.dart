@@ -1,5 +1,6 @@
 // ignore_for_file: sort_child_properties_last
 
+import 'package:artpro_application_new/services/userservices.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -16,6 +17,7 @@ class FormPengaduan extends StatefulWidget {
 class _FormPengaduanState extends State<FormPengaduan> {
   String namalengkap = "-Pilih-";
   String idart = "";
+  String idmajikan = "";
   List<String> menuNama = [];
 
   DateTime date = DateTime.now();
@@ -30,9 +32,49 @@ class _FormPengaduanState extends State<FormPengaduan> {
 
     menuNama.clear();
     menuNama.add("-Pilih-");
-    for (int i = 0; i < globals.listDataKontakArt.length; i++) {
-      menuNama.add(globals.listDataKontakArt[i].namalengkap);
+    if (globals.status_user == "majikan") {
+      if (globals.listDataKontakArt.isNotEmpty) {
+        for (int i = 0; i < globals.listDataKontakArt.length; i++) {
+          menuNama.add(globals.listDataKontakArt[i].namalengkap);
+        }
+      } else {
+        getKontakART();
+      }
+    } else {
+      if (globals.listDataKontakMajikan.isNotEmpty) {
+        for (int i = 0; i < globals.listDataKontakMajikan.length; i++) {
+          menuNama.add(globals.listDataKontakMajikan[i].namalengkap);
+        }
+      } else {
+        getKontakMajikan();
+      }
     }
+  }
+
+  void getKontakART() async {
+    await DataKontakART.getData(globals.iduser).then((value) {
+      setState(() {
+        globals.listDataKontakArt.clear();
+        globals.listDataKontakArt = value;
+
+        for (int i = 0; i < globals.listDataKontakArt.length; i++) {
+          menuNama.add(globals.listDataKontakArt[i].namalengkap);
+        }
+      });
+    });
+  }
+
+  void getKontakMajikan() async {
+    await DataKontakMajikan.getData(globals.iduser).then((value) {
+      setState(() {
+        globals.listDataKontakMajikan.clear();
+        globals.listDataKontakMajikan = value;
+
+        for (int i = 0; i < globals.listDataKontakMajikan.length; i++) {
+          menuNama.add(globals.listDataKontakMajikan[i].namalengkap);
+        }
+      });
+    });
   }
 
   @override
@@ -42,11 +84,55 @@ class _FormPengaduanState extends State<FormPengaduan> {
     pengaduanctr.dispose();
   }
 
-  void sendPengaduanToDb() async {
+  void sendPengaduanToDbART() async {
     var url = "${globals.urlapi}addpengaduan";
     var response = await http.post(Uri.parse(url), body: {
       "idmajikan": globals.iduser,
       "idart": idart,
+      "isipengaduan": pengaduanctr.text,
+      "penyelesaian": "-",
+      "tglpengaduan": tglpengaduan
+    });
+    if (response.statusCode == 200) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              content: Text(
+                'Penilaian berhasil dikirim',
+                style: GoogleFonts.poppins(
+                    textStyle: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.w600)),
+                textAlign: TextAlign.center,
+              ),
+              actions: [
+                Center(
+                  child: TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        "OK",
+                        style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color:
+                                    Color(int.parse(globals.color_secondary)))),
+                      )),
+                )
+              ],
+            );
+          });
+    }
+  }
+
+  void sendPengaduanToDbMajikan() async {
+    var url = "${globals.urlapi}addpengaduan";
+    var response = await http.post(Uri.parse(url), body: {
+      "idmajikan": idmajikan,
+      "idart": globals.iduser,
       "isipengaduan": pengaduanctr.text,
       "penyelesaian": "-",
       "tglpengaduan": tglpengaduan
@@ -117,7 +203,9 @@ class _FormPengaduanState extends State<FormPengaduan> {
               height: 10,
             ),
             Text(
-              "Pilih ART :",
+              globals.status_user == "majikan"
+                  ? "Pilih ART :"
+                  : "Pilih Majikan : ",
               style: GoogleFonts.poppins(
                   textStyle: const TextStyle(
                       fontSize: 15, fontWeight: FontWeight.w500)),
@@ -210,13 +298,26 @@ class _FormPengaduanState extends State<FormPengaduan> {
                   child: ElevatedButton(
                     onPressed: () {
                       setState(() {
-                        for (int i = 0;
-                            i < globals.listDataKontakArt.length;
-                            i++) {
-                          if (globals.listDataKontakArt[i].namalengkap ==
-                              namalengkap) {
-                            idart =
-                                globals.listDataKontakArt[i].idart.toString();
+                        if (globals.status_user == "majikan") {
+                          for (int i = 0;
+                              i < globals.listDataKontakArt.length;
+                              i++) {
+                            if (globals.listDataKontakArt[i].namalengkap ==
+                                namalengkap) {
+                              idart =
+                                  globals.listDataKontakArt[i].idart.toString();
+                            }
+                          }
+                        } else {
+                          for (int i = 0;
+                              i < globals.listDataKontakMajikan.length;
+                              i++) {
+                            if (globals.listDataKontakMajikan[i].namalengkap ==
+                                namalengkap) {
+                              idmajikan = globals
+                                  .listDataKontakMajikan[i].idmajikan
+                                  .toString();
+                            }
                           }
                         }
 
@@ -224,7 +325,11 @@ class _FormPengaduanState extends State<FormPengaduan> {
                       });
 
                       if (namalengkap != "-Pilih-" && pengaduanctr.text != "") {
-                        sendPengaduanToDb();
+                        if (globals.status_user == "majikan") {
+                          sendPengaduanToDbART();
+                        } else {
+                          sendPengaduanToDbMajikan();
+                        }
                       }
                     },
                     style: ElevatedButton.styleFrom(

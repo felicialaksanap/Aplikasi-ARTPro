@@ -217,19 +217,19 @@ class _BerandaARTState extends State<BerandaART> {
                         'assets/images/logo_theme.png',
                         width: 100,
                       ),
-                      IconButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const NotifikasiPage()));
-                          },
-                          icon: Icon(
-                            Icons.notifications_active_rounded,
-                            color: Color(int.parse(globals.color_primary)),
-                            size: 28,
-                          ))
+                      // IconButton(
+                      //     onPressed: () {
+                      //       Navigator.push(
+                      //           context,
+                      //           MaterialPageRoute(
+                      //               builder: (context) =>
+                      //                   const NotifikasiPage()));
+                      //     },
+                      //     icon: Icon(
+                      //       Icons.notifications_active_rounded,
+                      //       color: Color(int.parse(globals.color_primary)),
+                      //       size: 28,
+                      //     ))
                     ],
                   ),
                   const SizedBox(

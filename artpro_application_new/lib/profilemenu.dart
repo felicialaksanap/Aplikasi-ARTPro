@@ -326,6 +326,13 @@ class _ProfileMenuState extends State<ProfileMenu> {
                       globals.listLokerAktif.clear();
                       globals.kategori.clear();
                       globals.kriteria.clear();
+                      globals.listDataLamaran.clear();
+                      globals.listDataKontakMajikan.clear();
+                    });
+                  } else if (globals.status_user == "majikan") {
+                    setState(() {
+                      globals.listDataKontakArt.clear();
+                      globals.listDataPelamar.clear();
                     });
                   }
                   sharedprefAkunUser();

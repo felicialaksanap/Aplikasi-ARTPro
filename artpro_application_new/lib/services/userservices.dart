@@ -464,11 +464,29 @@ class DataARTbyKategori {
       return listData;
     }
   }
+
+  static Future<List<DataARTbyKategori>> getDatabyId(String idart) async {
+    var url = "${globals.urlapi}dataartbyid?idart=${int.parse(idart)}";
+    var apiResult = await http.get(Uri.parse(url), headers: {
+      "Accept": "application/json",
+      "Access-Control-Allow-Origin": "*"
+    });
+    var jsonObject = json.decode(apiResult.body);
+    var data = (jsonObject as Map<String, dynamic>)['data'];
+    List<DataARTbyKategori> listData = [];
+    if (data.toString() == "null") {
+      return listData;
+    } else {
+      for (int i = 0; i < data.length; i++) {
+        listData.add(DataARTbyKategori.createData(data[i]));
+      }
+      return listData;
+    }
+  }
 }
 
 class DataARTbyFilter {
   int idart = 0;
-  int idmajikan = 0;
   double innerproduct = 0;
   double x = 0;
   double y = 0;
@@ -510,7 +528,6 @@ class DataARTbyFilter {
 
   DataARTbyFilter(
       {required this.idart,
-      required this.idmajikan,
       required this.innerproduct,
       required this.x,
       required this.y,
@@ -553,7 +570,6 @@ class DataARTbyFilter {
   factory DataARTbyFilter.createData(Map<String, dynamic> object) {
     return DataARTbyFilter(
         idart: object['idart'],
-        idmajikan: object['idmajikan'],
         innerproduct: double.parse(object['innerproduct'].toString()),
         x: double.parse(object['x'].toString()),
         y: double.parse(object['y'].toString()),
@@ -613,8 +629,10 @@ class DataARTbyFilter {
     }
   }
 
-  static Future<String> makeCopyTable(String param) async {
-    var url = "${globals.urlapi}makeandcopytable?$param";
+  static Future<String> prepareDataTable(
+      String kategori, String idmajikan) async {
+    var url =
+        "${globals.urlapi}preparedata?kategori=$kategori&idmajikan=$idmajikan";
     var response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       return response.body;
@@ -797,6 +815,79 @@ class DataKontakART {
   }
 }
 
+class DataPelamar {
+  int idloker = 0;
+  String judulloker = "";
+  int idart = 0;
+  String namalengkap = "";
+  String tanggallahir = "";
+  String telephone = "";
+  int kprt = 0;
+  int kbabysitter = 0;
+  int kseniorcare = 0;
+  int ksupir = 0;
+  int kofficeboy = 0;
+  int ktukangkebun = 0;
+  double rating = 0.0;
+  int umur = 0;
+  String kategori = "";
+
+  DataPelamar(
+      {required this.idloker,
+      required this.judulloker,
+      required this.idart,
+      required this.namalengkap,
+      required this.tanggallahir,
+      required this.telephone,
+      required this.kprt,
+      required this.kbabysitter,
+      required this.kseniorcare,
+      required this.ksupir,
+      required this.kofficeboy,
+      required this.ktukangkebun,
+      required this.rating,
+      required this.umur,
+      required this.kategori});
+
+  factory DataPelamar.createData(Map<String, dynamic> object) {
+    return DataPelamar(
+        idloker: object['idloker'],
+        judulloker: object['judulloker'],
+        idart: object['idart'],
+        namalengkap: object['namalengkap'],
+        tanggallahir: object['tanggallahir'],
+        telephone: object['telephone'],
+        kprt: object['kprt'],
+        kbabysitter: object['kbabysitter'],
+        kseniorcare: object['kseniorcare'],
+        ksupir: object['ksupir'],
+        kofficeboy: object['kofficeboy'],
+        ktukangkebun: object['ktukangkebun'],
+        rating: double.parse(object['rating'].toString()),
+        umur: 0,
+        kategori: "-");
+  }
+
+  static Future<List<DataPelamar>> getDataPelamar(String idmajikan) async {
+    var url = "${globals.urlapi}datapelamar?idmajikan=${int.parse(idmajikan)}";
+    var apiResult = await http.get(Uri.parse(url), headers: {
+      "Accept": "application/json",
+      "Access-Control-Allow-Origin": "*"
+    });
+    var jsonObject = json.decode(apiResult.body);
+    var data = (jsonObject as Map<String, dynamic>)['data'];
+    List<DataPelamar> listData = [];
+    if (data.toString() == "null") {
+      return listData;
+    } else {
+      for (int i = 0; i < data.length; i++) {
+        listData.add(DataPelamar.createData(data[i]));
+      }
+      return listData;
+    }
+  }
+}
+
 class DataKontakMajikan {
   int idmajikan = 0;
   String namalengkap = "";
@@ -840,6 +931,58 @@ class DataKontakMajikan {
   }
 }
 
+class DataLamaran {
+  int idlamar = 0;
+  int idloker = 0;
+  String judulloker = "";
+  int iduser = 0;
+  String namalengkap = "";
+  String kecamatan = "";
+  String kota = "";
+  String waktulamar = "";
+
+  DataLamaran(
+      {required this.idlamar,
+      required this.idloker,
+      required this.judulloker,
+      required this.iduser,
+      required this.namalengkap,
+      required this.kecamatan,
+      required this.kota,
+      required this.waktulamar});
+
+  factory DataLamaran.createData(Map<String, dynamic> object) {
+    return DataLamaran(
+        idlamar: object['idlamar'],
+        idloker: object['idloker'],
+        judulloker: object['judulloker'],
+        iduser: object['iduser'],
+        namalengkap: object['namalengkap'],
+        kecamatan: object['kecamatan'],
+        kota: object['kota'],
+        waktulamar: object['waktulamar']);
+  }
+
+  static Future<List<DataLamaran>> getData(String idart) async {
+    var url = "${globals.urlapi}datalamaran?idart=${int.parse(idart)}";
+    var apiResult = await http.get(Uri.parse(url), headers: {
+      "Accept": "application/json",
+      "Access-Control-Allow-Origin": "*"
+    });
+    var jsonObject = json.decode(apiResult.body);
+    var data = (jsonObject as Map<String, dynamic>)['data'];
+    List<DataLamaran> listData = [];
+    if (data.toString() == "null") {
+      return listData;
+    } else {
+      for (int i = 0; i < data.length; i++) {
+        listData.add(DataLamaran.createData(data[i]));
+      }
+      return listData;
+    }
+  }
+}
+
 class KontakArt {
   int idkontak = 0;
   int idmajikan = 0;
@@ -860,8 +1003,9 @@ class KontakArt {
         waktukontak: object['waktukontak']);
   }
 
-  static Future<List<KontakArt>> getData(String idart) async {
-    var url = "${globals.urlapi}getinfokontak?idart=${int.parse(idart)}";
+  static Future<List<KontakArt>> getData(String idart, String idmajikan) async {
+    var url =
+        "${globals.urlapi}getinfokontak?idart=${int.parse(idart)}&idmajikan=${int.parse(idmajikan)}";
     var apiResult = await http.get(Uri.parse(url), headers: {
       "Accept": "application/json",
       "Access-Control-Allow-Origin": "*"
@@ -874,6 +1018,47 @@ class KontakArt {
     } else {
       for (int i = 0; i < data.length; i++) {
         listData.add(KontakArt.createData(data[i]));
+      }
+      return listData;
+    }
+  }
+}
+
+class LamarLoker {
+  int idlamar = 0;
+  int idloker = 0;
+  int idart = 0;
+  String waktulamar = "";
+
+  LamarLoker(
+      {required this.idlamar,
+      required this.idloker,
+      required this.idart,
+      required this.waktulamar});
+
+  factory LamarLoker.createData(Map<String, dynamic> object) {
+    return LamarLoker(
+        idlamar: object['idlamar'],
+        idloker: object['idloker'],
+        idart: object['idart'],
+        waktulamar: object['waktulamar']);
+  }
+
+  static Future<List<LamarLoker>> getData(String idloker, String idart) async {
+    var url =
+        "${globals.urlapi}getinfolamaran?idloker=${int.parse(idloker)}&idart=${int.parse(idart)}";
+    var apiResult = await http.get(Uri.parse(url), headers: {
+      "Accept": "application/json",
+      "Access-Control-Allow-Origin": "*"
+    });
+    var jsonObject = json.decode(apiResult.body);
+    var data = (jsonObject as Map<String, dynamic>)['data'];
+    List<LamarLoker> listData = [];
+    if (data.toString() == "null") {
+      return listData;
+    } else {
+      for (int i = 0; i < data.length; i++) {
+        listData.add(LamarLoker.createData(data[i]));
       }
       return listData;
     }

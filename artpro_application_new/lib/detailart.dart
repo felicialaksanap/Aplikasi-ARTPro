@@ -8,7 +8,8 @@ import './global.dart' as globals;
 class DetailART extends StatefulWidget {
   int index;
   String? kategori;
-  DetailART({super.key, required this.index, this.kategori});
+  String? konten;
+  DetailART({super.key, required this.index, this.kategori, this.konten});
 
   @override
   State<DetailART> createState() => _DetailARTState();
@@ -25,27 +26,45 @@ class _DetailARTState extends State<DetailART> {
     // TODO: implement initState
     super.initState();
 
-    getDataRataPenilaian();
-    getReviewMajikan();
+    if (widget.konten != "kontak") {
+      getDataRataPenilaian(widget.index);
+      getReviewMajikan(widget.index);
 
-    if (globals.listARTbyKategori[widget.index].aislam == 1) {
-      agama = "Islam";
-    } else if (globals.listARTbyKategori[widget.index].akatolik == 1) {
-      agama = "Katolik";
-    } else if (globals.listARTbyKategori[widget.index].akristen == 1) {
-      agama = "Kristen";
-    } else if (globals.listARTbyKategori[widget.index].ahindu == 1) {
-      agama = "Hindu";
-    } else if (globals.listARTbyKategori[widget.index].abuddha == 1) {
-      agama = "Buddha";
-    } else if (globals.listARTbyKategori[widget.index].akonghucu == 1) {
-      agama = "Konghucu";
+      if (globals.listARTbyKategori[widget.index].aislam == 1) {
+        agama = "Islam";
+      } else if (globals.listARTbyKategori[widget.index].akatolik == 1) {
+        agama = "Katolik";
+      } else if (globals.listARTbyKategori[widget.index].akristen == 1) {
+        agama = "Kristen";
+      } else if (globals.listARTbyKategori[widget.index].ahindu == 1) {
+        agama = "Hindu";
+      } else if (globals.listARTbyKategori[widget.index].abuddha == 1) {
+        agama = "Buddha";
+      } else if (globals.listARTbyKategori[widget.index].akonghucu == 1) {
+        agama = "Konghucu";
+      }
+    } else {
+      getDataRataPenilaian(0);
+      getReviewMajikan(0);
+
+      if (globals.listARTbyKategori[0].aislam == 1) {
+        agama = "Islam";
+      } else if (globals.listARTbyKategori[0].akatolik == 1) {
+        agama = "Katolik";
+      } else if (globals.listARTbyKategori[0].akristen == 1) {
+        agama = "Kristen";
+      } else if (globals.listARTbyKategori[0].ahindu == 1) {
+        agama = "Hindu";
+      } else if (globals.listARTbyKategori[0].abuddha == 1) {
+        agama = "Buddha";
+      } else if (globals.listARTbyKategori[0].akonghucu == 1) {
+        agama = "Konghucu";
+      }
     }
   }
 
-  void getDataRataPenilaian() {
-    RataPenilaian.getData(
-            globals.listARTbyKategori[widget.index].idart.toString())
+  void getDataRataPenilaian(int idx) {
+    RataPenilaian.getData(globals.listARTbyKategori[idx].idart.toString())
         .then((value) {
       setState(() {
         listPenilaian = value;
@@ -60,9 +79,8 @@ class _DetailARTState extends State<DetailART> {
     });
   }
 
-  void getReviewMajikan() {
-    ReviewMajikan.getData(
-            globals.listARTbyKategori[widget.index].idart.toString())
+  void getReviewMajikan(int idx) {
+    ReviewMajikan.getData(globals.listARTbyKategori[idx].idart.toString())
         .then((value) {
       setState(() {
         globals.listReviewMajikan = value;
@@ -427,80 +445,80 @@ class _DetailARTState extends State<DetailART> {
             const SizedBox(
               height: 20,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  padding: const EdgeInsets.fromLTRB(4, 4, 32, 4),
-                  decoration: BoxDecoration(
-                      color: Color(int.parse(globals.color_primary)),
-                      borderRadius: const BorderRadius.only(
-                          topRight: Radius.circular(20.0),
-                          bottomRight: Radius.circular(20.0))),
-                  child: Text(
-                    "Sertifikat Pelatihan",
-                    style: GoogleFonts.poppins(
-                        textStyle: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white)),
-                  ),
-                ),
-                TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      "Lihat semua >>",
-                      style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
-                              fontSize: 12,
-                              color:
-                                  Color(int.parse(globals.color_secondary)))),
-                    ))
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Container(
-              height: 150,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  return Row(
-                    children: [
-                      Column(
-                        children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width / 2,
-                            height: 100,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20.0),
-                                color:
-                                    const Color.fromARGB(255, 217, 217, 217)),
-                          ),
-                          Text(
-                            "title",
-                            style: GoogleFonts.poppins(
-                                textStyle: const TextStyle(fontSize: 15)),
-                          )
-                        ],
-                      ),
-                      index == 4
-                          ? const SizedBox(
-                              width: 0,
-                            )
-                          : const SizedBox(
-                              width: 10,
-                            )
-                    ],
-                  );
-                },
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     Container(
+            //       padding: const EdgeInsets.fromLTRB(4, 4, 32, 4),
+            //       decoration: BoxDecoration(
+            //           color: Color(int.parse(globals.color_primary)),
+            //           borderRadius: const BorderRadius.only(
+            //               topRight: Radius.circular(20.0),
+            //               bottomRight: Radius.circular(20.0))),
+            //       child: Text(
+            //         "Sertifikat Pelatihan",
+            //         style: GoogleFonts.poppins(
+            //             textStyle: const TextStyle(
+            //                 fontSize: 15,
+            //                 fontWeight: FontWeight.bold,
+            //                 color: Colors.white)),
+            //       ),
+            //     ),
+            //     TextButton(
+            //         onPressed: () {},
+            //         child: Text(
+            //           "Lihat semua >>",
+            //           style: GoogleFonts.poppins(
+            //               textStyle: TextStyle(
+            //                   fontSize: 12,
+            //                   color:
+            //                       Color(int.parse(globals.color_secondary)))),
+            //         ))
+            //   ],
+            // ),
+            // const SizedBox(
+            //   height: 10,
+            // ),
+            // Container(
+            //   height: 150,
+            //   child: ListView.builder(
+            //     scrollDirection: Axis.horizontal,
+            //     itemCount: 5,
+            //     itemBuilder: (context, index) {
+            //       return Row(
+            //         children: [
+            //           Column(
+            //             children: [
+            //               Container(
+            //                 width: MediaQuery.of(context).size.width / 2,
+            //                 height: 100,
+            //                 decoration: BoxDecoration(
+            //                     borderRadius: BorderRadius.circular(20.0),
+            //                     color:
+            //                         const Color.fromARGB(255, 217, 217, 217)),
+            //               ),
+            //               Text(
+            //                 "title",
+            //                 style: GoogleFonts.poppins(
+            //                     textStyle: const TextStyle(fontSize: 15)),
+            //               )
+            //             ],
+            //           ),
+            //           index == 4
+            //               ? const SizedBox(
+            //                   width: 0,
+            //                 )
+            //               : const SizedBox(
+            //                   width: 10,
+            //                 )
+            //         ],
+            //       );
+            //     },
+            //   ),
+            // ),
+            // const SizedBox(
+            //   height: 10,
+            // ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

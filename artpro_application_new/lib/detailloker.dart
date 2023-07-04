@@ -1,8 +1,13 @@
+import 'dart:developer';
+
 import 'package:artpro_application_new/listloker.dart';
 import 'package:artpro_application_new/mainberanda.dart';
+import 'package:artpro_application_new/services/userservices.dart';
 import 'package:artpro_application_new/tambahloker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import './global.dart' as globals;
 
 class DetailLoker extends StatefulWidget {
@@ -15,10 +20,66 @@ class DetailLoker extends StatefulWidget {
 }
 
 class _DetailLokerState extends State<DetailLoker> {
+  DateTime date = DateTime.now();
+  String dateformat = "";
+  List<LamarLoker> listLamarLoker = [];
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    dateformat = DateFormat('dd-MM-yyyy').format(date);
+  }
+
+  Future<void> sendToDatabase(int idloker, int idart, int idmajikan) async {
+    var url = "${globals.urlapi}addlamaran";
+    var response = await http.post(Uri.parse(url), body: {
+      "idloker": idloker.toString(),
+      "idart": idart.toString(),
+      "waktulamar": dateformat
+    });
+    if (response.statusCode == 200) {
+      var url2 = "${globals.urlapi}savenotifikasi";
+      var response2 = await http.post(Uri.parse(url2), body: {
+        "idmajikan": idmajikan.toString(),
+        "idart": idart.toString(),
+        "title": "Pelamar Baru",
+        "message": "Ada Pelamar Baru Lowongan kerjamu nih",
+        "status": "active"
+      });
+      if (response2.statusCode == 200) {
+        showDialog<String>(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+                  title: Text(
+                    "Lamaran berhasil dikirim",
+                    style: GoogleFonts.poppins(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black),
+                  ),
+                  actions: [
+                    Center(
+                      child: TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                            "OK",
+                            style: GoogleFonts.poppins(
+                                textStyle: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(
+                                        int.parse(globals.color_secondary)))),
+                          )),
+                    )
+                  ],
+                ));
+      }
+    }
   }
 
   @override
@@ -298,7 +359,114 @@ class _DetailLokerState extends State<DetailLoker> {
                       width: MediaQuery.of(context).size.width,
                       height: 40,
                       child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            showDialog<String>(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                      title: Text(
+                                        "Apakah anda yakin ingin melamar lowongan kerja ini?",
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black),
+                                      ),
+                                      actions: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            TextButton(
+                                                onPressed: () async {
+                                                  await LamarLoker.getData(
+                                                          globals
+                                                              .listLokerAktif[
+                                                                  widget.index]
+                                                              .idloker,
+                                                          globals.iduser)
+                                                      .then(
+                                                    (value) {
+                                                      if (value.isEmpty) {
+                                                        sendToDatabase(
+                                                            int.parse(globals
+                                                                .listLokerAktif[
+                                                                    widget
+                                                                        .index]
+                                                                .idloker),
+                                                            int.parse(
+                                                                globals.iduser),
+                                                            int.parse(globals
+                                                                .listLokerAktif[
+                                                                    widget
+                                                                        .index]
+                                                                .iduser));
+                                                      } else {
+                                                        showDialog<String>(
+                                                            context: context,
+                                                            builder: (BuildContext
+                                                                    context) =>
+                                                                AlertDialog(
+                                                                  title: Text(
+                                                                    "Anda sudah pernah melamar lowongan ini",
+                                                                    style: GoogleFonts.poppins(
+                                                                        fontSize:
+                                                                            15,
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .bold,
+                                                                        color: Colors
+                                                                            .black),
+                                                                  ),
+                                                                  actions: [
+                                                                    Center(
+                                                                      child: TextButton(
+                                                                          onPressed: () {
+                                                                            Navigator.pop(context);
+                                                                            Navigator.pop(context);
+                                                                            Navigator.pop(context);
+                                                                          },
+                                                                          child: Text(
+                                                                            "OK",
+                                                                            style:
+                                                                                GoogleFonts.poppins(textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(int.parse(globals.color_secondary)))),
+                                                                          )),
+                                                                    )
+                                                                  ],
+                                                                ));
+                                                      }
+                                                    },
+                                                  );
+                                                },
+                                                child: Text(
+                                                  "OK",
+                                                  style: GoogleFonts.poppins(
+                                                      textStyle: TextStyle(
+                                                          fontSize: 15,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Color(
+                                                              int.parse(globals
+                                                                  .color_secondary)))),
+                                                )),
+                                            TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text(
+                                                  "Batal",
+                                                  style: GoogleFonts.poppins(
+                                                      textStyle: TextStyle(
+                                                          fontSize: 15,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Color(
+                                                              int.parse(globals
+                                                                  .color_primary)))),
+                                                ))
+                                          ],
+                                        ),
+                                      ],
+                                    ));
+                          },
                           style: ElevatedButton.styleFrom(
                               backgroundColor:
                                   Color(int.parse(globals.color_secondary)),

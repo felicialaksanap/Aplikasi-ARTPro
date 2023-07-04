@@ -162,6 +162,7 @@ class LokerbyFilter {
   double x = 0.0;
   double y = 0.0;
   double cosinesimilarity = 0.0;
+  double jarak = 0.0;
   int iduser = 0;
   String judul = "";
   int gajiawal = 0;
@@ -188,7 +189,6 @@ class LokerbyFilter {
   String jeniskelamin = "";
   String kecamatan = "";
   String kota = "";
-  double jarak = 0.0;
 
   LokerbyFilter(
       {required this.idloker,
@@ -197,6 +197,7 @@ class LokerbyFilter {
       required this.x,
       required this.y,
       required this.cosinesimilarity,
+      required this.jarak,
       required this.iduser,
       required this.judul,
       required this.gajiawal,
@@ -222,17 +223,17 @@ class LokerbyFilter {
       required this.namalengkap,
       required this.jeniskelamin,
       required this.kecamatan,
-      required this.kota,
-      required this.jarak});
+      required this.kota});
 
   factory LokerbyFilter.createData(Map<String, dynamic> object) {
     return LokerbyFilter(
-        idloker: object['idloker'],
+        idloker: (object['idloker']),
         idpencari: object['idpencari'],
         innerproduct: double.parse(object['innerproduct'].toString()),
         x: double.parse(object['x'].toString()),
         y: double.parse(object['y'].toString()),
         cosinesimilarity: double.parse(object['cosinesimilarity'].toString()),
+        jarak: double.parse(object['jarakawal'].toString()),
         iduser: object['iduser'],
         judul: object['judul'],
         gajiawal: object['gajiawal'],
@@ -258,8 +259,7 @@ class LokerbyFilter {
         namalengkap: object['namalengkap'],
         jeniskelamin: object['jeniskelamin'],
         kecamatan: object['kecamatan'],
-        kota: object['kota'],
-        jarak: double.parse(object['jarak'].toString()));
+        kota: object['kota']);
   }
 
   static Future<List<LokerbyFilter>> getData(String params) async {
@@ -288,6 +288,36 @@ class LokerbyFilter {
       return response.body;
     } else {
       throw Exception('Failed');
+    }
+  }
+}
+
+class Idlamar {
+  int idlamar = 0;
+  int idloker = 0;
+
+  Idlamar({required this.idlamar, required this.idloker});
+
+  factory Idlamar.createData(Map<String, dynamic> object) {
+    return Idlamar(idlamar: object['idlamar'], idloker: object['idloker']);
+  }
+
+  static Future<List<Idlamar>> getData(String idloker) async {
+    var url = "${globals.urlapi}getidlamarloker?idloker=$idloker";
+    var apiResult = await http.get(Uri.parse(url), headers: {
+      "Accept": "application/json",
+      "Access-Control-Allow-Origin": "*"
+    });
+    var jsonObject = json.decode(apiResult.body);
+    var data = (jsonObject as Map<String, dynamic>)['data'];
+    List<Idlamar> listData = [];
+    if (data.toString() == "null") {
+      return listData;
+    } else {
+      for (int i = 0; i < data.length; i++) {
+        listData.add(Idlamar.createData(data[i]));
+      }
+      return listData;
     }
   }
 }
